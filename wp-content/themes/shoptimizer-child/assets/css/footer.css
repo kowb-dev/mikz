@@ -1,0 +1,1549 @@
+/**
+ * Footer Styles for Shoptimizer Child Theme
+ * Author: KB
+ * URL: https://kowb.ru
+ * Version: 1.0.8 - Enhanced CF7 integration with HTML fallback support
+ */
+
+/* =============================================================================
+   FOOTER MAIN
+   ============================================================================= */
+
+.mkx-site-footer {
+    background: var(--mkx-dark);
+    color: var(--mkx-white);
+    margin-top: var(--space-4xl);
+    position: relative;
+    margin-bottom: 0; /* Ensure footer touches bottom */
+}
+
+.mkx-footer-main {
+    padding: var(--space-3xl) 0;
+        position: relative;
+}
+
+.mkx-footer-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3xl);
+}
+
+/* =============================================================================
+   FOOTER SECTIONS
+   ============================================================================= */
+
+.mkx-footer-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.mkx-footer-section-title {
+    font-size: var(--fs-lg);
+    font-weight: var(--mkx-font-bold);
+    color: var(--mkx-white);
+    margin-bottom: var(--space-lg);
+    line-height: var(--mkx-lh-tight);
+    position: relative;
+    padding-bottom: var(--space-sm);
+}
+
+.mkx-footer-section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 3rem;
+    height: 2px;
+    background: var(--mkx-primary);
+}
+
+/* =============================================================================
+  COMPANY SECTION WITH LOGO + BRAND TEXT
+  ============================================================================= */
+
+.mkx-footer-company {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.mkx-footer-logo-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-sm);
+}
+
+.mkx-footer-logo-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+    color: inherit;
+}
+
+.mkx-footer-logo-svg {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.mkx-footer-brand-logo {
+    width: clamp(3rem, 4vw, 4.5rem);
+    height: auto;
+    display: block;
+}
+
+.mkx-footer-brand-text {
+    display: flex;
+    align-items: center;
+}
+
+.mkx-footer-brand-line1 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: var(--mkx-font-bold);
+    color: var(--mkx-primary);
+    letter-spacing: var(--mkx-tracking-wider);
+    text-transform: uppercase;
+    line-height: var(--mkx-lh-tight);
+}
+
+.mkx-footer-tagline {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.mkx-footer-tagline-line1,
+.mkx-footer-tagline-line2 {
+    font-size: clamp(0.75rem, 1.2vw, 1rem);
+    font-weight: var(--mkx-font-medium);
+    color: var(--mkx-light-gray);
+    letter-spacing: var(--mkx-tracking-wide);
+    text-transform: uppercase;
+    line-height: var(--mkx-lh-tight);
+}
+
+.mkx-footer-company-info {
+    max-width: 100%;
+}
+
+.mkx-footer-section-title {
+    text-align: center;
+}
+
+.mkx-footer-section-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.mkx-footer-description {
+    font-size: var(--fs-base);
+    line-height: var(--mkx-lh-relaxed);
+    color: var(--mkx-light-gray);
+    margin-bottom: var(--space-lg);
+}
+
+/* Working Hours */
+.mkx-working-hours {
+    background: rgba(255, 255, 255, 0.05);
+    padding: var(--space-lg) var(--space-sm);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--mkx-primary);
+}
+
+.mkx-working-hours-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--fs-base);
+    font-weight: var(--mkx-font-semibold);
+    color: var(--mkx-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.mkx-working-hours-title i {
+    font-size: 1.2em;
+}
+
+.mkx-working-hours-text {
+    font-size: var(--fs-sm);
+    color: var(--mkx-light-gray);
+    margin: 0;
+}
+
+/* =============================================================================
+   CONTACT SECTION
+   ============================================================================= */
+
+.mkx-footer-contact {
+    text-align: center;
+}
+
+.mkx-contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.mkx-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    justify-content: center;
+    text-align: left;
+}
+
+.mkx-contact-item i {
+    font-size: 1.3em;
+    color: var(--mkx-primary);
+    /* margin-top: 0.1rem; */
+    flex-shrink: 0;
+}
+
+.mkx-contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.mkx-contact-label {
+    font-size: var(--fs-xs);
+    color: var(--mkx-medium-gray);
+    font-weight: var(--mkx-font-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--mkx-tracking-wider);
+}
+
+.mkx-contact-link {
+    color: var(--mkx-white);
+    text-decoration: none;
+    font-size: var(--fs-base);
+    font-weight: var(--mkx-font-medium);
+    transition: var(--mkx-transition);
+}
+
+.mkx-contact-link:hover {
+    color: var(--mkx-primary);
+}
+
+.mkx-contact-text {
+    color: var(--mkx-white);
+    text-decoration: none;
+    font-size: var(--fs-base);
+    font-weight: var(--mkx-font-medium);
+    transition: var(--mkx-transition);
+}
+
+/* Social Links */
+.mkx-social-links {
+    margin-top: var(--space-xl);
+}
+
+.mkx-social-title {
+    font-size: var(--fs-base);
+    font-weight: var(--mkx-font-semibold);
+    color: var(--mkx-white);
+    margin-bottom: var(--space-md);
+    text-align: center;
+}
+
+.mkx-social-icons {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.mkx-social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--mkx-light-gray);
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    transition: var(--mkx-transition);
+    backdrop-filter: blur(4px);
+}
+
+.mkx-social-link:hover {
+    background: var(--mkx-primary);
+    color: var(--mkx-white);
+    transform: translateY(-2px) scale(1.1);
+    box-shadow: 0 4px 15px rgba(40, 176, 234, 0.4);
+}
+
+.mkx-social-link i {
+    font-size: 1.2em;
+}
+
+/* =============================================================================
+   NEWSLETTER SECTION - ENHANCED CF7 + HTML FALLBACK INTEGRATION
+   ============================================================================= */
+
+.mkx-footer-newsletter {
+    text-align: center;
+}
+
+.mkx-newsletter-description {
+    color: var(--mkx-light-gray);
+    font-size: var(--fs-sm);
+    line-height: var(--mkx-lh-normal);
+    margin-bottom: var(--space-xl);
+    max-width: 100%;
+}
+
+.mkx-newsletter-form {
+    margin-bottom: var(--space-lg);
+}
+
+/* =============================================================================
+   CONTACT FORM 7 STYLES (Enhanced)
+   ============================================================================= */
+
+/* CF7 Form Container Reset */
+.mkx-newsletter-form .wpcf7 {
+    width: 100% !important;
+    position: relative !important;
+}
+
+/* Hide all technical CF7 elements */
+.mkx-newsletter-form .screen-reader-response,
+.mkx-newsletter-form .hidden-fields-container,
+.mkx-newsletter-form .wpcf7-spinner,
+.mkx-newsletter-form .wpcf7-hidden-fields-container {
+    display: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Clean Form Structure */
+.mkx-newsletter-form .wpcf7-form {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Show CF7 paragraphs but style them properly */
+.mkx-newsletter-form .wpcf7-form p {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+/* Remove line breaks */
+.mkx-newsletter-form .wpcf7-form br {
+    display: none !important;
+}
+
+/* CF7 Form Control Wrappers - Make them invisible but functional */
+.mkx-newsletter-form .wpcf7-form-control-wrap {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 var(--space-lg) !important;
+    padding: 0 !important;
+    position: relative !important;
+}
+
+/* Email Input Styling (CF7) - Target actual CF7 classes */
+.mkx-newsletter-form input[type="email"],
+.mkx-newsletter-form .wpcf7-email {
+    width: 100% !important;
+    padding: var(--space-md) var(--space-lg) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--mkx-white) !important;
+    font-size: var(--fs-base) !important;
+    font-family: var(--mkx-font-primary) !important;
+    transition: var(--mkx-transition) !important;
+    backdrop-filter: blur(4px) !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    display: block !important;
+    appearance: none !important;
+    min-height: 3rem !important;
+}
+
+.mkx-newsletter-form input[type="email"]:focus,
+.mkx-newsletter-form .wpcf7-email:focus {
+    outline: none !important;
+    border-color: var(--mkx-primary) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 0 0 3px rgba(40, 176, 234, 0.2) !important;
+}
+
+.mkx-newsletter-form input[type="email"]::placeholder,
+.mkx-newsletter-form .wpcf7-email::placeholder {
+    color: var(--mkx-medium-gray) !important;
+    opacity: 1 !important;
+}
+
+/* Fix CF7 default value styling */
+.mkx-newsletter-form .wpcf7-email[value="Введите email"] {
+    color: var(--mkx-medium-gray) !important;
+}
+
+.mkx-newsletter-form .wpcf7-email:focus[value="Введите email"] {
+    color: var(--mkx-white) !important;
+}
+
+/* Validation Error State (CF7) */
+.mkx-newsletter-form input[type="email"].wpcf7-not-valid,
+.mkx-newsletter-form .wpcf7-email.wpcf7-not-valid {
+    border-color: var(--mkx-error) !important;
+    background: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Consent Checkbox Section (CF7) - Target actual CF7 classes */
+.mkx-newsletter-form .wpcf7-acceptance,
+.mkx-newsletter-form p:has(.wpcf7-acceptance) {
+    /*background: rgba(255, 255, 255, 0.05) !important;*/
+    padding: 0 0 var(--space-md) !important;
+    /*border-radius: var(--radius-md) !important;*/
+    /*border-left: 3px solid var(--mkx-primary) !important;*/
+    margin: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.mkx-newsletter-form .wpcf7-list-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    margin: 0 !important;
+    list-style: none !important;
+    padding: 0 !important;
+    line-height: 1.5 !important;
+    gap: var(--space-sm) !important;
+}
+
+.mkx-newsletter-form .wpcf7-acceptance input[type="checkbox"] {
+    width: 1rem !important;
+    height: 1rem !important;
+    margin: 0 !important;
+    accent-color: var(--mkx-primary) !important;
+    flex-shrink: 0 !important;
+    margin-top: 0.1rem !important;
+    appearance: auto !important;
+    vertical-align: top !important;
+}
+
+.mkx-newsletter-form .wpcf7-list-item-label {
+    color: var(--mkx-light-gray) !important;
+    font-size: var(--fs-xs) !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    display: inline !important;
+    flex: 1 !important;
+}
+
+.mkx-newsletter-form .wpcf7-list-item label {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: var(--space-sm) !important;
+    cursor: pointer !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+/* Submit Button (CF7) - Target actual CF7 classes */
+.mkx-newsletter-form input[type="submit"],
+.mkx-newsletter-form .wpcf7-submit {
+    background: var(--mkx-primary) !important;
+    color: var(--mkx-white) !important;
+    border: 2px solid var(--mkx-primary) !important;
+    border-radius: var(--radius-md) !important;
+    padding: var(--space-sm) var(--space-xl) !important;
+    font-size: var(--fs-base) !important;
+    font-weight: var(--mkx-font-semibold) !important;
+    font-family: var(--mkx-font-primary) !important;
+    cursor: pointer !important;
+    transition: var(--mkx-transition) !important;
+    width: 100% !important;
+    min-height: 3rem !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    text-transform: none !important;
+    display: block !important;
+    appearance: none !important;
+}
+
+.mkx-newsletter-form input[type="submit"]:hover,
+.mkx-newsletter-form .wpcf7-submit:hover {
+    background: var(--mkx-primary-dark) !important;
+    border-color: var(--mkx-primary-dark) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(40, 176, 234, 0.4) !important;
+}
+
+.mkx-newsletter-form input[type="submit"]:active,
+.mkx-newsletter-form .wpcf7-submit:active {
+    transform: translateY(0) !important;
+}
+
+.mkx-newsletter-form input[type="submit"]:disabled,
+.mkx-newsletter-form .wpcf7-submit:disabled,
+.mkx-newsletter-form .wpcf7-submit[disabled] {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    background: var(--mkx-medium-gray) !important;
+    border-color: var(--mkx-medium-gray) !important;
+}
+
+/* Hide CF7 spinner */
+.mkx-newsletter-form .wpcf7-spinner {
+    display: none !important;
+}
+
+/* CF7 Response Messages */
+.mkx-newsletter-form .wpcf7-response-output {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--mkx-white) !important;
+    padding: var(--space-md) !important;
+    border-radius: var(--radius-md) !important;
+    margin: var(--space-md) 0 0 !important;
+    font-size: var(--fs-sm) !important;
+    text-align: center !important;
+    border: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: block !important;
+}
+
+.mkx-newsletter-form .wpcf7-response-output[aria-hidden="true"] {
+    display: none !important;
+}
+
+.mkx-newsletter-form .wpcf7-mail-sent-ok {
+    background: rgba(61, 205, 119, 0.2) !important;
+    border-left: 4px solid var(--mkx-success) !important;
+    color: var(--mkx-white) !important;
+}
+
+.mkx-newsletter-form .wpcf7-validation-errors,
+.mkx-newsletter-form .wpcf7-mail-sent-ng {
+    background: rgba(239, 68, 68, 0.2) !important;
+    border-left: 4px solid var(--mkx-error) !important;
+    color: var(--mkx-white) !important;
+}
+
+/* CF7 Validation Error Messages */
+.mkx-newsletter-form .wpcf7-not-valid-tip {
+    display: none !important;
+    color: var(--mkx-error) !important;
+    font-size: var(--fs-xs) !important;
+    margin-top: var(--space-xs) !important;
+    padding: var(--space-xs) var(--space-sm) !important;
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-radius: var(--radius-sm) !important;
+    border-left: 3px solid var(--mkx-error) !important;
+}
+
+/* Show validation errors when form is invalid */
+.mkx-newsletter-form .wpcf7-form.invalid .wpcf7-not-valid-tip {
+    display: block !important;
+}
+
+/* =============================================================================
+   HTML FALLBACK FORM STYLES
+   ============================================================================= */
+
+/* Fallback Form Container */
+.mkx-newsletter-fallback-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Email Input (Fallback) */
+.mkx-newsletter-email-input {
+    width: 100% !important;
+    padding: var(--space-md) var(--space-lg) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--mkx-white) !important;
+    font-size: var(--fs-base) !important;
+    font-family: var(--mkx-font-primary) !important;
+    transition: var(--mkx-transition) !important;
+    backdrop-filter: blur(4px) !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    display: block !important;
+    appearance: none !important;
+    min-height: 3rem !important;
+}
+
+.mkx-newsletter-email-input:focus {
+    outline: none !important;
+    border-color: var(--mkx-primary) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 0 0 3px rgba(40, 176, 234, 0.2) !important;
+}
+
+.mkx-newsletter-email-input::placeholder {
+    color: var(--mkx-medium-gray) !important;
+    opacity: 1 !important;
+}
+
+.mkx-newsletter-email-input:invalid {
+    border-color: var(--mkx-error) !important;
+    background: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Consent Section (Fallback) */
+.mkx-newsletter-consent {
+    background: rgba(255, 255, 255, 0.05) !important;
+    padding: var(--space-md) !important;
+    border-radius: var(--radius-md) !important;
+    border-left: 3px solid var(--mkx-primary) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.mkx-consent-label {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: var(--space-sm) !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    line-height: 1.5 !important;
+    width: 100% !important;
+}
+
+.mkx-consent-checkbox {
+    width: 1rem !important;
+    height: 1rem !important;
+    margin: 0 !important;
+    accent-color: var(--mkx-primary) !important;
+    flex-shrink: 0 !important;
+    margin-top: 0.1rem !important;
+}
+
+.mkx-consent-text {
+    color: var(--mkx-light-gray) !important;
+    font-size: var(--fs-sm) !important;
+    line-height: 1.5 !important;
+    flex: 1 !important;
+}
+
+/* Submit Button (Fallback) */
+.mkx-newsletter-submit {
+    background: var(--mkx-primary) !important;
+    color: var(--mkx-white) !important;
+    border: 2px solid var(--mkx-primary) !important;
+    border-radius: var(--radius-md) !important;
+    padding: var(--space-md) var(--space-xl) !important;
+    font-size: var(--fs-base) !important;
+    font-weight: var(--mkx-font-semibold) !important;
+    font-family: var(--mkx-font-primary) !important;
+    cursor: pointer !important;
+    transition: var(--mkx-transition) !important;
+    width: 100% !important;
+    min-height: 3rem !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    text-transform: none !important;
+    display: block !important;
+    appearance: none !important;
+}
+
+.mkx-newsletter-submit:hover {
+    background: var(--mkx-primary-dark) !important;
+    border-color: var(--mkx-primary-dark) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(40, 176, 234, 0.4) !important;
+}
+
+.mkx-newsletter-submit:active {
+    transform: translateY(0) !important;
+}
+
+.mkx-newsletter-submit:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+/* Newsletter Benefits */
+.mkx-newsletter-benefits {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--space-sm) !important;
+    margin-top: var(--space-lg) !important;
+}
+
+.mkx-benefit-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: var(--space-sm) !important;
+    font-size: var(--fs-sm) !important;
+    color: var(--mkx-light-gray) !important;
+    line-height: 1 !important;
+}
+
+.mkx-benefit-item i {
+    color: var(--mkx-primary) !important;
+    font-size: 1.1em !important;
+    flex-shrink: 0 !important;
+}
+
+/* =============================================================================
+   ADDITIONAL LINKS SECTION
+   ============================================================================= */
+
+.mkx-footer-additional {
+    text-align: center;
+}
+
+.mkx-footer-additional-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.mkx-footer-additional-menu li {
+    margin: 0;
+}
+
+.mkx-footer-additional-link {
+    color: var(--mkx-light-gray);
+    text-decoration: none;
+    font-size: var(--fs-sm);
+    line-height: var(--mkx-lh-normal);
+    transition: var(--mkx-transition);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    display: block;
+    position: relative;
+}
+
+.mkx-footer-additional-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--mkx-primary);
+    transition: width var(--mkx-transition-medium) var(--mkx-ease);
+}
+
+.mkx-footer-additional-link:hover,
+.mkx-footer-additional-link:focus {
+    color: var(--mkx-primary);
+    background: rgba(40, 176, 234, 0.1);
+    transform: translateX(var(--space-xs));
+}
+
+.mkx-footer-additional-link:hover::before {
+    width: var(--space-sm);
+}
+
+/* =============================================================================
+   POLICY LINKS SECTION
+   ============================================================================= */
+
+.mkx-footer-policies {
+    text-align: center;
+}
+
+.mkx-footer-policies-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.mkx-footer-policies-menu li {
+    margin: 0;
+}
+
+.mkx-footer-policy-link {
+    color: var(--mkx-light-gray);
+    text-decoration: none;
+    font-size: var(--fs-sm);
+    line-height: var(--mkx-lh-normal);
+    transition: var(--mkx-transition);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    display: block;
+    position: relative;
+}
+
+.mkx-footer-policy-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--mkx-secondary);
+    transition: width var(--mkx-transition-medium) var(--mkx-ease);
+}
+
+.mkx-footer-policy-link:hover,
+.mkx-footer-policy-link:focus {
+    color: var(--mkx-secondary);
+    background: rgba(99, 102, 241, 0.1);
+    transform: translateX(var(--space-xs));
+}
+
+.mkx-footer-policy-link:hover::before {
+    width: var(--space-sm);
+}
+
+/* =============================================================================
+   FOOTER BOTTOM - FIXED POSITIONING
+   ============================================================================= */
+
+.mkx-footer-bottom {
+    background: var(--mkx-darker-gray);
+    padding: var(--space-xs) 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 0; /* Remove any top margin */
+    position: relative; /* Ensure proper stacking */
+}
+
+.mkx-footer-bottom-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    text-align: center;
+}
+
+.mkx-footer-copyright {
+    color: var(--mkx-medium-gray);
+    font-size: var(--fs-sm);
+}
+
+.mkx-footer-copyright p {
+    margin: 0;
+    line-height: var(--mkx-lh-normal);
+}
+
+.mkx-site-name {
+    color: var(--mkx-white);
+    font-weight: var(--mkx-font-semibold);
+}
+
+.mkx-footer-bottom-phone {
+    display: flex;
+    align-items: center;
+}
+
+.mkx-footer-bottom-phone-link {
+    color: var(--mkx-primary);
+    text-decoration: none;
+    font-size: var(--fs-sm);
+    font-weight: var(--mkx-font-semibold);
+    transition: var(--mkx-transition);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+}
+
+.mkx-footer-bottom-phone-link:hover {
+    color: var(--mkx-white);
+    background: rgba(40, 176, 234, 0.2);
+}
+
+/* =============================================================================
+   PAGE LAYOUT FIX FOR FOOTER POSITIONING
+   ============================================================================= */
+
+/* Ensure page wrapper takes full height */
+#page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Content should grow to push footer down */
+#content {
+    flex: 1;
+}
+
+/* Footer should stick to bottom */
+.mkx-site-footer {
+    margin-top: var(--space-4xl);
+}
+
+/* Body margin adjustments */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* =============================================================================
+   RESPONSIVE DESIGN
+   ============================================================================= */
+
+/* Large Desktop */
+@media (min-width: 1200px) {
+    .mkx-footer-content {
+        grid-template-columns: 2fr 1.5fr 1.5fr 1fr 1fr;
+        gap: var(--space-4xl);
+        align-items: start;
+    }
+
+    .mkx-footer-company,
+    .mkx-footer-contact,
+    .mkx-footer-newsletter,
+    .mkx-footer-additional,
+    .mkx-footer-policies {
+        text-align: left;
+    }
+
+    .mkx-footer-section-title::after {
+        left: 0;
+        transform: none;
+    }
+
+    .mkx-contact-item,
+    .mkx-social-icons {
+        justify-content: flex-start;
+    }
+
+    .mkx-social-title {
+        text-align: left;
+    }
+
+    /* CF7 Form Layout */
+    .mkx-newsletter-form .wpcf7-form {
+        align-items: flex-start !important;
+    }
+
+    .mkx-newsletter-form input[type="email"] {
+        flex: 1 !important;
+    }
+
+    .mkx-newsletter-form input[type="submit"] {
+        width: auto !important;
+        flex-shrink: 0 !important;
+        min-width: 100% !important;
+    }
+
+    .mkx-newsletter-form .wpcf7-acceptance {
+        order: 3 !important;
+        flex-basis: 100% !important;
+        margin-top: var(--space-md) !important;
+    }
+
+    /* Fallback Form Layout */
+    .mkx-newsletter-fallback-form {
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .mkx-newsletter-email-input {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .mkx-newsletter-submit {
+        width: auto;
+        flex-shrink: 0;
+        min-width: 200px;
+    }
+
+    .mkx-newsletter-consent {
+        order: 3;
+        flex-basis: 100%;
+        margin-top: var(--space-md);
+    }
+
+    .mkx-newsletter-benefits,
+    .mkx-benefit-item {
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+    }
+
+    .mkx-newsletter-benefits {
+        gap: var(--space-sm) !important;
+        flex-wrap: wrap !important;
+        margin-bottom: 2rem;
+    }
+
+    .mkx-footer-additional-menu,
+    .mkx-footer-policies-menu {
+        align-items: flex-start;
+    }
+
+    .mkx-footer-additional-link,
+    .mkx-footer-policy-link {
+        text-align: left;
+    }
+
+    .mkx-footer-bottom-content {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+    }
+}
+
+
+
+/* =============================================================================
+   CF7 RESPONSE MESSAGES - BASE STYLING
+   ============================================================================= */
+
+/* Main response container */
+.mkx-newsletter-form .wpcf7-response-output {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--mkx-white) !important;
+    padding: var(--space-lg) !important;
+    border-radius: var(--radius-md) !important;
+    margin: var(--space-lg) 0 0 !important;
+    font-size: var(--fs-base) !important;
+    text-align: center !important;
+    border: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    font-weight: var(--mkx-font-medium) !important;
+    line-height: var(--mkx-lh-normal) !important;
+    position: relative !important;
+    backdrop-filter: blur(8px) !important;
+    animation: slideInFromBottom 0.5s var(--mkx-ease) forwards !important;
+}
+
+/* Hide when aria-hidden is true */
+.mkx-newsletter-form .wpcf7-response-output[aria-hidden="true"] {
+    display: none !important;
+}
+
+/* =============================================================================
+   SUCCESS MESSAGE
+   ============================================================================= */
+
+.mkx-newsletter-form .wpcf7-mail-sent-ok {
+    background: linear-gradient(135deg, rgba(61, 205, 119, 0.2), rgba(61, 205, 119, 0.1)) !important;
+    border: 2px solid var(--mkx-success) !important;
+    color: var(--mkx-white) !important;
+    box-shadow: 0 4px 20px rgba(61, 205, 119, 0.3) !important;
+}
+
+.mkx-newsletter-form .wpcf7-mail-sent-ok::before {
+    content: "✓" !important;
+    display: inline-block !important;
+    font-size: 1.5em !important;
+    color: var(--mkx-success) !important;
+    margin-right: var(--space-sm) !important;
+    font-weight: var(--mkx-font-bold) !important;
+}
+
+/* =============================================================================
+   ERROR MESSAGES
+   ============================================================================= */
+
+.mkx-newsletter-form .wpcf7-validation-errors,
+.mkx-newsletter-form .wpcf7-mail-sent-ng {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1)) !important;
+    border: 2px solid var(--mkx-error) !important;
+    color: var(--mkx-white) !important;
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3) !important;
+}
+
+.mkx-newsletter-form .wpcf7-validation-errors::before,
+.mkx-newsletter-form .wpcf7-mail-sent-ng::before {
+    content: "⚠" !important;
+    display: inline-block !important;
+    font-size: 1.5em !important;
+    color: var(--mkx-error) !important;
+    margin-right: var(--space-sm) !important;
+    font-weight: var(--mkx-font-bold) !important;
+}
+
+/* =============================================================================
+   SPAM PROTECTION MESSAGE
+   ============================================================================= */
+
+.mkx-newsletter-form .wpcf7-aborted {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1)) !important;
+    border: 2px solid var(--mkx-warning) !important;
+    color: var(--mkx-white) !important;
+    box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3) !important;
+}
+
+.mkx-newsletter-form .wpcf7-aborted::before {
+    content: "🛡" !important;
+    display: inline-block !important;
+    font-size: 1.5em !important;
+    color: var(--mkx-warning) !important;
+    margin-right: var(--space-sm) !important;
+}
+
+/* =============================================================================
+   FIELD VALIDATION ERRORS
+   ============================================================================= */
+
+.mkx-newsletter-form .wpcf7-not-valid-tip {
+    display: block !important;
+    color: var(--mkx-error) !important;
+    font-size: var(--fs-xs) !important;
+    margin-top: var(--space-xs) !important;
+    padding: var(--space-xs) var(--space-sm) !important;
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-radius: var(--radius-sm) !important;
+    border-left: 3px solid var(--mkx-error) !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+/* Show validation errors when form is invalid */
+.mkx-newsletter-form .wpcf7-form.invalid .wpcf7-not-valid-tip {
+    display: block !important;
+    animation: fadeInScale 0.3s var(--mkx-ease) forwards !important;
+}
+
+/* =============================================================================
+   ANIMATIONS
+   ============================================================================= */
+
+@keyframes slideInFromBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* =============================================================================
+   MOBILE RESPONSIVENESS
+   ============================================================================= */
+
+@media (max-width: 767px) {
+    .mkx-newsletter-form .wpcf7-response-output {
+        padding: var(--space-md) !important;
+        font-size: var(--fs-sm) !important;
+        margin: var(--space-md) 0 0 !important;
+    }
+
+    .mkx-newsletter-form .wpcf7-mail-sent-ok::before,
+    .mkx-newsletter-form .wpcf7-validation-errors::before,
+    .mkx-newsletter-form .wpcf7-mail-sent-ng::before,
+    .mkx-newsletter-form .wpcf7-aborted::before {
+        font-size: 1.2em !important;
+        margin-right: var(--space-xs) !important;
+    }
+
+    .mkx-newsletter-form .wpcf7-not-valid-tip {
+        font-size: var(--fs-xs) !important;
+        padding: var(--space-xs) !important;
+    }
+}
+
+/* =============================================================================
+   HIGH CONTRAST MODE SUPPORT
+   ============================================================================= */
+
+@media (prefers-contrast: high) {
+    .mkx-newsletter-form .wpcf7-mail-sent-ok {
+        background: var(--mkx-success) !important;
+        color: var(--mkx-black) !important;
+    }
+
+    .mkx-newsletter-form .wpcf7-validation-errors,
+    .mkx-newsletter-form .wpcf7-mail-sent-ng {
+        background: var(--mkx-error) !important;
+        color: var(--mkx-white) !important;
+    }
+
+    .mkx-newsletter-form .wpcf7-aborted {
+        background: var(--mkx-warning) !important;
+        color: var(--mkx-black) !important;
+    }
+}
+
+/* =============================================================================
+   REDUCED MOTION SUPPORT
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .mkx-newsletter-form .wpcf7-response-output {
+        animation: none !important;
+    }
+
+    .mkx-newsletter-form .wpcf7-not-valid-tip {
+        animation: none !important;
+    }
+}
+
+
+/* Desktop */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .mkx-footer-content {
+        grid-template-columns: 2fr 1.5fr 1.5fr 1fr;
+        gap: var(--space-3xl);
+    }
+
+    .mkx-footer-company,
+    .mkx-footer-contact {
+        text-align: left;
+    }
+
+    .mkx-footer-newsletter,
+    .mkx-footer-additional,
+    .mkx-footer-policies {
+        text-align: center;
+    }
+
+    .mkx-footer-policies {
+        grid-column: 1 / -1;
+        margin-top: var(--space-lg);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: var(--space-xl);
+    }
+
+    .mkx-footer-policies-menu {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--space-lg);
+    }
+
+    .mkx-footer-section-title::after {
+        left: 0;
+        transform: none;
+    }
+
+    .mkx-footer-newsletter .mkx-footer-section-title::after,
+    .mkx-footer-additional .mkx-footer-section-title::after,
+    .mkx-footer-policies .mkx-footer-section-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .mkx-footer-logo-section,
+    .mkx-contact-item,
+    .mkx-social-icons {
+        justify-content: flex-start;
+    }
+
+    .mkx-social-title {
+        text-align: left;
+    }
+
+    .mkx-newsletter-form input[type="submit"],
+    .mkx-newsletter-submit {
+        width: auto !important;
+        min-width: 200px !important;
+        align-self: flex-start !important;
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+    .mkx-footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-2xl);
+    }
+
+    .mkx-footer-main {
+        padding: var(--space-3xl) 0 var(--space-2xl);
+    }
+
+    .mkx-footer-additional {
+        grid-column: 1;
+    }
+
+    .mkx-footer-policies {
+        grid-column: 2;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .mkx-site-footer {
+        margin-top: var(--space-2xl);
+        margin-bottom: 0; /* Ensure no bottom margin on mobile */
+    }
+
+    .mkx-footer-main {
+        padding: var(--space-2xl) 0;
+    }
+
+    .mkx-footer-content {
+        gap: var(--space-2xl);
+    }
+
+    .mkx-footer-section-title {
+        font-size: var(--fs-base);
+        margin-bottom: var(--space-2xl);
+    }
+
+    .mkx-footer-description {
+        font-size: var(--fs-sm);
+        margin-bottom: var(--space-md);
+    }
+
+    .mkx-working-hours {
+        padding: var(--space-md);
+    }
+
+    .mkx-contact-info {
+        gap: var(--space-lg);
+    }
+
+    .mkx-contact-item {
+        flex-direction: row;
+        align-items: center;    
+        justify-content: center;
+        gap: var(--space-md);
+    }
+
+    .mkx-contact-item i {
+        margin-top: .5rem;
+        font-size: var(--fs-xl);
+        line-height: 1;
+    }
+    .mkx-contact-item i.ph-map-pin {
+        margin-top: 1.2rem;
+    }
+    .mkx-contact-details {
+        align-items: center;
+    }
+
+    .mkx-contact-label,
+    .mkx-contact-link,
+    .mkx-contact-text {
+        text-align: center;
+    }
+
+    /* Unify address text style with links */
+    .mkx-contact-text {
+        font-size: var(--fs-base);
+        font-weight: var(--mkx-font-medium);
+        color: var(--mkx-white);
+    }
+
+    .mkx-newsletter-description {
+        font-size: var(--fs-xs);
+    }
+
+    .mkx-newsletter-form .wpcf7-form,
+    .mkx-newsletter-fallback-form {
+        gap: var(--space-md) !important;
+    }
+
+    .mkx-newsletter-form input[type="email"],
+    .mkx-newsletter-email-input {
+        padding: var(--space-sm) var(--space-md) !important;
+        font-size: var(--fs-sm) !important;
+    }
+
+    .mkx-newsletter-form input[type="submit"],
+    .mkx-newsletter-submit {
+        padding: var(--space-sm) var(--space-lg) !important;
+        font-size: var(--fs-sm) !important;
+        min-height: 2.5rem !important;
+    }
+
+    .mkx-newsletter-form .wpcf7-acceptance,
+    .mkx-newsletter-consent {
+        padding: var(--space-sm) !important;
+    }
+
+    .mkx-newsletter-form .wpcf7-list-item-label,
+    .mkx-consent-text {
+        font-size: var(--fs-xs) !important;
+    }
+
+    .mkx-newsletter-benefits {
+        gap: var(--space-xs) !important;
+    }
+
+    .mkx-benefit-item {
+        font-size: var(--fs-xs) !important;
+        justify-content: flex-start !important;
+    }
+
+    .mkx-footer-bottom {
+        padding: var(--space-md) 0;
+    }
+
+    .mkx-footer-bottom-content {
+        gap: var(--space-sm);
+    }
+
+    .mkx-footer-additional-menu,
+    .mkx-footer-policies-menu {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-sm);
+    }
+
+    .mkx-footer-additional-link,
+    .mkx-footer-policy-link {
+        text-align: center;
+        font-size: var(--fs-xs);
+        padding: var(--space-xs);
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .mkx-footer-main {
+        padding: var(--space-xl) 0 var(--space-xs) 0;
+    }
+
+    .mkx-footer-content {
+        gap: var(--space-xl);
+    }
+
+    .mkx-footer-brand-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mkx-working-hours {
+        padding: var(--space-sm);
+    }
+
+    .mkx-social-icons {
+        gap: var(--space-sm);
+    }
+
+    .mkx-social-link {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .mkx-social-link i {
+        font-size: 1em;
+    }
+}
+
+/* =============================================================================
+   ACCESSIBILITY & UTILITY
+   ============================================================================= */
+
+/* Focus improvements */
+.mkx-contact-link:focus,
+.mkx-social-link:focus,
+.mkx-newsletter-form input[type="email"]:focus,
+.mkx-newsletter-form input[type="submit"]:focus,
+.mkx-newsletter-email-input:focus,
+.mkx-newsletter-submit:focus,
+.mkx-footer-additional-link:focus,
+.mkx-footer-policy-link:focus,
+.mkx-footer-bottom-phone-link:focus {
+    outline: 2px solid var(--mkx-primary);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .mkx-site-footer {
+        background: var(--mkx-black);
+        border-top: 2px solid var(--mkx-white);
+    }
+
+    .mkx-footer-bottom {
+        background: var(--mkx-black);
+        border-top-color: var(--mkx-white);
+    }
+
+    .mkx-footer-section-title::after {
+        background: var(--mkx-white);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .mkx-contact-link,
+    .mkx-social-link,
+    .mkx-newsletter-form input,
+    .mkx-newsletter-email-input,
+    .mkx-newsletter-submit,
+    .mkx-footer-additional-link,
+    .mkx-footer-bottom-phone-link {
+        transition: none;
+    }
+
+    .mkx-social-link:hover,
+    .mkx-newsletter-form input[type="submit"]:hover,
+    .mkx-newsletter-submit:hover {
+        transform: none;
+    }
+}
+
+/* =============================================================================
+   PRINT STYLES
+   ============================================================================= */
+
+@media print {
+    .mkx-site-footer {
+        background: transparent !important;
+        color: var(--mkx-black) !important;
+        margin-bottom: 0 !important;
+        page-break-inside: avoid;
+    }
+
+    .mkx-footer-main {
+        padding: var(--space-lg) 0;
+    }
+
+    .mkx-footer-bottom {
+        display: none;
+    }
+
+    .mkx-newsletter-form,
+    .mkx-social-links {
+        display: none;
+    }
+
+    .mkx-footer-section-title,
+    .mkx-contact-link,
+    .mkx-footer-additional-link {
+        color: var(--mkx-black) !important;
+    }
+
+    .mkx-footer-brand-logo {
+        filter: none;
+    }
+}

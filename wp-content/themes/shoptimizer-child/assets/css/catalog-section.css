@@ -1,0 +1,408 @@
+/**
+ * Catalog Section Styles
+ * Modern brand cards with hover effects
+ * 
+ * @package Shoptimizer Child
+ * @version 1.0.2
+ * @author KW
+ * @link https://kowb.ru
+ */
+
+/* ==========================================================================
+   CATALOG SECTION
+   ========================================================================== */
+
+.mkx-catalog-section {
+    padding: var(--space-4xl) 0;
+    background: var(--mkx-bg-primary);
+    position: relative;
+}
+
+/* Section Header */
+.mkx-catalog-header {
+    text-align: center;
+    margin-bottom: var(--space-3xl);
+    max-width: 60rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mkx-catalog-title {
+    font-size: var(--mkx-fs-h1);
+    font-weight: var(--mkx-font-bold);
+    color: var(--mkx-text-primary);
+    margin-bottom: var(--space-md);
+    line-height: var(--mkx-lh-tight);
+    letter-spacing: var(--mkx-tracking-tight);
+}
+
+.mkx-catalog-subtitle {
+    font-size: var(--fs-lg);
+    color: var(--mkx-text-secondary);
+    line-height: var(--mkx-lh-relaxed);
+    margin-bottom: 0;
+    font-weight: var(--mkx-font-regular);
+}
+
+/* ==========================================================================
+   BRAND CARDS GRID
+   ========================================================================== */
+
+.mkx-catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: var(--space-xl);
+    max-width: var(--container-max);
+    margin: 0 auto;
+}
+
+/* Brand Card */
+.mkx-brand-card {
+    position: relative;
+    background: var(--mkx-bg-primary);
+    border-radius: var(--radius-lg);
+    border: var(--border-1) solid var(--mkx-border-primary);
+    transition: var(--mkx-transition);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    height: auto;
+    min-height: 10rem;
+}
+
+.mkx-brand-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+    rgba(40, 176, 234, 0.05) 0%,
+    rgba(99, 102, 241, 0.05) 100%);
+    opacity: 0;
+    transition: opacity var(--mkx-transition-medium) var(--mkx-ease);
+    z-index: 1;
+}
+
+.mkx-brand-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.mkx-brand-card-inner {
+    padding: var(--space-xl) var(--space-lg);
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Brand Logo */
+.mkx-brand-logo-wrapper {
+    margin-bottom: var(--space-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 6rem;
+    height: 4.5rem;
+    position: relative;
+}
+
+.mkx-brand-logo {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: var(--mkx-transition-transform);
+}
+
+/* Brand Name */
+.mkx-brand-name {
+    font-size: var(--fs-lg);
+    font-weight: var(--mkx-font-semibold);
+    color: var(--mkx-text-primary);
+    margin-bottom: var(--space-sm);
+    line-height: var(--mkx-lh-tight);
+    transition: var(--mkx-transition-colors);
+}
+
+/* Brand Description */
+.mkx-brand-description {
+    font-size: var(--fs-sm);
+    color: var(--mkx-text-muted);
+    line-height: var(--mkx-lh-normal);
+    margin-bottom: 0;
+    transition: var(--mkx-transition-colors);
+}
+
+/* ==========================================================================
+   HOVER EFFECTS (Desktop Only)
+   ========================================================================== */
+
+@media (hover: hover) and (pointer: fine) {
+    .mkx-brand-card:hover {
+        transform: scale(1.05);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--mkx-primary);
+    }
+
+    .mkx-brand-card:hover::before {
+        opacity: 1;
+    }
+
+    .mkx-brand-card:hover .mkx-brand-logo {
+        transform: scale(1.1);
+        filter: brightness(1.1);
+    }
+
+    .mkx-brand-card:hover .mkx-brand-name {
+        color: var(--mkx-primary);
+    }
+}
+
+/* ==========================================================================
+   FOCUS STATES
+   ========================================================================== */
+
+.mkx-brand-card-link:focus {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-lg);
+}
+
+.mkx-brand-card-link:focus .mkx-brand-card {
+    transform: scale(1.02);
+    border-color: var(--mkx-primary);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Large Desktop */
+@media (min-width: 1200px) {
+    .mkx-catalog-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: var(--space-2xl, 20px);
+        justify-items: center;
+        align-items: start;
+    }
+
+    /* Убеждаемся, что все карточки имеют одинаковый размер */
+    .mkx-catalog-grid .mkx-brand-card {
+        width: 100%;
+        max-width: 17rem;
+        height: 13rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+
+    /* First row: 5 items */
+    .mkx-catalog-grid .mkx-brand-card:nth-child(-n+5) {
+        grid-row: 1;
+    }
+
+    /* Second row: 4 items centered with 0.5 column shift */
+    .mkx-catalog-grid .mkx-brand-card:nth-child(n+6):nth-child(-n+9) {
+        grid-row: 2;
+        transition: all 0.3s ease;
+    }
+
+    /* Сдвигаем каждую карточку второго ряда на 0.5 позиции вправо */
+    .mkx-catalog-grid .mkx-brand-card:nth-child(6) {
+        grid-column: 1 / span 1;
+        transform: translateX(50%);
+    }
+    .mkx-catalog-grid .mkx-brand-card:nth-child(7) {
+        grid-column: 2 / span 1;
+        transform: translateX(50%);
+    }
+    .mkx-catalog-grid .mkx-brand-card:nth-child(8) {
+        grid-column: 3 / span 1;
+        transform: translateX(50%);
+    }
+    .mkx-catalog-grid .mkx-brand-card:nth-child(9) {
+        grid-column: 4 / span 1;
+        transform: translateX(50%);
+    }
+
+    /* Hover effects for second row items */
+    @media (hover: hover) and (pointer: fine) {
+        .mkx-catalog-grid .mkx-brand-card:nth-child(6):hover {
+            transform: translateX(50%) scale(1.05);
+        }
+        .mkx-catalog-grid .mkx-brand-card:nth-child(7):hover {
+            transform: translateX(50%) scale(1.05);
+        }
+        .mkx-catalog-grid .mkx-brand-card:nth-child(8):hover {
+            transform: translateX(50%) scale(1.05);
+        }
+        .mkx-catalog-grid .mkx-brand-card:nth-child(9):hover {
+            transform: translateX(50%) scale(1.05);
+        }
+    }
+}
+
+/* Desktop */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .mkx-catalog-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+    .mkx-catalog-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-lg);
+    }
+
+    .mkx-catalog-section {
+        padding: var(--space-3xl) 0;
+    }
+
+    .mkx-brand-card-inner {
+        padding: var(--space-lg);
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .mkx-catalog-section {
+        padding: var(--space-2xl) 0;
+    }
+
+    .mkx-catalog-header {
+        margin-bottom: var(--space-2xl);
+    }
+
+    .mkx-catalog-title {
+        font-size: var(--mkx-fs-h2);
+        margin-bottom: var(--space-sm);
+    }
+
+    .mkx-catalog-subtitle {
+        font-size: var(--fs-base);
+    }
+
+    .mkx-catalog-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-md);
+    }
+
+    .mkx-brand-card {
+        min-height: 8rem;
+    }
+
+    .mkx-brand-card-inner {
+        padding: var(--space-lg) var(--space-md);
+    }
+
+    .mkx-brand-logo-wrapper {
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: var(--space-sm);
+    }
+
+    .mkx-brand-name {
+        font-size: var(--fs-base);
+        margin-bottom: var(--space-xs);
+    }
+
+    .mkx-brand-description {
+        font-size: var(--fs-xs);
+        line-height: var(--mkx-lh-snug);
+    }
+
+
+    /* Center last item if odd number */
+    .mkx-catalog-grid .mkx-brand-card:nth-child(9) {
+        grid-column: 1 / -1;
+        max-width: 50%;
+        margin: 0 auto;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .mkx-catalog-section {
+        padding: var(--space-xl) 0;
+    }
+
+    .mkx-catalog-header {
+        margin-bottom: var(--space-xl);
+    }
+
+    .mkx-brand-card {
+        min-height: 7rem;
+    }
+
+    .mkx-brand-card-inner {
+        padding: var(--space-md);
+    }
+
+    .mkx-brand-logo-wrapper {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .mkx-brand-name {
+        font-size: var(--fs-sm);
+    }
+
+    .mkx-brand-description {
+        font-size: var(--fs-xxs);
+    }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY & MOTION
+   ========================================================================== */
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .mkx-brand-card,
+    .mkx-brand-logo {
+        transition: none;
+    }
+
+    .mkx-brand-card:hover {
+        transform: none;
+    }
+
+    .mkx-brand-card:hover .mkx-brand-logo {
+        transform: none;
+    }
+
+    .mkx-catalog-grid .mkx-brand-card:nth-child(6):hover,
+    .mkx-catalog-grid .mkx-brand-card:nth-child(7):hover,
+    .mkx-catalog-grid .mkx-brand-card:nth-child(8):hover,
+    .mkx-catalog-grid .mkx-brand-card:nth-child(9):hover {
+        transform: translateX(50%);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .mkx-brand-card {
+        border-width: 2px;
+        border-color: var(--mkx-text-primary);
+    }
+
+    .mkx-brand-card:hover {
+        border-color: var(--mkx-primary);
+        background: var(--mkx-bg-secondary);
+    }
+}

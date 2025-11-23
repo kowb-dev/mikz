@@ -1,0 +1,240 @@
+/* Existing styles for Gutenberg blocks */
+/* .mkx-article-container {
+    max-width: var(--container-narrow);
+    margin-left: auto;
+    margin-right: auto;
+    padding: var(--space-md);
+    background-color: var(--mkx-bg-primary);
+    border: var(--border-1) solid var(--mkx-border-primary);
+} */
+
+/* ... other existing styles ... */
+
+/* 
+ * Global Styles for Single Posts & Archives
+ * Author: Gemini
+ * Version: 1.2.0
+ */
+
+/* === Main Layout (Single & Archive) === */
+.single-post #content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+@media (min-width: 992px) {
+    .single-post #content {
+        grid-template-columns: 1fr 320px;
+    }
+}
+
+/* === Single Post Styles === */
+
+/* .single-post .post {
+    background-color: #fff;
+    padding: clamp(1rem, 5vw, 2.5rem);
+    border-radius: 16px;
+    border: 1px solid #e9ecef;
+} */
+
+.single-post .wp-post-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+    object-fit: cover;
+}
+
+.single-post .entry-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 1.5rem;
+}
+
+.single-post .entry-title {
+    font-weight: 700;
+    line-height: 1.2;
+    color: #212529;
+    margin-bottom: 0.5rem;
+}
+
+.single-post .posted-on {
+    font-size: 0.9rem;
+    color: #6c757d;
+    display: block;
+}
+
+.single-post .entry-content p,
+.single-post .entry-content li {
+    font-size: var(--fs-base);
+    line-height: var(--mkx-lh-normal);
+    margin-bottom: 1.5rem;
+}
+
+/* === Category Archive Styles === */
+
+.archive .page-header {
+    padding-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid #dee2e6;
+    grid-column: 1 / -1; /* Make header span both columns */
+}
+
+.archive .page-title {
+    font-size: var(--mkx-fs-h1);
+    font-weight: 700;
+    color: #212529;
+}
+
+.archive .site-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+   max-width: var(--container-max);
+    margin: 0 auto;
+}
+
+.right-archives-sidebar .content-area {
+    float: none!important;
+}
+
+.archive .post {
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.archive .post:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.07);
+}
+
+.archive .post .post-thumbnail img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.archive .post:hover .post-thumbnail img {
+    transform: scale(1.05);
+}
+
+.archive .post .blog-loop-content-wrapper {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.archive .post .entry-header {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 1rem;
+}
+
+.archive .post .entry-title {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+}
+
+.archive .post .entry-title a {
+    color: #212529;
+    text-decoration: none;
+}
+
+.archive .post .entry-title a:hover {
+    color: #007bff; /* Or your theme's primary color */
+}
+
+.archive .post .posted-on {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+.archive .post .entry-content {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #495057;
+    flex-grow: 1;
+}
+
+/* === Sidebar Styles (Single & Archive) === */
+
+.single-post #secondary {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 10rem;
+}
+
+.single-post #secondary .widget,
+.archive #secondary .widget {
+    background-color: transparent; /* Make widget background transparent */
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.single-post #secondary .widget-title,
+.archive #secondary .widget-title {
+    font-size: var(--mkx-fs-h4);
+    font-weight: var(--mkx-font-bold);
+    margin-bottom: 1.5rem;
+    color: var(--mkx-text-primary);
+}
+
+.single-post #secondary ul,
+.archive #secondary ul {
+    padding-left: 0;
+    list-style: none;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Space between cards */
+}
+
+.single-post #secondary li,
+.archive #secondary li {
+    background-color: var(--mkx-bg-primary);
+    border: 1px solid var(--mkx-border-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: var(--mkx-transition);
+    margin-bottom: 0; /* Remove old margin */
+}
+
+.single-post #secondary li:hover,
+.archive #secondary li:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.single-post #secondary li a,
+.archive #secondary li a {
+    display: block;
+    padding: var(--space-lg);
+    text-decoration: none;
+    color: var(--mkx-text-body);
+    font-size: var(--fs-base);
+    font-weight: var(--mkx-font-semibold);
+    line-height: var(--mkx-lh-snug);
+    transition: color 0.2s ease-in-out;
+}
+
+.single-post #secondary li a:hover,
+.archive #secondary li a:hover {
+    color: var(--mkx-primary);
+}

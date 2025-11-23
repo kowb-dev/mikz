@@ -1,0 +1,50 @@
+<?php
+/**
+ * The template for displaying the "Stati" category archive.
+ *
+ * @package shoptimizer-child
+ * @version 1.0
+ */
+
+// Get layout settings from theme options.
+$shoptimizer_layout_archives_sidebar = shoptimizer_get_option( 'shoptimizer_layout_archives_sidebar' );
+$shoptimizer_layout_blog = shoptimizer_get_option( 'shoptimizer_layout_blog' );
+
+get_header(); ?>
+
+<div id="primary" class="content-area">
+	<main id="main" class="site-main <?php echo esc_attr( $shoptimizer_layout_blog ); ?>">
+
+	<?php if ( have_posts() ) : ?>
+
+		<header class="page-header">
+			<?php
+				the_archive_title( '<h1 class="page-title">', '</h1>' );
+				the_archive_description( '<div class="taxonomy-description">', '</div>' );
+			?>
+		</header><!-- .page-header -->
+
+		<?php
+		// The loop to display posts.
+		get_template_part( 'loop' );
+
+	else :
+
+		// If no content, include the "No posts found" template.
+		get_template_part( 'content', 'none' );
+
+	endif;
+	?>
+
+	</main><!-- #main -->
+</div><!-- #primary -->
+
+<?php
+// Display the sidebar if it's enabled in theme options.
+if ( 'no-archives-sidebar' !== $shoptimizer_layout_archives_sidebar ) {
+	get_sidebar();
+}
+?>
+
+<?php
+get_footer();

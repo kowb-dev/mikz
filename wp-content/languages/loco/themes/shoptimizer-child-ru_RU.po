@@ -1,0 +1,877 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Shoptimizer Child\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-19 16:38+0000\n"
+"PO-Revision-Date: 2025-09-19 16:40+0000\n"
+"Last-Translator: \n"
+"Language-Team: Русский\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
+"n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.8.0; wp-6.8.2; php-8.2.28\n"
+"X-Domain: shoptimizer-child"
+
+#: header.php:212 header.php:458 inc/integrations/woocommerce/functions.php:29
+#: inc/integrations/woocommerce/functions.php:38
+#, php-format
+msgid "%s товар в корзине"
+msgid_plural "%s товаров в корзине"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/core/nav-menus.php:21
+msgid "Action Links Menu"
+msgstr ""
+
+#: front-page.php:285
+msgid "Apple"
+msgstr ""
+
+#: header.php:51
+msgid "Assign a menu"
+msgstr ""
+
+#: header.php:198
+msgid "Assign Menu"
+msgstr ""
+
+#: inc/config/customizer-footer.php:115
+#: inc/config/customizer-contact-info.php:51
+msgid "Email адрес"
+msgstr ""
+
+#: footer.php:116
+msgid "Email:"
+msgstr ""
+
+#: inc/header-functions.php:119
+msgid "HONOR/HUAWEI"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://kowb.ru/"
+msgstr ""
+
+#. URI of the theme
+msgid "https://your-site.com/shoptimizer-child/"
+msgstr ""
+
+#: front-page.php:300
+msgid "Huawei"
+msgstr ""
+
+#: inc/core/nav-menus.php:107
+msgid "Icon Class (e.g., ph-package)"
+msgstr ""
+
+#: front-page.php:320
+msgid "Infinix"
+msgstr ""
+
+#: inc/config/customizer-footer.php:162
+msgid "Instagram"
+msgstr ""
+
+#: inc/header-functions.php:152
+msgid "IPHONE"
+msgstr ""
+
+#. Author of the theme
+msgid "KW"
+msgstr ""
+
+#: front-page.php:305
+msgid "OPPO"
+msgstr ""
+
+#: front-page.php:310
+msgid "Realme"
+msgstr ""
+
+#: inc/header-functions.php:130
+msgid "SAMSUNG"
+msgstr ""
+
+#: front-page.php:290
+msgid "Samsung"
+msgstr ""
+
+#. Name of the theme
+msgid "Shoptimizer Child"
+msgstr ""
+
+#: inc/config/customizer-footer.php:212
+msgid "Shortcode Contact Form 7"
+msgstr ""
+
+#: front-page.php:325
+msgid "TECNO"
+msgstr ""
+
+#: inc/config/customizer-footer.php:160
+msgid "Telegram"
+msgstr ""
+
+#: inc/core/nav-menus.php:22
+msgid "Top Header Menu"
+msgstr ""
+
+#: front-page.php:315
+msgid "VIVO"
+msgstr ""
+
+#: inc/config/customizer-footer.php:159
+msgid "VKontakte"
+msgstr ""
+
+#: inc/config/customizer-footer.php:161
+msgid "WhatsApp"
+msgstr ""
+
+#: inc/header-functions.php:341
+msgid "WhatsApp номер"
+msgstr ""
+
+#: front-page.php:295
+msgid "Xiaomi"
+msgstr ""
+
+#: inc/header-functions.php:141
+msgid "XIAOMI/REDMI"
+msgstr ""
+
+#: inc/header-functions.php:34 inc/header-functions.php:126
+#: inc/helpers/utilities.php:43
+msgid "АКБ для Huawei, Honor"
+msgstr ""
+
+#: inc/header-functions.php:35 inc/header-functions.php:171
+#: inc/helpers/utilities.php:44
+msgid "АКБ для iPad"
+msgstr ""
+
+#: inc/header-functions.php:36 inc/header-functions.php:159
+#: inc/helpers/utilities.php:45
+msgid "АКБ для iPhone"
+msgstr ""
+
+#: inc/header-functions.php:37 inc/header-functions.php:172
+#: inc/helpers/utilities.php:46
+msgid "АКБ для Nokia"
+msgstr ""
+
+#: inc/header-functions.php:38 inc/header-functions.php:137
+#: inc/helpers/utilities.php:47
+msgid "АКБ для Samsung"
+msgstr ""
+
+#: inc/header-functions.php:39 inc/header-functions.php:148
+#: inc/helpers/utilities.php:48
+msgid "АКБ для Xiaomi, Redmi"
+msgstr ""
+
+#: inc/header-functions.php:183
+msgid "АКСЕССУАРЫ"
+msgstr ""
+
+#: inc/config/customizer-footer.php:129
+msgid "Адрес"
+msgstr ""
+
+#: footer.php:129
+msgid "Адрес:"
+msgstr ""
+
+#: inc/header-functions.php:32 inc/helpers/utilities.php:41
+msgid "Аккумуляторы"
+msgstr ""
+
+#: front-page.php:58
+msgid "Быстрая доставка запчастей"
+msgstr ""
+
+#: front-page.php:66
+msgid "Быстрая доставка и удобный самовывоз"
+msgstr ""
+
+#: footer.php:227 footer.php:259 inc/core/enqueue.php:161
+msgid "Введите email"
+msgstr ""
+
+#: inc/admin/notices.php:24
+msgid ""
+"Внимание: Дочерняя тема Shoptimizer Child оптимизирована для работы с "
+"WooCommerce. Рекомендуется установить и активировать плагин WooCommerce."
+msgstr ""
+
+#: footer.php:351
+msgid "Все права защищены."
+msgstr ""
+
+#: inc/config/customizer-footer.php:215
+msgid "Вставьте shortcode формы CF7, например: [contact-form-7 id=\"123\"]"
+msgstr ""
+
+#: front-page.php:275
+msgid "Выберите бренд вашего устройства и найдите нужные запчасти"
+msgstr ""
+
+#: front-page.php:69
+msgid "Выберите наиболее удобный способ получения заказа"
+msgstr ""
+
+#: footer.php:334
+msgid "Гарантия"
+msgstr ""
+
+#: front-page.php:97
+msgid "Гарантия качества на все комплектующие"
+msgstr ""
+
+#: header.php:427
+msgid "Главная"
+msgstr ""
+
+#: front-page.php:19
+msgid "Главные предложения"
+msgstr ""
+
+#: inc/config/menus.php:24
+msgid "Горизонтальное меню"
+msgstr ""
+
+#: inc/header-functions.php:163
+msgid "ДРУГИЕ БРЕНДЫ"
+msgstr ""
+
+#: inc/header-functions.php:158
+msgid "Динамики, Звонки, Вибро для iPhone"
+msgstr ""
+
+#: inc/header-functions.php:45 inc/header-functions.php:125
+#: inc/helpers/utilities.php:54
+msgid "Дисплей Huawei, Honor"
+msgstr ""
+
+#: inc/header-functions.php:46 inc/header-functions.php:166
+#: inc/helpers/utilities.php:55
+msgid "Дисплей Infinix"
+msgstr ""
+
+#: inc/header-functions.php:47 inc/header-functions.php:157
+#: inc/helpers/utilities.php:56
+msgid "Дисплей iPhone"
+msgstr ""
+
+#: inc/header-functions.php:48 inc/header-functions.php:167
+#: inc/helpers/utilities.php:57
+msgid "Дисплей Oppo"
+msgstr ""
+
+#: inc/header-functions.php:49 inc/header-functions.php:168
+#: inc/helpers/utilities.php:58
+msgid "Дисплей Realme"
+msgstr ""
+
+#: inc/header-functions.php:50 inc/header-functions.php:147
+#: inc/helpers/utilities.php:59
+msgid "Дисплей Redmi, Xiaomi"
+msgstr ""
+
+#: inc/header-functions.php:51 inc/header-functions.php:136
+#: inc/helpers/utilities.php:60
+msgid "Дисплей Samsung"
+msgstr ""
+
+#: inc/header-functions.php:52 inc/header-functions.php:169
+#: inc/helpers/utilities.php:61
+msgid "Дисплей Tecno"
+msgstr ""
+
+#: inc/header-functions.php:53 inc/header-functions.php:170
+#: inc/helpers/utilities.php:62
+msgid "Дисплей Vivo"
+msgstr ""
+
+#: inc/header-functions.php:43 inc/helpers/utilities.php:52
+msgid "Дисплей/Экраны/LCD"
+msgstr ""
+
+#: inc/header-functions.php:59 inc/helpers/utilities.php:68
+msgid "Для Honor, Huawei"
+msgstr ""
+
+#: inc/header-functions.php:124
+msgid "Для Honor, Huawei (корпуса)"
+msgstr ""
+
+#: inc/header-functions.php:60 inc/helpers/utilities.php:69
+msgid "Для Iphone"
+msgstr ""
+
+#: inc/header-functions.php:156
+msgid "Для Iphone (корпуса)"
+msgstr ""
+
+#: inc/header-functions.php:61 inc/helpers/utilities.php:70
+msgid "Для Redmi, Xiaomi"
+msgstr ""
+
+#: inc/header-functions.php:146
+msgid "Для Redmi, Xiaomi (корпуса)"
+msgstr ""
+
+#: inc/header-functions.php:62 inc/helpers/utilities.php:71
+msgid "Для Samsung"
+msgstr ""
+
+#: inc/header-functions.php:135
+msgid "Для Samsung (корпуса)"
+msgstr ""
+
+#: footer.php:303
+msgid "Дополнительно"
+msgstr ""
+
+#: header.php:44 header.php:51
+msgid "Дополнительное меню"
+msgstr ""
+
+#: front-page.php:150
+msgid "Дополнительные предложения"
+msgstr ""
+
+#: footer.php:333
+msgid "Доставка и оплата"
+msgstr ""
+
+#. Description of the theme
+msgid ""
+"Дочерняя тема для Shoptimizer, оптимизированная для WooCommerce с мобильной "
+"навигацией."
+msgstr ""
+
+#: footer.php:57 header.php:102
+msgid "ЗАПЧАСТИ ДЛЯ МОБИЛЬНЫХ"
+msgstr ""
+
+#: header.php:262
+msgid "ЗАПЧАСТИ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ И КОМПЬЮТЕРОВ"
+msgstr ""
+
+#: inc/config/customizer-footer.php:53
+msgid "Заголовок для секции \"О компании\""
+msgstr ""
+
+#: inc/config/customizer-footer.php:50
+msgid "Заголовок секции"
+msgstr ""
+
+#: inc/header-functions.php:57 inc/helpers/utilities.php:66
+msgid "Задняя крышка, Рамка, Корпус"
+msgstr ""
+
+#: header.php:124
+msgid "Закрыть каталог"
+msgstr ""
+
+#: header.php:347 inc/core/enqueue.php:138
+msgid "Закрыть меню"
+msgstr ""
+
+#: header.php:439 header.php:444
+msgid "Избранное"
+msgstr ""
+
+#: front-page.php:126 front-page.php:238
+msgid "Индикаторы слайдов"
+msgstr ""
+
+#: footer.php:307
+msgid "Как оформить заказ"
+msgstr ""
+
+#: inc/core/enqueue.php:148
+msgid "Карусель изображений"
+msgstr ""
+
+#: header.php:117 header.php:433
+msgid "Каталог"
+msgstr ""
+
+#: front-page.php:267 front-page.php:272
+msgid "Каталог запчастей по брендам"
+msgstr ""
+
+#: header.php:120 header.php:123
+msgid "Каталог товаров"
+msgstr ""
+
+#: front-page.php:30
+msgid "Качественные запчасти для мобильных телефонов"
+msgstr ""
+
+#: footer.php:69
+msgid ""
+"Качественные запчасти для мобильных телефонов и компьютеров с гарантией и "
+"быстрой доставкой по России."
+msgstr ""
+
+#: front-page.php:38
+msgid "Качественные запчасти для мобильных телефонов с гарантией"
+msgstr ""
+
+#: inc/config/customizer-footer.php:58 inc/config/customizer-footer.php:247
+msgid ""
+"Качественные запчасти для мобильных телефонов с гарантией качества и быстрой "
+"доставкой по всей стране."
+msgstr ""
+
+#: front-page.php:203 front-page.php:211
+msgid "Консультации по установке запчастей"
+msgstr ""
+
+#: inc/header-functions.php:318 inc/config/customizer-footer.php:102
+#: inc/config/customizer-contact-info.php:24
+msgid "Контактная информация"
+msgstr ""
+
+#: footer.php:89 footer.php:310
+msgid "Контакты"
+msgstr ""
+
+#: header.php:210 header.php:456
+msgid "Корзина"
+msgstr ""
+
+#: inc/core/enqueue.php:136
+msgid "Корзина пуста"
+msgstr ""
+
+#: inc/config/customizer-footer.php:67
+msgid "Краткое описание вашей компании"
+msgstr ""
+
+#: front-page.php:349
+#, php-format
+msgid "Логотип %s"
+msgstr ""
+
+#: footer.php:46 header.php:96 header.php:256
+msgid "МИКЗ"
+msgstr ""
+
+#: inc/config/menus.php:23
+msgid "Мега-меню каталога"
+msgstr ""
+
+#: inc/header-functions.php:68 inc/header-functions.php:122
+#: inc/helpers/utilities.php:77
+msgid "Межплатный шлейф Honor Huawei"
+msgstr ""
+
+#: inc/header-functions.php:69 inc/header-functions.php:133
+#: inc/helpers/utilities.php:78
+msgid "Межплатный шлейф Samsung"
+msgstr ""
+
+#: inc/header-functions.php:70 inc/header-functions.php:144
+#: inc/helpers/utilities.php:79
+msgid "Межплатный шлейф Xiaomi Redmi"
+msgstr ""
+
+#: header.php:422
+msgid "Мобильная навигация"
+msgstr ""
+
+#: inc/config/menus.php:22
+msgid "Мобильная нижняя навигация"
+msgstr ""
+
+#: inc/config/menus.php:25
+msgid "Мобильное меню (аккордеон)"
+msgstr ""
+
+#: footer.php:139
+msgid "Мы в соцсетях:"
+msgstr ""
+
+#: footer.php:30 header.php:77 header.php:238
+msgid "На главную страницу"
+msgstr ""
+
+#: header.php:176 header.php:311
+msgid "Найти"
+msgstr ""
+
+#: header.php:277
+msgid "Написать в WhatsApp"
+msgstr ""
+
+#: inc/config/customizer-footer.php:28
+msgid "Настройка всех элементов футера сайта"
+msgstr ""
+
+#: inc/config/customizer-footer.php:27
+msgid "Настройки футера"
+msgstr ""
+
+#: front-page.php:157 front-page.php:165
+msgid "Новые поступления запчастей для iPhone"
+msgstr ""
+
+#: inc/header-functions.php:329 inc/config/customizer-contact-info.php:37
+msgid "Номер телефона"
+msgstr ""
+
+#: inc/config/customizer-footer.php:37
+msgid "О компании"
+msgstr ""
+
+#: inc/config/customizer-footer.php:44 inc/config/customizer-footer.php:240
+msgid "О магазине"
+msgstr ""
+
+#: footer.php:66
+msgid "О нас"
+msgstr ""
+
+#: inc/header-functions.php:176
+msgid "ОБОРУДОВАНИЕ"
+msgstr ""
+
+#: inc/core/enqueue.php:165
+msgid "Обнаружена подозрительная активность"
+msgstr ""
+
+#: inc/config/customizer-footer.php:64
+msgid "Описание компании"
+msgstr ""
+
+#: inc/config/customizer-footer.php:198
+msgid "Описание рассылки"
+msgstr ""
+
+#: footer.php:308
+msgid "Оплата и доставка"
+msgstr ""
+
+#: header.php:323
+msgid "Основное меню"
+msgstr ""
+
+#: inc/config/customizer-footer.php:118
+msgid "Основной email для связи"
+msgstr ""
+
+#: front-page.php:23
+msgid "Основные предложения"
+msgstr ""
+
+#: header.php:431
+msgid "Открыть каталог"
+msgstr ""
+
+#: header.php:293 inc/core/enqueue.php:137
+msgid "Открыть меню"
+msgstr ""
+
+#: inc/core/enqueue.php:163
+msgid "Ошибка подписки. Попробуйте позже."
+msgstr ""
+
+#: inc/admin/notices.php:31
+msgid ""
+"Ошибка: Эта тема является дочерней темой и требует родительскую тему "
+"Shoptimizer."
+msgstr ""
+
+#: footer.php:294
+msgid "Первыми узнавайте о новинках"
+msgstr ""
+
+#: front-page.php:47
+msgid "Перейти в каталог"
+msgstr ""
+
+#: front-page.php:343
+#, php-format
+msgid "Перейти к категории %s - %s"
+msgstr ""
+
+#: inc/header-functions.php:71 inc/header-functions.php:123
+#: inc/helpers/utilities.php:80
+msgid "Плата зарядки Honor Huawei"
+msgstr ""
+
+#: inc/header-functions.php:72 inc/header-functions.php:134
+#: inc/helpers/utilities.php:81
+msgid "Плата зарядки Samsung"
+msgstr ""
+
+#: inc/header-functions.php:73 inc/header-functions.php:145
+#: inc/helpers/utilities.php:82
+msgid "Плата зарядки Xiaomi Redmi"
+msgstr ""
+
+#: footer.php:79 inc/config/customizer-footer.php:85
+msgid "Пн-Пт: 9:00-18:00, Сб-Вс: 10:00-16:00"
+msgstr ""
+
+#: footer.php:245 footer.php:277
+msgid "Подписаться"
+msgstr ""
+
+#: footer.php:172
+msgid "Подписка на новости"
+msgstr ""
+
+#: inc/config/customizer-footer.php:185
+msgid "Подписка на рассылку"
+msgstr ""
+
+#: footer.php:176 inc/config/customizer-footer.php:192
+#: inc/config/customizer-footer.php:255
+msgid ""
+"Подпишитесь на нашу рассылку и получайте информацию о новых товарах и акциях"
+msgstr ""
+
+#: front-page.php:192
+msgid "Подробнее"
+msgstr ""
+
+#: header.php:230
+msgid "Позвонить"
+msgstr ""
+
+#: header.php:172 header.php:307 inc/core/enqueue.php:135
+msgid "Поиск товара..."
+msgstr ""
+
+#: header.php:167 header.php:302
+msgid "Поиск товаров:"
+msgstr ""
+
+#: inc/config/customizer-footer.php:226
+msgid "Показывать преимущества подписки"
+msgstr ""
+
+#: inc/config/customizer-footer.php:78
+msgid "Показывать режим работы"
+msgstr ""
+
+#: inc/config/customizer-footer.php:152
+msgid "Показывать социальные сети"
+msgstr ""
+
+#: footer.php:328 footer.php:330
+msgid "Политика конфиденциальности"
+msgstr ""
+
+#: footer.php:317
+msgid "Политики"
+msgstr ""
+
+#: front-page.php:380
+msgid "Популярные товары"
+msgstr ""
+
+#: footer.php:157
+#, php-format
+msgid "Посетить наш %s"
+msgstr ""
+
+#: header.php:208
+msgid "Посмотреть корзину"
+msgstr ""
+
+#: front-page.php:114 front-page.php:226 inc/core/enqueue.php:145
+msgid "Предыдущий слайд"
+msgstr ""
+
+#: front-page.php:94
+msgid "Проверенные запчасти от надежных поставщиков"
+msgstr ""
+
+#: front-page.php:86
+msgid "Проверенные запчасти с гарантией"
+msgstr ""
+
+#: inc/core/enqueue.php:164
+msgid "Проверьте правильность заполнения полей"
+msgstr ""
+
+#: header.php:450
+msgid "Профиль"
+msgstr ""
+
+#: footer.php:76 inc/config/customizer-footer.php:91
+#: inc/config/customizer-contact-info.php:79
+msgid "Режим работы"
+msgstr ""
+
+#: inc/header-functions.php:186
+msgid "СЗУ"
+msgstr ""
+
+#: front-page.php:180 front-page.php:188
+msgid "Скидки на дисплеи Samsung"
+msgstr ""
+
+#: inc/core/enqueue.php:147
+msgid "Слайд"
+msgstr ""
+
+#: front-page.php:131 front-page.php:243
+msgid "Слайд 1"
+msgstr ""
+
+#: front-page.php:137 front-page.php:249
+msgid "Слайд 2"
+msgstr ""
+
+#: front-page.php:143 front-page.php:255
+msgid "Слайд 3"
+msgstr ""
+
+#: front-page.php:120 front-page.php:232 inc/core/enqueue.php:146
+msgid "Следующий слайд"
+msgstr ""
+
+#: front-page.php:169
+msgid "Смотреть"
+msgstr ""
+
+#: front-page.php:103
+msgid "Смотреть товары"
+msgstr ""
+
+#: inc/config/customizer-footer.php:139
+msgid "Социальные сети"
+msgstr ""
+
+#: inc/core/enqueue.php:162
+msgid "Спасибо за подписку!"
+msgstr ""
+
+#: inc/header-functions.php:179
+msgid "Спреи, жидкости, очистители"
+msgstr ""
+
+#: footer.php:309
+msgid "Статьи"
+msgstr ""
+
+#: footer.php:61 header.php:103
+msgid "ТЕЛЕФОНОВ И КОМПЬЮТЕРОВ"
+msgstr ""
+
+#: inc/config/customizer-footer.php:201
+msgid "Текст-приглашение к подписке"
+msgstr ""
+
+#: footer.php:103
+msgid "Телефон:"
+msgstr ""
+
+#: front-page.php:383
+msgid "Топ товаров, основанный на отзывах покупателей"
+msgstr ""
+
+#: front-page.php:215
+msgid "Узнать"
+msgstr ""
+
+#: front-page.php:75
+msgid "Узнать подробнее"
+msgstr ""
+
+#: inc/config/customizer-contact-info.php:25
+msgid "Управление контактными данными, отображаемыми в шапке и подвале сайта."
+msgstr ""
+
+#: footer.php:322 footer.php:324
+msgid "Условия использования"
+msgstr ""
+
+#: inc/config/customizer-contact-info.php:65
+msgid "Физический адрес"
+msgstr ""
+
+#: inc/config/customizer-footer.php:289
+msgid "Футер - Дополнительные ссылки"
+msgstr ""
+
+#: inc/config/customizer-footer.php:288
+msgid "Футер - Каталог"
+msgstr ""
+
+#: front-page.php:41
+msgid "Широкий ассортимент деталей для всех популярных брендов"
+msgstr ""
+
+#: inc/header-functions.php:74 inc/header-functions.php:155
+#: inc/helpers/utilities.php:83
+msgid "Шлейф зарядки Iphone"
+msgstr ""
+
+#: inc/helpers/utilities.php:75
+msgid "Шлейфа Платы"
+msgstr ""
+
+#: inc/header-functions.php:66
+msgid "Шлейфы Платы"
+msgstr ""
+
+#: footer.php:290
+msgid "Эксклюзивные скидки"
+msgstr ""
+
+#: footer.php:239 footer.php:271
+msgid "Я согласен(на) на обработку персональных данных и получение рассылки"
+msgstr ""
+
+#: footer.php:96 inc/config/customizer-footer.php:123
+msgid "г. Москва, ул. Примерная, д. 123"
+msgstr ""
+
+#: front-page.php:286
+msgid "запчасти для iPhone/iPad"
+msgstr ""
+
+#: front-page.php:291
+msgid "запчасти для телефонов Galaxy"
+msgstr ""
+
+#: front-page.php:301
+msgid "запчасти для телефонов Huawei, Honor"
+msgstr ""
+
+#: front-page.php:321
+msgid "запчасти для телефонов Infinix"
+msgstr ""
+
+#: front-page.php:306
+msgid "запчасти для телефонов OPPO"
+msgstr ""
+
+#: front-page.php:311
+msgid "запчасти для телефонов Realme"
+msgstr ""
+
+#: front-page.php:296
+msgid "запчасти для телефонов Redmi, Poco"
+msgstr ""
+
+#: front-page.php:326
+msgid "запчасти для телефонов TECNO"
+msgstr ""
+
+#: front-page.php:316
+msgid "запчасти для телефонов VIVO"
+msgstr ""
