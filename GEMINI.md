@@ -200,7 +200,9 @@ Follow WordPress coding standards and WooCommerce best practices
 Ensure compatibility with latest WordPress and WooCommerce versions
 Ensure compatibility with Shoptimizer theme and Wordfence, Elementor plugins. We developing our project using Shoptimizer child theme synchronize goods using the МойСклад Cloud ERP system. We are developing a ready-to-use production project of Ecommerce Store for selling smartphones spare parts that will be used by beginners in WordPress Woocommerce.
 
-Always pay attention that styles may cause conflicts or could be rewritten by the files: https://mix.coiv.ru/wp-content/themes/shoptimizer/assets/css/main/main.min.css?ver=2.9.0; https://mix.coiv.ru/wp-content/themes/shoptimizer-child/style.css?ver=1.0.1. 
+Always pay attention that styles may cause conflicts or could be rewritten by the files: 
+/shoptimizer/assets/css/main/main.min.css?ver=2.9.0; 
+/shoptimizer-child/style.css?ver=1.0.1. 
 Don't duplicate the code: check the edited file that may already contain the code you're going to provide.
 Before providing any code solutions, give explanations how you are going to implement the given task and ask whether everything’s ok or some changes should be made.
 Avoid using comments (“FIXED”, “ADDED” etc.) that do not comply with the principles of production-ready code.

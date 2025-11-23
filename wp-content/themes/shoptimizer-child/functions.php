@@ -54,6 +54,8 @@ require_once get_stylesheet_directory() . '/inc/features/blog-enhancements.php';
 require_once get_stylesheet_directory() . '/inc/features/query-modifications.php';
 require_once get_stylesheet_directory() . '/inc/mobile-nav.php';
 require_once get_stylesheet_directory() . '/inc/template-tags.php';
+require_once get_stylesheet_directory() . '/inc/widget-clear-filters.php';
+require_once get_stylesheet_directory() . '/inc/widget-custom-price-filter.php';
 
 
 // Интеграции с плагинами (только если плагины активны)
@@ -92,3 +94,12 @@ foreach ( $additional_files as $file ) {
 	    		require_once $filepath;
 	    	}
 	    }
+
+/**
+ * Register custom widgets.
+ */
+function mkx_register_custom_widgets() {
+	register_widget( 'MKX_Widget_Clear_Filters' );
+	register_widget( 'MKX_Widget_Custom_Price_Filter' );
+}
+add_action( 'widgets_init', 'mkx_register_custom_widgets' );

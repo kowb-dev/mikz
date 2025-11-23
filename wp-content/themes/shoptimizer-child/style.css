@@ -1903,3 +1903,98 @@ transform: translateX(10%)!important;
 .page-id-10 .wc-block-grid__product-add-to-cart.wp-block-button .wc-block-components-product-button__button, .wc-block-grid__product-add-to-cart.wp-block-button a.wp-block-button__link{
 margin-bottom: -4rem!important;
 }
+
+/* Make the selected attribute text bold */
+.woocommerce-widget-layered-nav-list__item--chosen a {
+    font-weight: bold;
+}
+
+/* Hide the product count */
+.woocommerce-widget-layered-nav-list .count {
+    display: none;
+}
+
+/* Style for the Clear Filters button */
+.mkx-clear-filters-widget .mkx-clear-filters-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: var(--space-md) var(--space-lg);
+    background-color: var(--mkx-primary);
+    color: var(--mkx-white)!important;
+    border: 1px solid var(--mkx-primary);
+    border-radius: var(--radius-md);
+    font-weight: var(--mkx-font-regular); /* Changed to regular */
+    text-transform: uppercase; /* Added uppercase */
+    text-decoration: none;
+    transition: background-color var(--mkx-transition-fast) var(--mkx-ease), border-color var(--mkx-transition-fast) var(--mkx-ease);
+    margin-top: var(--space-lg); /* Add some space above the button */
+}
+
+.mkx-clear-filters-widget .mkx-clear-filters-button:hover {
+    background-color: var(--mkx-primary-dark);
+    border-color: var(--mkx-primary-dark);
+}
+
+/* Custom Price Filter Widget Styling */
+.mkx-custom-price-filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+}
+
+.mkx-custom-price-filter-form .price-inputs {
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-end; /* Align labels at the bottom */
+}
+
+.mkx-custom-price-filter-form .price-input-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.mkx-custom-price-filter-form .price-input-group label {
+    font-size: var(--fs-xs);
+    color: var(--mkx-text-secondary);
+    margin-bottom: var(--space-xs);
+    text-transform: uppercase;
+    font-weight: var(--mkx-font-semibold);
+}
+
+.mkx-custom-price-filter-form .price-input-group input[type="number"] {
+    width: 100%;
+    padding: var(--space-sm);
+    border: 1px solid var(--mkx-border-primary);
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-base);
+    -moz-appearance: textfield; /* Firefox */
+}
+
+/* Remove up/down arrows for number input */
+.mkx-custom-price-filter-form .price-input-group input[type="number"]::-webkit-outer-spin-button,
+.mkx-custom-price-filter-form .price-input-group input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.mkx-custom-price-filter-form .button {
+    width: 100%;
+    padding: var(--space-md);
+    margin-top: var(--space-md);
+    background-color: var(--mkx-primary);
+    color: var(--mkx-white)!important;
+    border: 1px solid var(--mkx-primary);
+    border-radius: var(--radius-md);
+    font-weight: var(--mkx-font-regular);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color var(--mkx-transition-fast) var(--mkx-ease), border-color var(--mkx-transition-fast) var(--mkx-ease);
+}
+
+.mkx-custom-price-filter-form .button:hover {
+    background-color: var(--mkx-primary-dark);
+    border-color: var(--mkx-primary-dark);
+}
