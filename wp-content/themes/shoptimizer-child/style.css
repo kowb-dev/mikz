@@ -1998,3 +1998,39 @@ margin-bottom: -4rem!important;
     background-color: var(--mkx-primary-dark);
     border-color: var(--mkx-primary-dark);
 }
+
+.woocommerce.archive.left-woocommerce-sidebar .secondary-wrapper {
+    margin-top: 5rem!important;
+}
+button.button.mkx-filter-button {
+    background-color: var(--mkx-white);
+    border: 1px solid var(--mkx-primary)!important;
+    color: var(--mkx-text-secondary)!important;
+}
+
+button.button.mkx-filter-button:hover {
+    background-color: var(--mkx-white)!important;
+     border: 3px solid var(--mkx-primary)!important;
+     color: var(--mkx-text-primary)!important;
+     
+
+}
+/*
+==============================================================================
+  FIX: WOOCOMMERCE NO PRODUCTS FOUND LAYOUT (v1.0.3)
+==============================================================================
+*/
+
+.woocommerce-no-products-found {
+    width: 100%;
+}
+
+/*
+==============================================================================
+  FIX: WOOCOMMERCE NO PRODUCTS FOUND LAYOUT (v1.0.3)
+==============================================================================
+*/
+
+.woocommerce-no-products-found {
+    width: 100%;
+}

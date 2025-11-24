@@ -70,7 +70,7 @@ class MKX_Widget_Custom_Price_Filter extends WP_Widget {
 					<input type="number" id="max_price" name="max_price" value="<?php echo esc_attr( $current_max_price ); ?>" placeholder="<?php esc_attr_e( 'Макс', 'shoptimizer-child' ); ?>" />
 				</div>
 			</div>
-			<button type="submit" class="button"><?php esc_html_e( 'Фильтровать', 'shoptimizer-child' ); ?></button>
+			<button type="submit" class="button mkx-filter-button"><?php esc_html_e( 'Фильтровать', 'shoptimizer-child' ); ?></button>
 			<?php echo wc_query_string_form_fields( null, array( 'min_price', 'max_price', 'paged' ), '', true ); ?>
 		</form>
 
