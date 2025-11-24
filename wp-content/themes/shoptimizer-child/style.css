@@ -2068,7 +2068,14 @@ c
     display: block;
 }
 
-
+.site-content .widget li, .widget li {
+    font-size: var(--fs-sm)!important;
+    line-height: var(--mkx-lh-none)!important;
+}
+.widget .widget-title {
+    text-transform: uppercase;
+    font-weight: var(--mkx-font-bold);
+}
 /* Убираем все возможные конфликты */
 .woocommerce.archive #content {
     display: flex !important;
