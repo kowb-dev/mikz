@@ -2013,7 +2013,7 @@ button.button.mkx-filter-button:hover {
      border: 3px solid var(--mkx-primary)!important;
      color: var(--mkx-text-primary)!important;
      
-
+c
 }
 /*
 ==============================================================================
@@ -2027,10 +2027,101 @@ button.button.mkx-filter-button:hover {
 
 /*
 ==============================================================================
-  FIX: WOOCOMMERCE NO PRODUCTS FOUND LAYOUT (v1.0.3)
+  FIX: WOOCOMMERCE NO PRODUCTS FOUND LAYOUT (v1.0.4)
 ==============================================================================
 */
+.woocommerce.archive:not(.no-woocommerce-sidebar) #content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
 
-.woocommerce-no-products-found {
-    width: 100%;
+.woocommerce.archive:not(.no-woocommerce-sidebar) #primary {
+    flex: 1;
+    min-width: 0;
+}
+
+.woocommerce.archive:not(.no-woocommerce-sidebar) .secondary-wrapper {
+    flex: 0 0 280px;
+    width: 280px;
+}
+
+/* Re-apply ordering for sidebars when class is present */
+.woocommerce.archive.left-woocommerce-sidebar #primary {
+    order: 2;
+}
+
+.woocommerce.archive.left-woocommerce-sidebar .secondary-wrapper {
+    order: 1;
+}
+
+.woocommerce.archive.right-woocommerce-sidebar #primary {
+    order: 1;
+}
+
+.woocommerce.archive.right-woocommerce-sidebar .secondary-wrapper {
+    order: 2;
+}
+
+/* If no sidebar, content should be full width */
+.woocommerce.archive.no-woocommerce-sidebar #content {
+    display: block;
+}
+
+
+/* Убираем все возможные конфликты */
+.woocommerce.archive #content {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    gap: 2rem !important;
+    max-width: var(--container-max) !important;
+    margin: 0 auto !important;
+    padding: 0 1rem !important;
+    width: 100% !important;
+}
+
+/* Сайдбар - фиксированная ширина слева */
+.woocommerce.archive .secondary-wrapper,
+.woocommerce.archive #secondary {
+    order: 1 !important;
+    flex: 0 0 280px !important;
+    width: 280px !important;
+    min-width: 280px !important;
+    max-width: 280px !important;
+    margin: 0 !important;
+    float: none !important;
+}
+
+/* Основной контент - занимает оставшееся место */
+.woocommerce.archive #primary,
+.woocommerce.archive .content-area {
+    order: 2 !important;
+    flex: 1 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    float: none !important;
+    display: block !important;
+}
+
+/* Дополнительные правила для контента */
+.woocommerce.archive #primary .site-main {
+    width: 100% !important;
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .woocommerce.archive #content {
+        flex-direction: column !important;
+    }
+    
+    .woocommerce.archive .secondary-wrapper,
+    .woocommerce.archive #secondary {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 auto !important;
+    }
 }
