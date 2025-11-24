@@ -1,0 +1,191 @@
+/* =============================================================================
+   LAYOUT SYSTEM
+   ============================================================================= */
+
+/* =============================================================================
+   CONTAINERS
+   ============================================================================= */
+
+.mkx-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+.mkx-container--narrow {
+    max-width: var(--container-narrow);
+}
+
+.mkx-container--wide {
+    max-width: var(--container-wide);
+}
+
+.mkx-site-content {
+    max-width: var(--container-max);
+    margin: 0 auto;
+}
+
+/* =============================================================================
+   COL-FULL (PARENT THEME OVERRIDE)
+   ============================================================================= */
+
+.col-full {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.woocommerce.archive .col-full {
+    max-width: var(--container-max);
+}
+
+/* =============================================================================
+   WOOCOMMERCE ARCHIVE LAYOUT
+   ============================================================================= */
+
+/* Main flex container for archive pages */
+.woocommerce.archive #content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 2rem;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+/* Sidebar - fixed width on left */
+.woocommerce.archive .secondary-wrapper,
+.woocommerce.archive #secondary {
+    order: 1;
+    flex: 0 0 280px;
+    width: 280px;
+    min-width: 280px;
+    max-width: 280px;
+    margin: 0;
+    margin-top: 5rem;
+    float: none;
+}
+
+/* Main content - takes remaining space */
+.woocommerce.archive #primary,
+.woocommerce.archive .content-area {
+    order: 2;
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    margin: 0;
+    float: none;
+    display: block;
+}
+
+.woocommerce.archive #primary .site-main {
+    width: 100%;
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+    .woocommerce.archive #content {
+        flex-direction: column;
+    }
+    
+    .woocommerce.archive .secondary-wrapper,
+    .woocommerce.archive #secondary {
+        width: 100%;
+        max-width: 100%;
+        flex: 1 1 auto;
+        margin-top: 0;
+    }
+
+    .woocommerce.archive .col-full {
+        padding: 0;
+        width: 100%;
+    }
+}
+
+/* =============================================================================
+   CONTENT AREA
+   ============================================================================= */
+
+.content-area {
+    display: flex;
+    float: none;
+    justify-content: center;
+}
+
+/* Single product layout exceptions */
+.single-product .content-area {
+    width: 100%;
+    margin-left: 0;
+}
+
+/* Specific page overrides */
+.page-id-10 .mkx-site-content {
+    margin: 0;
+    transform: translateX(10%);
+}
+
+.page-id-10 .content-area {
+    flex-direction: column;
+}
+
+.page-id-3111 .content-area {
+    display: flex;
+    float: none;
+    justify-content: center;
+}
+
+/* Narrow content for specific pages */
+.post-12 {
+    max-width: var(--container-narrow);
+    margin: 0 auto;
+}
+
+/* =============================================================================
+   CATEGORY/BRAND PAGES WITHOUT SIDEBAR
+   ============================================================================= */
+
+.term-243 .secondary-wrapper,
+.term-244 .secondary-wrapper,
+.term-250 .secondary-wrapper,
+.term-249 .secondary-wrapper,
+.term-248 .secondary-wrapper,
+.term-247 .secondary-wrapper,
+.term-246 .secondary-wrapper,
+.term-241 .secondary-wrapper,
+.term-242 .secondary-wrapper {
+    display: none;
+}
+
+/* =============================================================================
+   MOBILE OPTIMIZATIONS
+   ============================================================================= */
+
+@media (max-width: 768px) {
+    /* Ensure touch targets are large enough */
+    button,
+    input[type="button"],
+    input[type="submit"],
+    .button,
+    a {
+        min-height: 39px;
+        min-width: 39px;
+    }
+
+    /* Readable font size */
+    body {
+        font-size: var(--fs-base);
+        line-height: var(--mkx-lh-normal);
+    }
+
+    /* Prevent zoom on input focus (iOS) */
+    input,
+    textarea,
+    select {
+        font-size: 16px;
+    }
+}

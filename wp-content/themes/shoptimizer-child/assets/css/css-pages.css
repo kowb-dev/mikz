@@ -1,0 +1,166 @@
+/* =============================================================================
+   PAGE-SPECIFIC STYLES
+   ============================================================================= */
+
+/* =============================================================================
+   UNIFIED PAGE TITLES
+   ============================================================================= */
+
+.page .entry-title {
+    text-align: center;
+    font-size: var(--mkx-fs-h1);
+    margin: var(--space-xl) auto;
+    padding-bottom: var(--space-md);
+    border-bottom: 2px solid var(--mkx-primary-lighter);
+    position: relative;
+}
+
+/* =============================================================================
+   WARRANTY PAGE
+   ============================================================================= */
+
+.mkx-warranty-page {
+    width: 210mm;
+    height: auto;
+    margin: 0 auto;
+    padding: 20mm 25mm 20mm 30mm;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: black;
+    page-break-after: always;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .mkx-warranty-page {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        font-size: 10pt;
+        overflow: visible;
+    }
+}
+
+/* =============================================================================
+   BLOCKQUOTES IN CONTENT
+   ============================================================================= */
+
+.content-area blockquote {
+    background: var(--mkx-info-lighter);
+    padding: var(--space-lg) var(--space-xl) var(--space-px);
+    border-radius: var(--radius-md);
+    border-left: inset 5px var(--mkx-info-light);
+}
+
+/* =============================================================================
+   PRODUCT LIST VIEW (SHOP PAGE)
+   ============================================================================= */
+
+/* This class is on the <li> element itself */
+li.product-list-view-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    width: 100%;
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--mkx-border-primary);
+}
+
+/* Main container on shop page */
+body.post-type-archive-product.is-shop ul.products {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--mkx-border-primary);
+}
+
+/* Reset grid styles */
+li.product-list-view-item.product {
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    padding: var(--space-md);
+    margin: 0;
+    float: none;
+    width: 100%;
+}
+
+li.product-list-view-item.product:hover {
+    transform: none;
+    box-shadow: none;
+    background-color: var(--mkx-bg-secondary);
+}
+
+/* List view wrappers */
+.product-list-view-item .list-view-image {
+    width: 80px;
+    flex-shrink: 0;
+}
+
+.product-list-view-item .list-view-info {
+    flex-grow: 1;
+    padding-right: var(--space-md);
+}
+
+.product-list-view-item .list-view-price {
+    width: 120px;
+    flex-shrink: 0;
+    text-align: right;
+    font-weight: var(--mkx-font-bold);
+    font-size: var(--fs-lg);
+}
+
+.product-list-view-item .list-view-actions {
+    width: 160px;
+    flex-shrink: 0;
+}
+
+.product-list-view-item .list-view-wishlist {
+    width: 40px;
+    flex-shrink: 0;
+    text-align: right;
+}
+
+/* List view inner elements */
+.product-list-view-item .list-view-info a {
+    text-decoration: none;
+    color: var(--mkx-text-primary);
+}
+
+.product-list-view-item .list-view-info a:hover {
+    color: var(--mkx-primary);
+}
+
+.product-list-view-item .list-view-info .woocommerce-loop-product__title {
+    font-size: var(--fs-base);
+    min-height: 0;
+    margin: 0 0 var(--space-xs) 0;
+    padding: 0;
+}
+
+.product-list-view-item .stock {
+    font-size: var(--fs-xs);
+    color: var(--mkx-success);
+}
+
+.product-list-view-item .list-view-price .price {
+    margin: 0;
+}
+
+.product-list-view-item .list-view-actions .quantity {
+    margin: 0;
+}
+
+.product-list-view-item .list-view-actions .button {
+    margin-top: 0;
+}
+
+.product-list-view-item .list-view-wishlist .yith-wcwl-add-to-wishlist {
+    margin: 0;
+}

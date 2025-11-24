@@ -201,12 +201,12 @@ Ensure compatibility with latest WordPress and WooCommerce versions
 Ensure compatibility with Shoptimizer theme and Wordfence, Elementor plugins. We developing our project using Shoptimizer child theme synchronize goods using the МойСклад Cloud ERP system. We are developing a ready-to-use production project of Ecommerce Store for selling smartphones spare parts that will be used by beginners in WordPress Woocommerce.
 
 Always pay attention that styles may cause conflicts or could be rewritten by the files: 
-/shoptimizer/assets/css/main/main.min.css?ver=2.9.0; 
-/shoptimizer-child/style.css?ver=1.0.1. 
+/shoptimizer/assets/css/main/main.min.css; 
+/shoptimizer-child/style.css 
 Don't duplicate the code: check the edited file that may already contain the code you're going to provide.
 Before providing any code solutions, give explanations how you are going to implement the given task and ask whether everything’s ok or some changes should be made.
 Avoid using comments (“FIXED”, “ADDED” etc.) that do not comply with the principles of production-ready code.
 Avoid adding excessive code to the functions.php file; provide files for “inc” folder instead.
 For variable values, use the root located in the child theme's style.css file.
-Note: Avoid applying dark theme mode unless specifically requested. It is strictly forbidden to roll back changes unless you are asked to do so. Write comments in code in English. Theme author: KB, url: https://kowb.ru
+Note: Avoid applying dark theme mode unless specifically requested. It is strictly forbidden to roll back changes unless you are asked to do so. Write comments in code in English. Frontend and admin panel should be in Russian. Theme author: KB, url: https://kowb.ru
 Please answer in Russian
