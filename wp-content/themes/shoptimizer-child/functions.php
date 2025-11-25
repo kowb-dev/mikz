@@ -103,3 +103,5 @@ function mkx_register_custom_widgets() {
 	register_widget( 'MKX_Widget_Custom_Price_Filter' );
 }
 add_action( 'widgets_init', 'mkx_register_custom_widgets' );
+
+

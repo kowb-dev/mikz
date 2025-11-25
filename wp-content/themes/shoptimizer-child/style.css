@@ -2165,3 +2165,10 @@ c
 .woocommerce.archive .col-full {
     margin-top: 2rem!important;
 }
+
+a.added_to_cart.wc-forward {
+    display: none!important;
+}
+
+
+
