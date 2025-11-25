@@ -2132,3 +2132,26 @@ c
         flex: 1 1 auto !important;
     }
 }
+.mkx-woocommerce-product-search {
+    position: relative;
+}
+
+.mkx-search-clear {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: none;
+    padding: 0 10px;
+    font-size: 1.2em;
+    color: #777;
+    z-index: 1;
+}
+
+.mkx-search-clear:hover {
+    color: #333;
+}
+

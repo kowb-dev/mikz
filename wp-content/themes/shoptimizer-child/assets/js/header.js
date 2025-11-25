@@ -1015,3 +1015,35 @@
     });
 
 })();
+// Clear search field
+document.addEventListener("DOMContentLoaded", function() {
+    const searchForms = document.querySelectorAll(".mkx-woocommerce-product-search");
+
+    searchForms.forEach(form => {
+        const searchInput = form.querySelector(".mkx-search-field");
+        const clearButton = form.querySelector(".mkx-search-clear");
+
+        if (searchInput && clearButton) {
+            const toggleClearButton = () => {
+                if (searchInput.value) {
+                    clearButton.style.display = "block";
+                } else {
+                    clearButton.style.display = "none";
+                }
+            };
+
+            searchInput.addEventListener("input", toggleClearButton);
+
+            clearButton.addEventListener("click", () => {
+                searchInput.value = "";
+                toggleClearButton();
+                searchInput.focus();
+                const event = new Event("input", { bubbles: true });
+                searchInput.dispatchEvent(event);
+            });
+
+            toggleClearButton();
+        }
+    });
+});
+

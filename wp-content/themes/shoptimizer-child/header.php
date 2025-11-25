@@ -162,7 +162,7 @@
                 <!-- Search Bar -->
                 <div class="mkx-header-search">
 					<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-                        <form role="search" method="get" class="mkx-woocommerce-product-search" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+                        <form role="search" method="get" class="mkx-woocommerce-product-search mkx-search-clear-wrapper" action="<?php echo esc_url( home_url( '/' ) ); ?>">
                             <label for="woocommerce-product-search-field" class="mkx-screen-reader-text">
 								<?php esc_html_e( 'Поиск товаров:', 'shoptimizer-child' ); ?>
                             </label>
@@ -173,6 +173,9 @@
                                    value="<?php echo get_search_query(); ?>"
                                    name="s"
                                    autocomplete="off" />
+                            <button type="button" class="mkx-search-clear" aria-label="<?php esc_attr_e( 'Очистить', 'shoptimizer-child' ); ?>">
+                                <i class="ph ph-x" aria-hidden="true"></i>
+                            </button>
                             <button type="submit" class="mkx-search-submit" aria-label="<?php esc_attr_e( 'Найти', 'shoptimizer-child' ); ?>">
                                 <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
                             </button>
@@ -297,7 +300,7 @@
             <!-- Mobile Search -->
             <div class="mkx-mobile-search">
 				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
-                    <form role="search" method="get" class="mkx-woocommerce-product-search" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+                    <form role="search" method="get" class="mkx-woocommerce-product-search mkx-search-clear-wrapper" action="<?php echo esc_url( home_url( '/' ) ); ?>">
                         <label for="mobile-product-search-field" class="mkx-screen-reader-text">
 							<?php esc_html_e( 'Поиск товаров:', 'shoptimizer-child' ); ?>
                         </label>
@@ -308,6 +311,9 @@
                                value="<?php echo get_search_query(); ?>"
                                name="s"
                                autocomplete="off" />
+                        <button type="button" class="mkx-search-clear" aria-label="<?php esc_attr_e( 'Очистить', 'shoptimizer-child' ); ?>">
+                            <i class="ph ph-x" aria-hidden="true"></i>
+                        </button>
                         <button type="submit" class="mkx-search-submit" aria-label="<?php esc_attr_e( 'Найти', 'shoptimizer-child' ); ?>">
                             <i class="ph ph-magnifying-glass" aria-hidden="true"></i>
                         </button>

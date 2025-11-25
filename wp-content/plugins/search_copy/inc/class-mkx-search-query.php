@@ -174,40 +174,63 @@ class MKX_Search_Query {
             return $cached;
         }
 
-        // Get product IDs using the comprehensive search method
-        $product_ids = $this->get_product_ids_by_search($search_term, array('limit' => 100)); // Increased limit to get more products
+        global $wpdb;
 
-        if (empty($product_ids)) {
-            set_transient($cache_key, array(), HOUR_IN_SECONDS);
-            return array();
-        }
+        $search_term_like = '%' . $wpdb->esc_like($search_term) . '%';
 
-        // Now get all unique categories for these product IDs
-        $category_terms = wp_get_object_terms($product_ids, 'product_cat');
-        
+        $sql = "
+            SELECT DISTINCT t.term_id, t.name, t.slug
+            FROM {$wpdb->terms} t
+            INNER JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id
+            INNER JOIN {$wpdb->term_relationships} tr ON tt.term_taxonomy_id = tr.term_taxonomy_id
+            INNER JOIN {$wpdb->posts} p ON tr.object_id = p.ID
+            WHERE tt.taxonomy = 'product_cat'
+            AND p.post_type = 'product'
+            AND p.post_status = 'publish'
+            AND (
+                t.name LIKE %s
+                OR t.slug LIKE %s
+                OR p.post_title LIKE %s
+                OR EXISTS (
+                    SELECT 1 FROM {$wpdb->postmeta} pm
+                    WHERE pm.post_id = p.ID
+                    AND pm.meta_key = '_sku'
+                    AND pm.meta_value LIKE %s
+                )
+            )
+            AND tt.count > 0
+            ORDER BY t.name ASC
+            LIMIT 20
+        ";
+
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                $sql,
+                $search_term_like,
+                $search_term_like,
+                $search_term_like,
+                $search_term_like
+            )
+        );
+
         $categories = array();
         $seen_cats = array();
 
-        if (!is_wp_error($category_terms) && !empty($category_terms)) {
-            foreach ($category_terms as $cat) {
-                if (in_array($cat->term_id, $seen_cats)) {
+        if (!empty($results)) {
+            foreach ($results as $result) {
+                if (in_array($result->term_id, $seen_cats)) {
                     continue;
                 }
 
                 $categories[] = array(
-                    'id' => $cat->term_id,
-                    'name' => $cat->name,
-                    'slug' => $cat->slug,
+                    'id' => (int) $result->term_id,
+                    'name' => $result->name,
+                    'slug' => $result->slug,
                 );
 
-                $seen_cats[] = $cat->term_id;
+                $seen_cats[] = $result->term_id;
             }
         }
-        
-        // Sort categories by name
-        usort($categories, function($a, $b) {
-            return strcmp($a['name'], $b['name']);
-        });
 
         set_transient($cache_key, $categories, HOUR_IN_SECONDS);
 
