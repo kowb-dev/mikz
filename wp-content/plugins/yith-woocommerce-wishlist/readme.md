@@ -151,10 +151,9 @@ Yes, of course you can. To avoid Wishlist page to show product prices, you can h
 
 ## Changelog
 
-### 4.10.1 - Released on 13 November 2025 =
+### 4.10.2 - Released on 18 November 2025 =
 
-* Update: YITH plugin framework
-* Dev: added additional security checks to REST API operations
+* Dev: added checks when removing items from the wishlist
 
 ## Support
 

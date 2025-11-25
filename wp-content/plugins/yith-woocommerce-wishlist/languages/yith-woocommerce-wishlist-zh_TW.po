@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: YITH WooCommerce Wishlist\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/yith-woocommerce-"
 "wishlist\n"
-"POT-Creation-Date: 2025-11-13T10:14:10+00:00\n"
+"POT-Creation-Date: 2025-11-18T14:57:58+00:00\n"
 "PO-Revision-Date: 2020-10-16 14:07+0200\n"
 "Last-Translator: 李明軒 <eggeggxuan@gmail.com>\n"
 "Language-Team: Your Inspiration Themes <plugins@yithemes.com>\n"
@@ -279,8 +279,8 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: includes/class-yith-wcwl-ajax-handler.php:201
-#: includes/class-yith-wcwl-ajax-handler.php:250
+#: includes/class-yith-wcwl-ajax-handler.php:209
+#: includes/class-yith-wcwl-ajax-handler.php:264
 msgid "Product successfully removed."
 msgstr "成功移除商品。"
 
@@ -541,17 +541,17 @@ msgstr ""
 msgid "There was an error while processing your request; please, try later"
 msgstr ""
 
-#: includes/class-yith-wcwl-wishlists.php:283
+#: includes/class-yith-wcwl-wishlists.php:290
 msgid "The item cannot be added to this wishlist"
 msgstr ""
 
-#: includes/class-yith-wcwl-wishlists.php:287
-#: includes/class-yith-wcwl-wishlists.php:293
+#: includes/class-yith-wcwl-wishlists.php:294
+#: includes/class-yith-wcwl-wishlists.php:300
 msgid "An error occurred while adding the products to the wishlist."
 msgstr ""
 
-#: includes/class-yith-wcwl-wishlists.php:393
-#: includes/class-yith-wcwl-wishlists.php:419
+#: includes/class-yith-wcwl-wishlists.php:400
+#: includes/class-yith-wcwl-wishlists.php:426
 msgid "Error. Unable to remove the product from the wishlist."
 msgstr "錯誤。無法從「願望清單」移除這個商品。"
 

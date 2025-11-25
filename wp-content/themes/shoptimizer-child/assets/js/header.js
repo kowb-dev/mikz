@@ -211,6 +211,14 @@
             this.elements.catalogButton.addEventListener('mouseenter', this.handlers.catalogButtonEnter);
             this.elements.catalogButton.addEventListener('mouseleave', this.handlers.catalogButtonLeave);
 
+            // Add click listener to catalogToggle for redirection to /shop on desktop
+            if (this.elements.catalogToggle) {
+                this.elements.catalogToggle.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent default button behavior
+                    window.location.href = '/shop'; // Redirect to /shop page
+                });
+            }
+
             // Attach to megamenu
             this.elements.catalogMegamenu.addEventListener('mouseenter', this.handlers.catalogMegamenuEnter);
             this.elements.catalogMegamenu.addEventListener('mouseleave', this.handlers.catalogMegamenuLeave);
