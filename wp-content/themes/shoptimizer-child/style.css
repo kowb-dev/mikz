@@ -2170,5 +2170,10 @@ a.added_to_cart.wc-forward {
     display: none!important;
 }
 
+.wp-block-woocommerce-checkout {
+    container-type: normal!important;}
 
 
+.wp-block-woocommerce-checkout-order-summary-block {
+    padding: 3rem;
+}
