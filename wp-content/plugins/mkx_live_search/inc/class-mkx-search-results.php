@@ -42,6 +42,30 @@ class MKX_Search_Results {
     private function __construct() {
         add_action('woocommerce_before_shop_loop', array($this, 'display_search_categories'), 5);
         add_filter('pre_get_posts', array($this, 'modify_search_query'));
+        add_action('save_post_product', array($this, 'clear_cache_on_product_update'));
+        add_action('edited_product_cat', array($this, 'clear_cache_on_category_update'));
+    }
+
+    /**
+     * Clear cache on product update
+     *
+     * @param int $post_id Post ID
+     * @return void
+     */
+    public function clear_cache_on_product_update($post_id) {
+        $query_handler = MKX_Search_Query::instance();
+        $query_handler->clear_search_cache();
+    }
+
+    /**
+     * Clear cache on category update
+     *
+     * @param int $term_id Term ID
+     * @return void
+     */
+    public function clear_cache_on_category_update($term_id) {
+        $query_handler = MKX_Search_Query::instance();
+        $query_handler->clear_search_cache();
     }
 
     /**
@@ -81,29 +105,39 @@ class MKX_Search_Results {
      * @return void
      */
     private function render_search_categories($categories, $search_term, $active_category) {
-        global $wp_query;
         ?>
         <div class="mkx-search-categories">
             <div class="mkx-search-categories__header">
                 <h4 class="mkx-search-categories__title">
-                    <?php echo esc_html__('Поиск:', 'mkx-live-search') . ' ' . esc_html($search_term); ?>
+                    <?php 
+                    printf(
+                        /* translators: %s: search term */
+                        esc_html__('Search: %s', 'mkx-live-search'),
+                        '<strong>' . esc_html($search_term) . '</strong>'
+                    );
+                    ?>
                 </h4>
             </div>
 
             <div class="mkx-search-categories__tags">
-                <a href="<?php echo esc_url(home_url('/?s=' . urlencode($search_term) . '&post_type=product')); ?>" 
-                   class="mkx-search-tag <?php echo empty($active_category) ? 'mkx-search-tag--active' : ''; ?>">
-                    <?php echo esc_html__('Все товары', 'mkx-live-search'); ?>
-                </a>
+                <button 
+                    class="mkx-search-tag <?php echo empty($active_category) ? 'mkx-search-tag--active' : ''; ?>"
+                    data-category=""
+                    type="button"
+                    aria-pressed="<?php echo empty($active_category) ? 'true' : 'false'; ?>">
+                    <?php echo esc_html__('Показать все', 'mkx-live-search'); ?>
+                </button>
 
                 <?php foreach ($categories as $category) : 
-                    $cat_url = home_url('/?s=' . urlencode($search_term) . '&post_type=product&product_cat=' . urlencode($category['slug']));
+                    $is_active = $active_category === $category['slug'];
                 ?>
-                    <a href="<?php echo esc_url($cat_url); ?>"
-                       class="mkx-search-tag <?php echo $active_category === $category['slug'] ? 'mkx-search-tag--active' : ''; ?>"
-                       data-category="<?php echo esc_attr($category['slug']); ?>">
+                    <button 
+                        class="mkx-search-tag <?php echo $is_active ? 'mkx-search-tag--active' : ''; ?>"
+                        data-category="<?php echo esc_attr($category['slug']); ?>"
+                        type="button"
+                        aria-pressed="<?php echo $is_active ? 'true' : 'false'; ?>">
                         <?php echo esc_html($category['name']); ?>
-                    </a>
+                    </button>
                 <?php endforeach; ?>
             </div>
         </div>

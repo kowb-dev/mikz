@@ -3,7 +3,7 @@
  * Plugin Name: MKX Live Search
  * Plugin URI: https://kowb.ru
  * Description: Advanced live search plugin for WooCommerce with category tags and AJAX filtering
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: KB
  * Author URI: https://kowb.ru
  * Text Domain: mkx-live-search
@@ -11,7 +11,7 @@
  * Requires at least: 5.8
  * Requires PHP: 7.4
  * WC requires at least: 5.0
- * WC tested up to: 8.5
+ * WC tested up to: 9.0
  *
  * @package MKX_Live_Search
  */
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (!defined('MKX_LS_VERSION')) {
-    define('MKX_LS_VERSION', '1.0.0');
+    define('MKX_LS_VERSION', '1.0.1');
 }
 
 if (!defined('MKX_LS_PLUGIN_DIR')) {
@@ -75,6 +75,19 @@ final class MKX_Live_Search {
         add_action('plugins_loaded', array($this, 'check_dependencies'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
         add_action('init', array($this, 'load_textdomain'));
+        add_action('before_woocommerce_init', array($this, 'declare_wc_compatibility'));
+    }
+
+    /**
+     * Declare WooCommerce compatibility
+     *
+     * @return void
+     */
+    public function declare_wc_compatibility() {
+        if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('cart_checkout_blocks', __FILE__, true);
+        }
     }
 
     /**
@@ -97,7 +110,7 @@ final class MKX_Live_Search {
     public function woocommerce_missing_notice() {
         ?>
         <div class="error">
-            <p><?php esc_html_e('MKX Live Search требует установки и активации WooCommerce.', 'mkx-live-search'); ?></p>
+            <p><?php esc_html_e('MKX Live Search requires WooCommerce to be installed and activated.', 'mkx-live-search'); ?></p>
         </div>
         <?php
     }
@@ -139,7 +152,6 @@ final class MKX_Live_Search {
             MKX_LS_VERSION
         );
 
-        // Основной скрипт
         wp_enqueue_script(
             'mkx-live-search-js',
             MKX_LS_PLUGIN_URL . 'assets/js/mkx-live-search.js',
@@ -148,7 +160,6 @@ final class MKX_Live_Search {
             true
         );
 
-        // Скрипт инициализации (загружается после основного)
         wp_enqueue_script(
             'mkx-live-search-init-js',
             MKX_LS_PLUGIN_URL . 'assets/js/mkx-live-search-init.js',
@@ -164,9 +175,9 @@ final class MKX_Live_Search {
             'delay' => apply_filters('mkx_live_search_delay', 300),
             'maxResults' => apply_filters('mkx_live_search_max_results', 10),
             'strings' => array(
-                'searching' => __('Поиск...', 'mkx-live-search'),
-                'noResults' => __('Ничего не найдено', 'mkx-live-search'),
-                'minCharsText' => __('Введите минимум 2 символа', 'mkx-live-search'),
+                'searching' => __('Searching...', 'mkx-live-search'),
+                'noResults' => __('Nothing found', 'mkx-live-search'),
+                'minCharsText' => __('Enter at least 2 characters', 'mkx-live-search'),
             )
         ));
     }

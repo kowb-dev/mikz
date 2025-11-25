@@ -3,7 +3,7 @@
  * Search Query Handler
  *
  * @package MKX_Live_Search
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 if (!defined('ABSPATH')) {
@@ -170,40 +170,67 @@ class MKX_Search_Query {
         $cache_key = 'mkx_search_cats_' . md5($search_term);
         $cached = get_transient($cache_key);
 
-        if (false !== $cached) {
+        if (false !== $cached && is_array($cached)) {
             return $cached;
         }
 
-        $products = $this->search_products($search_term, array('limit' => 50));
+        global $wpdb;
 
-        if (empty($products)) {
-            return array();
-        }
+        $search_term_like = '%' . $wpdb->esc_like($search_term) . '%';
+
+        $sql = "
+            SELECT DISTINCT t.term_id, t.name, t.slug
+            FROM {$wpdb->terms} t
+            INNER JOIN {$wpdb->term_taxonomy} tt ON t.term_id = tt.term_id
+            INNER JOIN {$wpdb->term_relationships} tr ON tt.term_taxonomy_id = tr.term_taxonomy_id
+            INNER JOIN {$wpdb->posts} p ON tr.object_id = p.ID
+            WHERE tt.taxonomy = 'product_cat'
+            AND p.post_type = 'product'
+            AND p.post_status = 'publish'
+            AND (
+                t.name LIKE %s
+                OR t.slug LIKE %s
+                OR p.post_title LIKE %s
+                OR EXISTS (
+                    SELECT 1 FROM {$wpdb->postmeta} pm
+                    WHERE pm.post_id = p.ID
+                    AND pm.meta_key = '_sku'
+                    AND pm.meta_value LIKE %s
+                )
+            )
+            AND tt.count > 0
+            ORDER BY t.name ASC
+            LIMIT 20
+        ";
+
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                $sql,
+                $search_term_like,
+                $search_term_like,
+                $search_term_like,
+                $search_term_like
+            )
+        );
 
         $categories = array();
         $seen_cats = array();
 
-        foreach ($products as $product) {
-            $product_cats = wp_get_post_terms($product->ID, 'product_cat', array('fields' => 'all'));
-
-            foreach ($product_cats as $cat) {
-                if (in_array($cat->term_id, $seen_cats)) {
+        if (!empty($results)) {
+            foreach ($results as $result) {
+                if (in_array($result->term_id, $seen_cats)) {
                     continue;
                 }
 
                 $categories[] = array(
-                    'id' => $cat->term_id,
-                    'name' => $cat->name,
-                    'slug' => $cat->slug,
+                    'id' => (int) $result->term_id,
+                    'name' => $result->name,
+                    'slug' => $result->slug,
                 );
 
-                $seen_cats[] = $cat->term_id;
+                $seen_cats[] = $result->term_id;
             }
         }
-
-        usort($categories, function($a, $b) {
-            return strcmp($a['name'], $b['name']);
-        });
 
         set_transient($cache_key, $categories, HOUR_IN_SECONDS);
 
@@ -214,7 +241,7 @@ class MKX_Search_Query {
      * Format product for response
      *
      * @param WP_Post $product Product post object
-     * @return array
+     * @return array|null
      */
     public function format_product_response($product) {
         $wc_product = wc_get_product($product->ID);
@@ -251,5 +278,20 @@ class MKX_Search_Query {
         }
 
         return wc_placeholder_img_src('woocommerce_thumbnail');
+    }
+
+    /**
+     * Clear search cache
+     *
+     * @return void
+     */
+    public function clear_search_cache() {
+        global $wpdb;
+
+        $wpdb->query(
+            "DELETE FROM {$wpdb->options} 
+            WHERE option_name LIKE '_transient_mkx_search_cats_%' 
+            OR option_name LIKE '_transient_timeout_mkx_search_cats_%'"
+        );
     }
 }
