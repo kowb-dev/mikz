@@ -348,6 +348,8 @@
     
     --motion-reduce: reduce;
     --motion-no-preference: no-preference;
+
+    --single-product-sidebar-width: clamp(22rem, 25vw, 25rem);
 }
 
 /* =============================================================================
@@ -1087,7 +1089,7 @@ img[loading="lazy"].loaded {
 
 .mkx-single-product-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr var(--single-product-sidebar-width);
     gap: 2rem;
     align-items: start;
 }
