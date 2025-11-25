@@ -2155,3 +2155,11 @@ c
     color: #333;
 }
 
+.mkz-product-list-item p {
+    margin: -1rem 0 0 0!important;
+    color: var(--mkx-dark-gray);
+}
+
+.woocommerce.archive .col-full {
+    margin-top: 2rem!important;
+}

@@ -64,6 +64,7 @@
     -webkit-box-orient: unset;
     overflow: visible;
     text-overflow: unset;
+    margin-bottom: 1.3rem;
 }
 
 .mkz-product-list-item__excerpt {
@@ -143,8 +144,9 @@
     visibility: visible !important;
     opacity: 1 !important;
 }
-.mkz-product-list-item p{
-    margin: 0!important;
+.mkz-product-list-item p {
+    margin: -1.2rem 0 0 0!important;
+    color: var(--mkx-dark-gray);
 }
 
 .mkz-product-list-item .woocommerce ul.products li.product:hover {
