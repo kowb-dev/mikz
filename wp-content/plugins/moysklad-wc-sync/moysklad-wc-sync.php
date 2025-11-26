@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MoySklad WooCommerce Sync
  * Plugin URI: https://kowb.ru
- * Description: Simple one-way synchronization from MoySklad to WooCommerce (products, stock, prices)
+ * Description: Простая односторонняя синхронизация из МойСклад в WooCommerce (товары, остатки, цены)
  * Version: 2.0.1
  * Author: KB
  * Author URI: https://kowb.ru
@@ -21,6 +21,8 @@
 
 declare(strict_types=1);
 
+namespace MoySklad\WC\Sync;
+
 /**
  * Declare compatibility with High-Performance Order Storage (HPOS).
  */
@@ -29,8 +31,6 @@ add_action( 'before_woocommerce_init', function() {
         \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
     }
 } );
-
-namespace MoySklad\WC\Sync;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -82,13 +82,14 @@ final class Plugin {
 
     private function init_hooks(): void {
         add_action('plugins_loaded', [$this, 'check_dependencies']);
-        add_action('init', [$this, 'load_textdomain']);
         
         register_activation_hook(__FILE__, [$this, 'activate']);
         register_deactivation_hook(__FILE__, [$this, 'deactivate']);
     }
 
     public function check_dependencies(): void {
+        $this->load_textdomain();
+
         if (!$this->is_woocommerce_active()) {
             add_action('admin_notices', [$this, 'woocommerce_missing_notice']);
             return;
