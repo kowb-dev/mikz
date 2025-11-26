@@ -1,3 +1,5 @@
+Header set X-Robots-Tag "noindex, nofollow"
+
 # This file was updated by Duplicator Pro on 2025-11-23 21:04:47.
 # See the original_files_ folder for the original source_site_htaccess file.
 # BEGIN WordPress

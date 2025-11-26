@@ -35,12 +35,12 @@ defined( 'ABSPATH' ) || exit;
                 <!-- Brand Cards Grid -->
                 <div class="mkx-catalog-grid">
 					                        <article class="mkx-brand-card" data-brand="apple">
-                            <a href="http://mix.dev.loc/cat/apple/" class="mkx-brand-card-link" aria-label="Перейти к категории Apple - запчасти для iPhone/iPad">
+                            <a href="<?php echo esc_url( get_term_link( 'apple', 'product_cat' ) ); ?>" class="mkx-brand-card-link" aria-label="Перейти к категории Apple - запчасти для iPhone/iPad">
 
                                 <div class="mkx-brand-card-inner">
                                     <!-- Brand Logo -->
                                     <div class="mkx-brand-logo-wrapper">
-                                        <img src="http://mix.dev.loc/wp-content/themes/shoptimizer-child/assets/images/logo/apple-logo.svg" alt="Логотип Apple" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
+                                        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo/apple-logo.svg' ); ?>" alt="Логотип Apple" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
                                     </div>
 
                                     <!-- Brand Name -->
@@ -54,12 +54,12 @@ defined( 'ABSPATH' ) || exit;
                             </a>
                         </article>
 						                        <article class="mkx-brand-card" data-brand="samsung">
-                            <a href="http://mix.dev.loc/cat/samsung/" class="mkx-brand-card-link" aria-label="Перейти к категории Samsung - запчасти для телефонов Galaxy">
+                            <a href="<?php echo esc_url( get_term_link( 'samsung', 'product_cat' ) ); ?>" class="mkx-brand-card-link" aria-label="Перейти к категории Samsung - запчасти для телефонов Galaxy">
 
                                 <div class="mkx-brand-card-inner">
                                     <!-- Brand Logo -->
                                     <div class="mkx-brand-logo-wrapper">
-                                        <img src="http://mix.dev.loc/wp-content/themes/shoptimizer-child/assets/images/logo/samsung-logo.svg" alt="Логотип Samsung" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
+                                        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo/samsung-logo.svg' ); ?>" alt="Логотип Samsung" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
                                     </div>
 
                                     <!-- Brand Name -->
@@ -73,12 +73,12 @@ defined( 'ABSPATH' ) || exit;
                             </a>
                         </article>
 						                        <article class="mkx-brand-card" data-brand="xiaomi-redmi">
-                            <a href="http://mix.dev.loc/cat/xiaomi-redmi/" class="mkx-brand-card-link" aria-label="Перейти к категории Xiaomi - запчасти для телефонов Redmi, Poco">
+                            <a href="<?php echo esc_url( get_term_link( 'xiaomi-redmi', 'product_cat' ) ); ?>" class="mkx-brand-card-link" aria-label="Перейти к категории Xiaomi - запчасти для телефонов Redmi, Poco">
 
                                 <div class="mkx-brand-card-inner">
                                     <!-- Brand Logo -->
                                     <div class="mkx-brand-logo-wrapper">
-                                        <img src="http://mix.dev.loc/wp-content/themes/shoptimizer-child/assets/images/logo/xiaomi-logo.svg" alt="Логотип Xiaomi" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
+                                        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo/xiaomi-logo.svg' ); ?>" alt="Логотип Xiaomi" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
                                     </div>
 
                                     <!-- Brand Name -->
@@ -92,12 +92,12 @@ defined( 'ABSPATH' ) || exit;
                             </a>
                         </article>
 						                        <article class="mkx-brand-card" data-brand="huawei-honor">
-                            <a href="http://mix.dev.loc/cat/huawei-honor/" class="mkx-brand-card-link" aria-label="Перейти к категории Huawei - запчасти для телефонов Huawei, Honor">
+                            <a href="<?php echo esc_url( get_term_link( 'huawei-honor', 'product_cat' ) ); ?>" class="mkx-brand-card-link" aria-label="Перейти к категории Huawei - запчасти для телефонов Huawei, Honor">
 
                                 <div class="mkx-brand-card-inner">
                                     <!-- Brand Logo -->
                                     <div class="mkx-brand-logo-wrapper">
-                                        <img src="http://mix.dev.loc/wp-content/themes/shoptimizer-child/assets/images/logo/huawei-logo.svg" alt="Логотип Huawei" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
+                                        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo/huawei-logo.svg' ); ?>" alt="Логотип Huawei" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
                                     </div>
 
                                     <!-- Brand Name -->
@@ -111,12 +111,12 @@ defined( 'ABSPATH' ) || exit;
                             </a>
                         </article>
 						                        <article class="mkx-brand-card" data-brand="oppo">
-                            <a href="http://mix.dev.loc/cat/oppo/" class="mkx-brand-card-link" aria-label="Перейти к категории OPPO - запчасти для телефонов OPPO">
+                            <a href="<?php echo esc_url( get_term_link( 'oppo', 'product_cat' ) ); ?>" class="mkx-brand-card-link" aria-label="Перейти к категории OPPO - запчасти для телефонов OPPO">
 
                                 <div class="mkx-brand-card-inner">
                                     <!-- Brand Logo -->
                                     <div class="mkx-brand-logo-wrapper">
-                                        <img src="http://mix.dev.loc/wp-content/themes/shoptimizer-child/assets/images/logo/oppo-logo.svg" alt="Логотип OPPO" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
+                                        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo/oppo-logo.svg' ); ?>" alt="Логотип OPPO" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
                                     </div>
 
                                     <!-- Brand Name -->
@@ -130,12 +130,12 @@ defined( 'ABSPATH' ) || exit;
                             </a>
                         </article>
 						                        <article class="mkx-brand-card" data-brand="realme">
-                            <a href="http://mix.dev.loc/cat/realme/" class="mkx-brand-card-link" aria-label="Перейти к категории Realme - запчасти для телефонов Realme">
+                            <a href="<?php echo esc_url( get_term_link( 'realme', 'product_cat' ) ); ?>" class="mkx-brand-card-link" aria-label="Перейти к категории Realme - запчасти для телефонов Realme">
 
                                 <div class="mkx-brand-card-inner">
                                     <!-- Brand Logo -->
                                     <div class="mkx-brand-logo-wrapper">
-                                        <img src="http://mix.dev.loc/wp-content/themes/shoptimizer-child/assets/images/logo/realme-logo.svg" alt="Логотип Realme" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
+                                        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo/realme-logo.svg' ); ?>" alt="Логотип Realme" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
                                     </div>
 
                                     <!-- Brand Name -->
@@ -149,12 +149,12 @@ defined( 'ABSPATH' ) || exit;
                             </a>
                         </article>
 						                        <article class="mkx-brand-card" data-brand="vivo">
-                            <a href="http://mix.dev.loc/cat/vivo/" class="mkx-brand-card-link" aria-label="Перейти к категории VIVO - запчасти для телефонов VIVO">
+                            <a href="<?php echo esc_url( get_term_link( 'vivo', 'product_cat' ) ); ?>" class="mkx-brand-card-link" aria-label="Перейти к категории VIVO - запчасти для телефонов VIVO">
 
                                 <div class="mkx-brand-card-inner">
                                     <!-- Brand Logo -->
                                     <div class="mkx-brand-logo-wrapper">
-                                        <img src="http://mix.dev.loc/wp-content/themes/shoptimizer-child/assets/images/logo/vivo-logo.svg" alt="Логотип VIVO" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
+                                        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo/vivo-logo.svg' ); ?>" alt="Логотип VIVO" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
                                     </div>
 
                                     <!-- Brand Name -->
@@ -168,12 +168,12 @@ defined( 'ABSPATH' ) || exit;
                             </a>
                         </article>
 						                        <article class="mkx-brand-card" data-brand="infinix">
-                            <a href="http://mix.dev.loc/cat/infinix/" class="mkx-brand-card-link" aria-label="Перейти к категории Infinix - запчасти для телефонов Infinix">
+                            <a href="<?php echo esc_url( get_term_link( 'infinix', 'product_cat' ) ); ?>" class="mkx-brand-card-link" aria-label="Перейти к категории Infinix - запчасти для телефонов Infinix">
 
                                 <div class="mkx-brand-card-inner">
                                     <!-- Brand Logo -->
                                     <div class="mkx-brand-logo-wrapper">
-                                        <img src="http://mix.dev.loc/wp-content/themes/shoptimizer-child/assets/images/logo/infinix-logo.svg" alt="Логотип Infinix" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
+                                        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo/infinix-logo.svg' ); ?>" alt="Логотип Infinix" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
                                     </div>
 
                                     <!-- Brand Name -->
@@ -187,12 +187,12 @@ defined( 'ABSPATH' ) || exit;
                             </a>
                         </article>
 						                        <article class="mkx-brand-card" data-brand="tecno">
-                            <a href="http://mix.dev.loc/cat/tecno/" class="mkx-brand-card-link" aria-label="Перейти к категории TECNO - запчасти для телефонов TECNO">
+                            <a href="<?php echo esc_url( get_term_link( 'tecno', 'product_cat' ) ); ?>" class="mkx-brand-card-link" aria-label="Перейти к категории TECNO - запчасти для телефонов TECNO">
 
                                 <div class="mkx-brand-card-inner">
                                     <!-- Brand Logo -->
                                     <div class="mkx-brand-logo-wrapper">
-                                        <img src="http://mix.dev.loc/wp-content/themes/shoptimizer-child/assets/images/logo/tecno-logo.svg" alt="Логотип TECNO" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
+                                        <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/logo/tecno-logo.svg' ); ?>" alt="Логотип TECNO" class="mkx-brand-logo loaded" width="60" height="60" loading="lazy">
                                     </div>
 
                                     <!-- Brand Name -->
