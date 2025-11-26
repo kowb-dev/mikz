@@ -1,0 +1,93 @@
+/**
+ * Admin Styles
+ *
+ * @package MoySklad_WC_Sync
+ * @version 1.0.0
+ */
+
+.ms-wc-sync-dashboard {
+	max-width: 1200px;
+}
+
+.ms-wc-sync-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1.5rem;
+	margin: 2rem 0;
+}
+
+.ms-wc-sync-stat-card {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 1.5rem;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ms-wc-sync-stat-card h3 {
+	margin: 0 0 0.5rem;
+	font-size: 0.875rem;
+	color: #666;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-weight: 600;
+}
+
+.ms-wc-sync-stat-value {
+	margin: 0;
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: #23282d;
+}
+
+.ms-wc-sync-settings-form {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 1.5rem;
+	margin: 2rem 0;
+}
+
+#ms-wc-sync-message {
+	margin: 1rem 0;
+}
+
+#ms-wc-sync-message .notice {
+	padding: 12px;
+	margin: 0;
+}
+
+.ms-wc-sync-log-level {
+	display: inline-block;
+	padding: 4px 8px;
+	border-radius: 3px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.ms-wc-sync-log-info {
+	background: #d1ecf1;
+	color: #0c5460;
+}
+
+.ms-wc-sync-log-error {
+	background: #f8d7da;
+	color: #721c24;
+}
+
+.ms-wc-sync-log-warning {
+	background: #fff3cd;
+	color: #856404;
+}
+
+.button#ms-wc-sync-manual,
+.button#ms-wc-sync-test-connection {
+	margin-left: 0.5rem;
+}
+
+.button#ms-wc-sync-manual:disabled,
+.button#ms-wc-sync-test-connection:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}

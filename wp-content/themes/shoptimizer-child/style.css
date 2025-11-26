@@ -454,9 +454,15 @@ input[type="search"] {
 @media (min-width: 1200px) {
     .woocommerce ul.products,
     .woocommerce ul.products[class*="columns-"] {
+        grid-template-columns: repeat(4, 1fr);
+    }
+     .page-id-16 .woocommerce ul.products,
+    .page-id-16  .woocommerce ul.products[class*="columns-"] {
         grid-template-columns: repeat(5, 1fr);
     }
 }
+
+
 
 /* 3 columns for tablets */
 @media (min-width: 768px) and (max-width: 1199px) {
@@ -504,7 +510,7 @@ input[type="search"] {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: var(--space-lg, 1.5rem);
+    padding: var(--space-sm);
 }
 
 .woocommerce ul.products li.product .woocommerce-loop-product__title {
@@ -576,7 +582,7 @@ input[type="search"] {
 
 /* 2. Fixes card height by controlling the title height and font size */
 .woocommerce ul.products li.product .woocommerce-loop-product__title {
-    font-size: var(--fs-sm); 
+    font-size: var(--fs-xs); 
     
     
     display: -webkit-box;

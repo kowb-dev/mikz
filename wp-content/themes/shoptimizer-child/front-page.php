@@ -152,7 +152,7 @@ get_header(); ?>
                                 <!-- Small Slide 1 -->
                                 <div class="mkx-carousel-slide mkx-carousel-slide--active" data-slide="0">
                                     <div class="mkx-slide-content">
-                                        <img src="https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=423&h=280&fit=crop&crop=center"
+                                        <img src="<?php echo esc_url( get_theme_file_uri( '/assets/images/iphone_spare_parts.webp' ) ); ?>"
                                              alt="<?php esc_attr_e( 'Новые поступления запчастей для iPhone', 'shoptimizer-child' ); ?>"
                                              width="423"
                                              height="280"
@@ -196,7 +196,7 @@ get_header(); ?>
                                 <!-- Small Slide 3 -->
                                 <div class="mkx-carousel-slide" data-slide="2">
                                     <div class="mkx-slide-content">
-                                        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=423&h=280&fit=crop&crop=center"
+                                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/consulting-1.webp')); ?>"
                                              alt="<?php esc_attr_e( 'Консультации по установке запчастей', 'shoptimizer-child' ); ?>"
                                              width="423"
                                              height="280"

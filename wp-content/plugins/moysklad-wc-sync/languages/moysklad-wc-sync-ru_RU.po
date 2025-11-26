@@ -1,0 +1,131 @@
+# Copyright (C) 2025 KB
+# This file is distributed under the same license as the MoySklad WooCommerce Sync plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: MoySklad WooCommerce Sync 2.0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/moysklad-wc-sync\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-11-26 12:00+0000\n"
+"PO-Revision-Date: 2025-11-26 12:00+0000\n"
+"X-Generator: Gemini\n"
+"X-Domain: moysklad-wc-sync\n"
+
+#. Plugin Name of the plugin/theme
+msgid "MoySklad WooCommerce Sync"
+msgstr "Синхронизация МойСклад для WooCommerce"
+
+msgid "MoySklad Sync"
+msgstr "Синхронизация МойСклад"
+
+msgid "You do not have sufficient permissions to access this page."
+msgstr "У вас недостаточно прав для доступа к этой странице."
+
+msgid "Synchronization in progress..."
+msgstr "Выполняется синхронизация..."
+
+msgid "Synchronization completed"
+msgstr "Синхронизация завершена"
+
+msgid "Synchronization failed"
+msgstr "Ошибка синхронизации"
+
+msgid "Connection successful"
+msgstr "Соединение успешно"
+
+msgid "Connection failed"
+msgstr "Ошибка соединения"
+
+msgid "Insufficient permissions."
+msgstr "Недостаточно прав."
+
+msgid "Sync is already running."
+msgstr "Синхронизация уже запущена."
+
+msgid "Connection successful!"
+msgstr "Соединение успешно!"
+
+msgid "Last Sync"
+msgstr "Последняя синхронизация"
+
+msgid "Never"
+msgstr "Никогда"
+
+msgid "Next Sync"
+msgstr "Следующая синхронизация"
+
+msgid "Not scheduled"
+msgstr "Не запланировано"
+
+msgid "Last Results"
+msgstr "Последние результаты"
+
+msgid "%1$d success / %2$d failed"
+msgstr "%1$d успешно / %2$d с ошибкой"
+
+msgid "Duration"
+msgstr "Длительность"
+
+msgid "%d seconds"
+msgstr "%d секунд"
+
+msgid "MoySklad API Token"
+msgstr "API токен МойСклад"
+
+msgid "Enter your MoySklad API token. You can generate it in your MoySklad account settings."
+msgstr "Введите ваш API токен для МойСклад. Вы можете сгенерировать его в настройках вашего аккаунта МойСклад."
+
+msgid "Price Synchronization"
+msgstr "Синхронизация цен"
+
+msgid "The plugin synchronizes two price types from MoySklad:"
+msgstr "Плагин синхронизирует два типа цен из МойСклад:"
+
+msgid "Retail Price (Розница)"
+msgstr "Розничная цена (Розница)"
+
+msgid "saved as Regular Price in WooCommerce"
+msgstr "сохраняется как обычная цена в WooCommerce"
+
+msgid "Wholesale Price (Опт)"
+msgstr "Оптовая цена (Опт)"
+
+msgid "saved as custom meta field _wholesale_price"
+msgstr "сохраняется в пользовательское мета-поле _wholesale_price"
+
+msgid "To display wholesale prices on the frontend, use a wholesale pricing plugin or custom code."
+msgstr "Для отображения оптовых цен на витрине используйте плагин для оптовых цен или собственный код."
+
+msgid "Save Settings"
+msgstr "Сохранить настройки"
+
+msgid "Test Connection"
+msgstr "Проверить соединение"
+
+msgid "Run Manual Sync"
+msgstr "Запустить ручную синхронизацию"
+
+msgid "Recent Logs"
+msgstr "Последние логи"
+
+msgid "Time"
+msgstr "Время"
+
+msgid "Level"
+msgstr "Уровень"
+
+msgid "Message"
+msgstr "Сообщение"
+
+msgid "No logs found."
+msgstr "Логи не найдены."
+
+msgid "MoySklad WooCommerce Sync requires WooCommerce to be installed and active."
+msgstr "Для работы плагина MoySklad WooCommerce Sync требуется установленный и активный WooCommerce."
+
+msgid "MoySklad WooCommerce Sync requires PHP version %s or higher. You are running %s."
+msgstr "Для работы плагина MoySklad WooCommerce Sync требуется PHP версии %s или выше. Ваша версия: %s."
