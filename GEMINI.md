@@ -209,4 +209,4 @@ Avoid using comments (“FIXED”, “ADDED” etc.) that do not comply with the
 Avoid adding excessive code to the functions.php file; provide files for “inc” folder instead.
 For variable values, use the root located in the child theme's style.css file.
 Note: Avoid applying dark theme mode unless specifically requested. It is strictly forbidden to roll back changes unless you are asked to do so. Write comments in code in English. Frontend and admin panel should be in Russian. Theme author: KB, url: https://kowb.ru
-Please answer in Russian
+Please answer in English
