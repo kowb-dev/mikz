@@ -405,5 +405,60 @@ get_header(); ?>
 
     </main>
 
+ <!-- Useful Notes Section -->
+        <section class="mkx-useful-notes-section">
+            <div class="mkx-container">
+                <div class="mkx-catalog-header">
+                    <h2 class="mkx-catalog-title">
+						<?php esc_html_e( 'Полезные заметки', 'shoptimizer-child' ); ?>
+                    </h2>
+                    <p class="mkx-catalog-subtitle">
+						<?php esc_html_e( 'Наши эксперты делятся опытом и советами', 'shoptimizer-child' ); ?>
+                    </p>
+                </div>
+                <div class="mkx-articles-grid">
+                    <article class="mkx-article-card">
+                        <a href="http://mix.dev.loc/remont-razema-dlya-zaryadki-svoimi-rukami-poshagovoe-rukovodstvo-dlya-novichkov/" class="mkx-article-card-link">
+                            <img src="http://mix.dev.loc/wp-content/uploads/2025/09/remont-razema-dlya-zaryadki-svoimi-rukami.webp"
+                                 alt="Ремонт разъема для зарядки своими руками"
+                                 width="350"
+                                 height="200"
+                                 loading="lazy"
+                                 class="mkx-article-thumbnail" />
+                            <h3 class="mkx-article-title">
+								Ремонт разъема для зарядки своими руками: пошаговое руководство для новичков
+                            </h3>
+                        </a>
+                    </article>
+                    <article class="mkx-article-card">
+                        <a href="http://mix.dev.loc/akkumulyatory-dlya-smartfonov-chto-nuzhno-znat-o-batareyah-populyarnyh-brendov/" class="mkx-article-card-link">
+                            <img src="http://mix.dev.loc/wp-content/uploads/2025/09/akkumulyatory-dlya-smartfonov-chto-nuzhno-znat-o-batareyah-populyarnyh-brendov.webp"
+                                 alt="Аккумуляторы для смартфонов: что нужно знать о батареях популярных брендов"
+                                 width="350"
+                                 height="200"
+                                 loading="lazy"
+                                 class="mkx-article-thumbnail" />
+                            <h3 class="mkx-article-title">
+								Аккумуляторы для смартфонов: что нужно знать о батареях популярных брендов
+                            </h3>
+                        </a>
+                    </article>
+                    <article class="mkx-article-card">
+                        <a href="http://mix.dev.loc/ekrany-dlya-iphone-original-oem-kopiya-ili-analog-kak-vybrat-i-ne-oshibitsya/" class="mkx-article-card-link">
+                            <img src="http://mix.dev.loc/wp-content/uploads/2025/09/ekrany-dlya-iphone.webp"
+                                 alt="Экраны для iPhone: оригинал, OEM, копия или аналог? Как выбрать и не ошибиться"
+                                 width="350"
+                                 height="200"
+                                 loading="lazy"
+                                 class="mkx-article-thumbnail" />
+                            <h3 class="mkx-article-title">
+								Экраны для iPhone: оригинал, OEM, копия или аналог? Как выбрать и не ошибиться
+                            </h3>
+                        </a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
 <?php
 get_footer();
