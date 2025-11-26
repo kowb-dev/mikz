@@ -112,7 +112,7 @@ class MKX_Search_Results {
                     <?php 
                     printf(
                         /* translators: %s: search term */
-                        esc_html__('Search: %s', 'mkx-live-search'),
+                        esc_html__('Найдено по запросу: %s', 'mkx-live-search'),
                         '<strong>' . esc_html($search_term) . '</strong>'
                     );
                     ?>
