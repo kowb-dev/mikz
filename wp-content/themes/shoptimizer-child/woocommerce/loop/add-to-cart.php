@@ -3,7 +3,7 @@
  * Loop Add to Cart with Quantity - With Buttons
  *
  * @package Shoptimizer_Child
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,12 +17,13 @@ if ( ! $product->is_type('simple') || ! $product->is_purchasable() || ! $product
     echo apply_filters(
         'woocommerce_loop_add_to_cart_link',
         sprintf(
-            '<a href="%s" rel="nofollow" data-product_id="%s" data-product_sku="%s" class="button product_type_%s">%s</a>',
+            '<a href="%s" rel="nofollow" data-product_id="%s" data-product_sku="%s" class="button product_type_%s" aria-label="%s" title="%s"><i class="ph ph-shopping-cart-simple"></i></a>',
             esc_url( $product->add_to_cart_url() ),
             esc_attr( $product->get_id() ),
             esc_attr( $product->get_sku() ),
             esc_attr( $product->get_type() ),
-            esc_html( $product->add_to_cart_text() )
+            esc_attr( $product->add_to_cart_text() ),
+            esc_attr( $product->add_to_cart_text() )
         ),
         $product
     );
@@ -50,17 +51,18 @@ if ( ! $product->is_type('simple') || ! $product->is_purchasable() || ! $product
     </div>
 
     <?php
-    // Display the add to cart button with AJAX attributes
-    echo apply_filters(
-        'woocommerce_loop_add_to_cart_link',
-        sprintf(
-            '<a href="%s" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="%s" data-product_sku="%s">%s</a>',
-            esc_url( $product->add_to_cart_url() ),
-            esc_attr( $product->get_id() ),
-            esc_attr( $product->get_sku() ),
-            esc_html( $product->add_to_cart_text() )
-        ),
-        $product
-    );
+	// Display the add to cart button with AJAX attributes
+	echo apply_filters(
+		'woocommerce_loop_add_to_cart_link',
+		sprintf(
+			'<a href="%s" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="%s" data-product_sku="%s" aria-label="%s" title="%s"><i class="ph ph-shopping-cart-simple"></i></a>',
+			esc_url( $product->add_to_cart_url() ),
+			esc_attr( $product->get_id() ),
+			esc_attr( $product->get_sku() ),
+			esc_attr( $product->add_to_cart_text() ),
+			esc_attr( $product->add_to_cart_text() )
+		),
+		$product
+	);
     ?>
 </div>
