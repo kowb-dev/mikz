@@ -484,13 +484,9 @@ input[type="search"] {
 .woocommerce ul.products[class*="columns-"] li.product {
     
     width: auto;
-    
-    
     float: none;
     margin: 0;
     padding: 0;
-
-    
     background-color: var(--mkx-white, #fff);
     border: 1px solid var(--mkx-border-primary, #E2E8F0);
     border-radius: var(--radius-xl, 1.5rem);
@@ -530,12 +526,10 @@ input[type="search"] {
     opacity: 1;
     width: auto;
     margin: 0 auto;
-
-    
     background-color: var(--mkx-black, #0F172A);
     color: var(--mkx-white, #fff);
     border-radius: var(--radius-full, 9999px);
-    padding: var(--space-sm) var(--space-xl);
+    padding: var(--space-xs) var(--space-xl);
     font-weight: var(--mkx-font-semibold, 600);
     line-height: var(--mkx-lh-tight, 1.2);
     height: auto;
@@ -567,7 +561,6 @@ input[type="search"] {
 ==============================================================================
 */
 
-/* 1. Corrects the main content width for all pages */
 .col-full {
     max-width: var(--container-max, 1170px);
     margin-left: auto;
@@ -575,26 +568,169 @@ input[type="search"] {
     box-sizing: border-box;
 }
 
-/* 1.1 Ensures the rule is strictly applied on archive pages */
 .woocommerce.archive .col-full {
     max-width: var(--container-max) !important;
 }
 
-/* 2. Fixes card height by controlling the title height and font size */
-.woocommerce ul.products li.product .woocommerce-loop-product__title {
-    font-size: var(--fs-xs); 
-    
-    
+/* .woocommerce ul.products li.product .woocommerce-loop-product__title {
+    font-size: var(--fs-xs);     
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;  
     overflow: hidden;
     text-overflow: ellipsis;
-    min-height: 6rem; 
+    min-height: 8rem; 
+} */
+
+
+
+
+/*
+==============================================================================
+  PRODUCT GRID - CATEGORY & BRAND PAGES (v1.0.2)
+==============================================================================
+*/
+
+/*
+ * Apply grid layout ONLY to product category and brand archive pages.
+ * This prevents overriding the list view on the main /shop page and search results.
+ */
+.tax-product_cat ul.products,
+.tax-pwb-brand ul.products {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+    gap: 1.5rem !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
+
+/* Make all related selectors specific to these pages */
+.tax-product_cat ul.products li.product,
+.tax-pwb-brand ul.products li.product,
+.tax-product_cat ul.products[class*="columns-"] li.product,
+.tax-pwb-brand ul.products[class*="columns-"] li.product {
+    width: auto !important;
+    float: none !important;
+    margin: 0 !important;
+    clear: none !important;
+    background-color: var(--mkx-white, #fff);
+    border: 1px solid var(--mkx-border-primary, #E2E8F0);
+    border-radius: var(--radius-xl, 1.5rem);
+    box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05));
+    text-align: center;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100%;
+    transition: transform var(--mkx-transition-medium) var(--mkx-ease), 
+                box-shadow var(--mkx-transition-medium) var(--mkx-ease);
+}
+
+.tax-product_cat ul.products li.product:hover,
+.tax-pwb-brand ul.products li.product:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.tax-product_cat .woocommerce-card__header,
+.tax-pwb-brand .woocommerce-card__header {
+    clear: both;
+    padding: 0 1rem!important;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.tax-product_cat li.menu-item-product p.product__categories, 
+.tax-product_cat li.product p.product__categories,
+.tax-pwb-brand li.menu-item-product p.product__categories,
+.tax-pwb-brand li.product p.product__categories {
+    position: relative;
+    margin-bottom: 0.5rem;
+    -webkit-font-smoothing: antialiased;
+    color: #444;
+    line-height: 1.4;
+    font-size: clamp(0.625rem, 0.5615rem + 0.2033vw, 0.6875rem);
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.tax-product_cat ul.products li.product .woocommerce-loop-product__title,
+.tax-pwb-brand ul.products li.product .woocommerce-loop-product__title {
+    padding: 0;
+    margin-bottom: 0.5rem;
+    font-size: var(--fs-xs);
+    line-height: 1.4;
+}
+
+.tax-product_cat ul.products li.product .price,
+.tax-pwb-brand ul.products li.product .price {
+    color: var(--mkx-text-primary, #0F172A);
+    font-weight: var(--mkx-font-bold, 700);
+    font-size: var(--fs-lg, 1.125rem);
+    margin-bottom: var(--space-md, 1rem);
+    margin-top: auto !important;
+}
+
+.tax-product_cat ul.products li.product .mkx-product-actions,
+.tax-pwb-brand ul.products li.product .mkx-product-actions {
+    padding: 0 var(--space-lg, 1.5rem) var(--space-lg, 1.5rem);
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.tax-product_cat ul.products li.product .quantity,
+.tax-pwb-brand ul.products li.product .quantity {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.tax-product_cat ul.products li.product .quantity button,
+.tax-pwb-brand ul.products li.product .quantity button {
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive adjustments for the grid on category/brand pages */
+@media (max-width: 1200px) {
+    .tax-product_cat ul.products,
+    .tax-pwb-brand ul.products {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .tax-product_cat ul.products,
+    .tax-pwb-brand ul.products {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+        gap: 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .tax-product_cat ul.products,
+    .tax-pwb-brand ul.products {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
+    }
+}
+
+/* Icon font size for add to cart button */
+a.button.product_type_simple.add_to_cart_button.ajax_add_to_cart i.ph {
+    font-size: 1.45rem!important;
+}
+
+/* Home page specific title height */
 .home .woocommerce ul.products li.product .woocommerce-loop-product__title {
     min-height: 7rem;
 }
+
 /*
 ==============================================================================
   PRODUCT CARD ACTIONS (QUANTITY + BUTTON)
@@ -722,7 +858,6 @@ li.product-list-view-item.product:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto var(--space-md, 1rem);
     border: 1px solid var(--mkx-border-primary, #E2E8F0);
     border-radius: var(--radius-full, 9999px);
     max-width: 150px;
