@@ -1,0 +1,435 @@
+/**
+ * WooCommerce Product Grid Layout
+ * For category pages, brand pages, related products, and home page
+ *
+ * @package Shoptimizer Child
+ * @version 1.1.0
+ * @author KB
+ * @link https://kowb.ru
+ */
+
+/* =============================================================================
+   PRODUCT GRID SYSTEM - CATEGORY & BRAND PAGES
+   ============================================================================= */
+
+.tax-product_cat ul.products,
+.tax-pwb-brand ul.products,
+.home .woocommerce ul.products,
+.related.products ul.products,
+.page-id-16 .woocommerce ul.products {
+    display: grid !important;
+    gap: var(--grid-gap-sm);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Desktop: 4-5 columns */
+@media (min-width: 1200px) {
+    .tax-product_cat ul.products,
+    .tax-pwb-brand ul.products,
+    .home .woocommerce ul.products,
+    .related.products ul.products {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .page-id-16 .woocommerce ul.products {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .related.products ul.products {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* Tablet: 3 columns */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .tax-product_cat ul.products,
+    .tax-pwb-brand ul.products,
+    .home .woocommerce ul.products,
+    .related.products ul.products,
+    .page-id-16 .woocommerce ul.products {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.related.products {
+    max-width: var(--container-max);
+}
+
+/* =============================================================================
+   PRODUCT CARDS - GRID VIEW
+   ============================================================================= */
+
+.tax-product_cat ul.products li.product,
+.tax-pwb-brand ul.products li.product,
+.home .woocommerce ul.products li.product,
+.related.products ul.products li.product,
+.page-id-16 .woocommerce ul.products li.product {
+    width: auto !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    clear: none !important;
+    background-color: var(--mkx-white);
+    border: 1px solid var(--mkx-border-primary);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100%;
+    transition: transform var(--mkx-transition-medium) var(--mkx-ease),
+                box-shadow var(--mkx-transition-medium) var(--mkx-ease);
+    position: relative;
+}
+
+.tax-product_cat ul.products li.product:hover,
+.tax-pwb-brand ul.products li.product:hover,
+.home .woocommerce ul.products li.product:hover,
+.related.products ul.products li.product:hover,
+.page-id-16 .woocommerce ul.products li.product:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+/* Product Link Wrapper */
+.tax-product_cat ul.products li.product .woocommerce-loop-product__link,
+.tax-pwb-brand ul.products li.product .woocommerce-loop-product__link,
+.home .woocommerce ul.products li.product .woocommerce-loop-product__link,
+.related.products ul.products li.product .woocommerce-loop-product__link,
+.page-id-16 .woocommerce ul.products li.product .woocommerce-loop-product__link {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: var(--space-lg);
+}
+
+/* Product Categories */
+.tax-product_cat li.product p.product__categories,
+.tax-pwb-brand li.product p.product__categories,
+.home .woocommerce li.product p.product__categories {
+    display: none;
+}
+
+/* Product Title */
+.tax-product_cat ul.products li.product .woocommerce-loop-product__title,
+.tax-pwb-brand ul.products li.product .woocommerce-loop-product__title,
+.home .woocommerce ul.products li.product .woocommerce-loop-product__title,
+.related.products ul.products li.product .woocommerce-loop-product__title,
+.page-id-16 .woocommerce ul.products li.product .woocommerce-loop-product__title {
+    font-size: var(--fs-sm);
+    padding: 0;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 10rem;
+}
+
+.home .woocommerce ul.products li.product .woocommerce-loop-product__title {
+    min-height: 7rem;
+}
+
+/* Product Price */
+.tax-product_cat ul.products li.product .price,
+.tax-pwb-brand ul.products li.product .price,
+.home .woocommerce ul.products li.product .price,
+.related.products ul.products li.product .price,
+.page-id-16 .woocommerce ul.products li.product .price {
+    color: var(--mkx-text-primary);
+    font-weight: var(--mkx-font-bold);
+    font-size: var(--fs-lg);
+    margin-bottom: var(--space-md);
+    margin-top: auto !important;
+}
+
+/* =============================================================================
+   PRODUCT ACTIONS - GRID VIEW (QUANTITY + BUTTON)
+   ============================================================================= */
+
+.tax-product_cat ul.products li.product .mkx-product-actions,
+.tax-pwb-brand ul.products li.product .mkx-product-actions,
+.home .woocommerce ul.products li.product .mkx-product-actions,
+.related.products ul.products li.product .mkx-product-actions,
+.page-id-16 .woocommerce ul.products li.product .mkx-product-actions {
+    padding: 0 var(--space-lg) var(--space-lg);
+    margin-top: auto;
+}
+
+/* Quantity Input Container */
+.tax-product_cat ul.products li.product .quantity,
+.tax-pwb-brand ul.products li.product .quantity,
+.home .woocommerce ul.products li.product .quantity,
+.related.products ul.products li.product .quantity,
+.page-id-16 .woocommerce ul.products li.product .quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto var(--space-md);
+    border: 1px solid var(--mkx-border-primary);
+    border-radius: var(--radius-full);
+    max-width: 150px;
+}
+
+/* Quantity Input Field */
+.tax-product_cat ul.products li.product .quantity .qty,
+.tax-pwb-brand ul.products li.product .quantity .qty,
+.home .woocommerce ul.products li.product .quantity .qty,
+.related.products ul.products li.product .quantity .qty,
+.page-id-16 .woocommerce ul.products li.product .quantity .qty {
+    width: 40px;
+    text-align: center;
+    border: none;
+    background: transparent;
+    color: var(--mkx-text-primary);
+    font-weight: var(--mkx-font-semibold);
+    -moz-appearance: textfield;
+    padding: 0;
+    height: 40px;
+}
+
+.tax-product_cat ul.products li.product .quantity .qty::-webkit-outer-spin-button,
+.tax-product_cat ul.products li.product .quantity .qty::-webkit-inner-spin-button,
+.tax-pwb-brand ul.products li.product .quantity .qty::-webkit-outer-spin-button,
+.tax-pwb-brand ul.products li.product .quantity .qty::-webkit-inner-spin-button,
+.home .woocommerce ul.products li.product .quantity .qty::-webkit-outer-spin-button,
+.home .woocommerce ul.products li.product .quantity .qty::-webkit-inner-spin-button,
+.related.products ul.products li.product .quantity .qty::-webkit-outer-spin-button,
+.related.products ul.products li.product .quantity .qty::-webkit-inner-spin-button,
+.page-id-16 .woocommerce ul.products li.product .quantity .qty::-webkit-outer-spin-button,
+.page-id-16 .woocommerce ul.products li.product .quantity .qty::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Quantity Buttons */
+.tax-product_cat ul.products li.product .quantity .minus,
+.tax-product_cat ul.products li.product .quantity .plus,
+.tax-pwb-brand ul.products li.product .quantity .minus,
+.tax-pwb-brand ul.products li.product .quantity .plus,
+.home .woocommerce ul.products li.product .quantity .minus,
+.home .woocommerce ul.products li.product .quantity .plus,
+.related.products ul.products li.product .quantity .minus,
+.related.products ul.products li.product .quantity .plus,
+.page-id-16 .woocommerce ul.products li.product .quantity .minus,
+.page-id-16 .woocommerce ul.products li.product .quantity .plus {
+    width: 32px !important;
+    height: 32px !important;
+    background-color: var(--mkx-bg-muted);
+    color: var(--mkx-text-secondary);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    padding: 0;
+    transition: background-color var(--mkx-transition-fast) var(--mkx-ease);
+}
+
+.tax-product_cat ul.products li.product .quantity .minus,
+.tax-pwb-brand ul.products li.product .quantity .minus,
+.home .woocommerce ul.products li.product .quantity .minus,
+.related.products ul.products li.product .quantity .minus,
+.page-id-16 .woocommerce ul.products li.product .quantity .minus {
+    margin-left: var(--space-xs);
+}
+
+.tax-product_cat ul.products li.product .quantity .plus,
+.tax-pwb-brand ul.products li.product .quantity .plus,
+.home .woocommerce ul.products li.product .quantity .plus,
+.related.products ul.products li.product .quantity .plus,
+.page-id-16 .woocommerce ul.products li.product .quantity .plus {
+    margin-right: var(--space-xs);
+}
+
+.tax-product_cat ul.products li.product .quantity .minus:hover,
+.tax-product_cat ul.products li.product .quantity .plus:hover,
+.tax-pwb-brand ul.products li.product .quantity .minus:hover,
+.tax-pwb-brand ul.products li.product .quantity .plus:hover,
+.home .woocommerce ul.products li.product .quantity .minus:hover,
+.home .woocommerce ul.products li.product .quantity .plus:hover,
+.related.products ul.products li.product .quantity .minus:hover,
+.related.products ul.products li.product .quantity .plus:hover,
+.page-id-16 .woocommerce ul.products li.product .quantity .minus:hover,
+.page-id-16 .woocommerce ul.products li.product .quantity .plus:hover {
+    background-color: var(--mkx-medium-gray);
+    color: var(--mkx-white);
+}
+
+/* Add to Cart Button */
+.tax-product_cat ul.products li.product .button,
+.tax-pwb-brand ul.products li.product .button,
+.home .woocommerce ul.products li.product .button,
+.related.products ul.products li.product .button,
+.page-id-16 .woocommerce ul.products li.product .button {
+    position: static;
+    opacity: 1;
+    width: 100%;
+    margin: 0;
+    background-color: var(--mkx-black);
+    color: var(--mkx-white);
+    border-radius: var(--radius-full);
+    padding: var(--space-sm) var(--space-xl);
+    font-weight: var(--mkx-font-semibold);
+    line-height: var(--mkx-lh-tight);
+    height: auto;
+    transition: background-color var(--mkx-transition-fast) var(--mkx-ease);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tax-product_cat ul.products li.product .button:hover,
+.tax-pwb-brand ul.products li.product .button:hover,
+.home .woocommerce ul.products li.product .button:hover,
+.related.products ul.products li.product .button:hover,
+.page-id-16 .woocommerce ul.products li.product .button:hover {
+    background-color: var(--mkx-darker-gray);
+}
+
+ul.products li.product .added_to_cart,
+ul.products li.product .button {
+    height: 25px;
+}
+
+.cart .single_add_to_cart_button {
+    height: 34px;
+}
+
+/* Add to cart button icon */
+a.button.product_type_simple.add_to_cart_button.ajax_add_to_cart i.ph {
+    font-size: 1.45rem !important;
+}
+
+/* =============================================================================
+   YITH WISHLIST & COMPARE BUTTONS
+   ============================================================================= */
+
+.yith-wcwl-add-to-wishlist-button__label,
+a.compare.button .label {
+    display: none;
+}
+
+.products .product .yith-add-to-wishlist-button-block {
+    display: block;
+    position: absolute;
+    top: 0.6rem;
+    right: 1.05rem;
+    z-index: 10;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    transform: none;
+    text-align: left;
+}
+
+.products .product .compare.button {
+    display: block;
+    position: absolute;
+    top: 3.4rem;
+    right: 1rem;
+    z-index: 10;
+    width: 18px;
+    height: 18px;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    transform: none;
+    text-align: left;
+    font-size: 0;
+}
+
+.products .product .yith-wcwl-add-to-wishlist-button .yith-wcwl-icon {
+    width: 27px;
+    height: auto;
+    margin: 0;
+    color: var(--mkx-text-primary);
+    border: 0.001rem solid;
+    border-radius: 50%;
+    padding: 0.3rem;
+    opacity: 0.45;
+    background-color: var(--mkx-white);
+}
+
+.products .product .compare.button::before {
+    font-family: "Phosphor";
+    content: "\e150";
+    font-size: 15px;
+    font-weight: var(--mkx-font-light);
+    font-style: normal;
+    color: var(--mkx-text-primary);
+    line-height: 1;
+    border: 0.001rem solid;
+    border-radius: 50%;
+    padding: 0.3rem;
+    opacity: 0.45;
+    background-color: var(--mkx-white);
+}
+
+/* Desktop hover states */
+@media (min-width: 993px) {
+    .products .product .yith-add-to-wishlist-button-block,
+    .products .product .compare.button {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .products .product:hover .yith-add-to-wishlist-button-block,
+    .products .product:hover .compare.button {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .products .product .compare.button:hover::before,
+    .products .product .yith-wcwl-add-to-wishlist-button:hover .yith-wcwl-icon {
+        color: var(--mkx-primary);
+    }
+}
+
+/* Mobile visibility */
+@media (max-width: 992px) {
+    .products .product .compare.button,
+    .products .product .yith-add-to-wishlist-button-block {
+        visibility: visible;
+    }
+
+    .products .product .compare.button::before,
+    .products .product .yith-wcwl-add-to-wishlist-button .yith-wcwl-icon {
+        color: var(--mkx-text-muted);
+    }
+}
+
+@media (max-width: 768px) {
+    .products .product .compare.button {
+        top: 3.4rem;
+        right: 0;
+    }
+
+    .products .product .yith-add-to-wishlist-button-block {
+        top: 0.6rem;
+        right: 1.29rem;
+    }
+}
+
+.compare-list .quantity,
+.wishlist_table .quantity {
+    display: none;
+}
+
+.wishlist_table .product-add-to-cart a.button {
+    color: white;
+}
+
+#yith-woocompare table.dataTable.compare-list tbody .product_info td {
+    vertical-align: bottom;
+}

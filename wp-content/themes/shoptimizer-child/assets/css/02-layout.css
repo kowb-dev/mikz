@@ -1,0 +1,64 @@
+/**
+ * Global Layout & Container Styles
+ *
+ * @package Shoptimizer Child
+ * @version 1.1.0
+ * @author KB
+ * @link https://kowb.ru
+ */
+
+/* =============================================================================
+   GLOBAL LAYOUT
+   ============================================================================= */
+
+.mkx-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+.mkx-container--narrow {
+    max-width: var(--container-narrow);
+}
+
+.mkx-container--wide {
+    max-width: var(--container-wide);
+}
+
+.col-full {
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+.woocommerce.archive .col-full {
+    max-width: var(--container-max) !important;
+}
+
+.mkx-site-content {
+    max-width: var(--container-max);
+    margin: 0 auto;
+}
+
+/* =============================================================================
+   SMOOTH SCROLLING & BODY IMPROVEMENTS
+   ============================================================================= */
+
+html {
+    scroll-behavior: smooth;
+}
+
+body.mkx-mobile-device {
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* =============================================================================
+   SEARCH INPUT
+   ============================================================================= */
+
+input[type="search"] {
+    padding: 1rem !important;
+}
