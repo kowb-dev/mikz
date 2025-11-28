@@ -1,0 +1,108 @@
+/**
+ * WooCommerce Base Styles
+ * Notices, cart, general WooCommerce elements
+ *
+ * @package Shoptimizer Child
+ * @version 1.1.0
+ * @author KB
+ * @link https://kowb.ru
+ */
+
+/* =============================================================================
+   WOOCOMMERCE NOTICES
+   ============================================================================= */
+
+.woocommerce-notices-wrapper {
+    margin-bottom: var(--space-lg);
+}
+
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error {
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.wpcf7 form.init .wpcf7-response-output,
+.wpcf7 form.resetting .wpcf7-response-output,
+.wpcf7 form.submitting .wpcf7-response-output {
+    display: none;
+}
+
+/* =============================================================================
+   MAIN MENU CUSTOMIZATION
+   ============================================================================= */
+
+.mkx-main-navigation .mkx-primary-menu > .mkx-menu-item > a.mkx-menu-item__link {
+    font-size: var(--fs-md);
+    text-transform: uppercase;
+    font-weight: var(--mkx-font-semibold);
+}
+
+/* =============================================================================
+   CART TABLE
+   ============================================================================= */
+
+.woocommerce-cart table.cart {
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+}
+
+/* =============================================================================
+   NO PRODUCTS FOUND
+   ============================================================================= */
+
+.woocommerce-no-products-found {
+    width: 100%;
+}
+
+/* =============================================================================
+   PRODUCT TABLE PLUGIN
+   ============================================================================= */
+
+#wcpt_60f88dd42ef0e9b7_1_info,
+#wcpt_60f88dd42ef0e9b7_1_filter,
+.dataTables_wrapper .dataTables_info {
+    display: none;
+}
+
+a.single-product-link {
+    font-size: 11px;
+}
+
+.wc-product-table td.col-button:last-child,
+.wc-product-table td.col-buy,
+.wc-product-table th.col-buy {
+    text-align: center;
+    font-size: 11px;
+}
+
+table.wc-product-table tbody td,
+.wc-product-table-controls label,
+.wc-product-table-below,
+.wc-product-table-above,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    font-size: 12px;
+}
+
+.shoptimizer-sorting {
+    gap: 0;
+}
+
+/* =============================================================================
+   WooCommerce Blocks (Page ID 10)
+   ============================================================================= */
+
+.page-id-10 .wc-block-grid__product .wc-block-grid__product-add-to-cart,
+.page-id-10 .wc-block-grid__product .wc-block-grid__product-onsale,
+.page-id-10 .wc-block-grid__product .wc-block-grid__product-price,
+.page-id-10 .wc-block-grid__product .wc-block-grid__product-rating {
+    margin: 0;
+}
+
+.page-id-10 .wc-block-grid__product-add-to-cart.wp-block-button .wc-block-components-product-button__button,
+.page-id-10 .wc-block-grid__product-add-to-cart.wp-block-button a.wp-block-button__link {
+    margin-bottom: -4rem;
+}

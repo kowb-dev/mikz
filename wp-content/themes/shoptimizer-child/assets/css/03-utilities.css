@@ -1,0 +1,102 @@
+/**
+ * Utility Classes & Accessibility
+ *
+ * @package Shoptimizer Child
+ * @version 1.1.0
+ * @author KB
+ * @link https://kowb.ru
+ */
+
+/* =============================================================================
+   SCREEN READER & ACCESSIBILITY
+   ============================================================================= */
+
+.mkx-screen-reader-text {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden;
+}
+
+.mkx-skip-link {
+    position: absolute;
+    left: -9999px;
+    z-index: 999999;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--mkx-primary);
+    color: var(--mkx-white);
+    text-decoration: none;
+    font-weight: var(--mkx-font-bold);
+    border-radius: var(--radius-md);
+}
+
+.mkx-skip-link:focus {
+    left: var(--space-md);
+    top: var(--space-md);
+}
+
+/* =============================================================================
+   FOCUS IMPROVEMENTS
+   ============================================================================= */
+
+*:focus {
+    outline: 2px solid var(--mkx-primary);
+    outline-offset: 2px;
+}
+
+/* =============================================================================
+   HIGH CONTRAST MODE SUPPORT
+   ============================================================================= */
+
+@media (prefers-contrast: high) {
+    :root {
+        --mkx-primary: #0066cc;
+        --mkx-text-body: #000000;
+        --mkx-bg-primary: #ffffff;
+    }
+}
+
+/* =============================================================================
+   REDUCED MOTION SUPPORT
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* =============================================================================
+   PRINT STYLES
+   ============================================================================= */
+
+@media print {
+    .mkx-site-header,
+    .mkx-mobile-bottom-nav,
+    .mkx-mobile-menu,
+    .mkx-catalog-megamenu,
+    .mkx-megamenu-overlay {
+        display: none !important;
+    }
+
+    body.mkx-mobile-nav-active {
+        padding-bottom: 0 !important;
+    }
+
+    * {
+        color: #000 !important;
+        background: #fff !important;
+    }
+
+    .woocommerce-product,
+    .woocommerce-cart-form,
+    .woocommerce-checkout {
+        page-break-inside: avoid;
+    }
+}
