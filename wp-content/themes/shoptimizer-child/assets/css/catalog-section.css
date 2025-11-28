@@ -13,7 +13,7 @@
    ========================================================================== */
 
 .mkx-catalog-section {
-    padding: var(--space-4xl) 0;
+    padding: var(--space-lg) 0 var(--space-4xl) 0;
     background: var(--mkx-bg-primary);
     position: relative;
 }

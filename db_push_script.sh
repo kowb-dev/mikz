@@ -51,14 +51,14 @@ fi
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 echo ""
-echo -e "${GREEN}Шаг 1/7: Создание бэкапа БД на хостинге через mysqldump...${NC}"
+echo -e "${GREEN}Шаг 1/8: Создание бэкапа БД на хостинге через mysqldump...${NC}"
 ssh $REMOTE_SSH_ALIAS "mysqldump --no-tablespaces -u $REMOTE_DB_USER -p'$REMOTE_DB_PASS' -h $REMOTE_DB_HOST $REMOTE_DB_NAME > $REMOTE_WP_PATH/backup_before_push_$TIMESTAMP.sql" || {
     echo -e "${RED}Ошибка создания бэкапа на хостинге${NC}"
     exit 1
 }
 echo "Бэкап создан: backup_before_push_$TIMESTAMP.sql"
 
-echo -e "${GREEN}Шаг 2/7: Экспорт локальной БД...${NC}"
+echo -e "${GREEN}Шаг 2/8: Экспорт локальной БД...${NC}"
 cd "$LOCAL_WP_PATH"
 
 # Проверка, запущен ли скрипт от root
@@ -73,29 +73,45 @@ wp db export "$BACKUP_DIR/local_export_$TIMESTAMP.sql" $WP_CLI_ARGS || {
     exit 1
 }
 
-echo -e "${GREEN}Шаг 3/7: Замена URL в дампе (локальный → хостинг)...${NC}"
+echo -e "${GREEN}Шаг 3/8: Замена URL в дампе (локальный → хостинг)...${NC}"
 sed -i "s|$LOCAL_URL|$REMOTE_URL|g" "$BACKUP_DIR/local_export_$TIMESTAMP.sql"
 echo "URL заменен: $LOCAL_URL → $REMOTE_URL"
 
-echo -e "${GREEN}Шаг 4/7: Сжатие дампа...${NC}"
+echo -e "${GREEN}Шаг 4/8: Сжатие дампа...${NC}"
 gzip "$BACKUP_DIR/local_export_$TIMESTAMP.sql"
 
-echo -e "${GREEN}Шаг 5/7: Загрузка дампа на хостинг...${NC}"
+echo -e "${GREEN}Шаг 5/8: Загрузка дампа на хостинг...${NC}"
 scp "$BACKUP_DIR/local_export_$TIMESTAMP.sql.gz" $REMOTE_SSH_ALIAS:$REMOTE_WP_PATH/ || {
     echo -e "${RED}Ошибка загрузки файла на хостинг${NC}"
     exit 1
 }
 
-echo -e "${GREEN}Шаг 6/7: Импорт БД на хостинге через mysql...${NC}"
-ssh $REMOTE_SSH_ALIAS "cd $REMOTE_WP_PATH && gunzip -c local_export_$TIMESTAMP.sql.gz | mysql -u $REMOTE_DB_USER -p'$REMOTE_DB_PASS' -h $REMOTE_DB_HOST $REMOTE_DB_NAME" || {
+# ИСПРАВЛЕНО: Разделение на два шага для избежания fork ошибок на shared хостинге
+echo -e "${GREEN}Шаг 6/8: Распаковка дампа на хостинге...${NC}"
+ssh $REMOTE_SSH_ALIAS "cd $REMOTE_WP_PATH && gunzip local_export_$TIMESTAMP.sql.gz" || {
+    echo -e "${RED}Ошибка распаковки дампа${NC}"
+    echo -e "${YELLOW}Файл остался на хостинге: $REMOTE_WP_PATH/local_export_$TIMESTAMP.sql.gz${NC}"
+    exit 1
+}
+echo "Дамп распакован"
+
+# Небольшая пауза для освобождения ресурсов
+sleep 2
+
+echo -e "${GREEN}Шаг 7/8: Импорт БД на хостинге...${NC}"
+ssh $REMOTE_SSH_ALIAS "mysql -u $REMOTE_DB_USER -p'$REMOTE_DB_PASS' -h $REMOTE_DB_HOST $REMOTE_DB_NAME < $REMOTE_WP_PATH/local_export_$TIMESTAMP.sql" || {
     echo -e "${RED}Ошибка импорта БД на хостинге${NC}"
+    echo ""
     echo -e "${YELLOW}Можете восстановить из бэкапа:${NC}"
     echo "ssh $REMOTE_SSH_ALIAS \"mysql -u $REMOTE_DB_USER -p'$REMOTE_DB_PASS' $REMOTE_DB_NAME < $REMOTE_WP_PATH/backup_before_push_$TIMESTAMP.sql\""
+    echo ""
+    echo -e "${YELLOW}SQL файл остался на хостинге:${NC}"
+    echo "$REMOTE_WP_PATH/local_export_$TIMESTAMP.sql"
     exit 1
 }
 
-echo -e "${GREEN}Шаг 7/7: Очистка временных файлов на хостинге...${NC}"
-ssh $REMOTE_SSH_ALIAS "rm $REMOTE_WP_PATH/local_export_$TIMESTAMP.sql.gz"
+echo -e "${GREEN}Шаг 8/8: Очистка временных файлов на хостинге...${NC}"
+ssh $REMOTE_SSH_ALIAS "rm $REMOTE_WP_PATH/local_export_$TIMESTAMP.sql"
 
 echo ""
 echo -e "${GREEN}✓ База данных успешно загружена на хостинг!${NC}"
