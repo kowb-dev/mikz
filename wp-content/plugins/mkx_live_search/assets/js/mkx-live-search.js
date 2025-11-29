@@ -82,7 +82,7 @@
         },
 
         expandSearchTerm: function(term) {
-            console.log('Original term:', term);
+            
             if (typeof searchCombinations === 'undefined') {
                 console.log('searchCombinations is not defined');
                 return term;

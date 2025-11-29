@@ -44,7 +44,6 @@ function shoptimizer_child_enqueue_styles_scripts() {
         'header' => ['main'],
         'mobile-nav' => ['header'],
         'footer' => ['main'],
-        'footer-accordion' => ['footer'],
         'hero-carousel' => ['main'],
         'catalog-section' => ['main'],
         'subcategory-grid' => ['main'],
@@ -71,14 +70,6 @@ function shoptimizer_child_enqueue_styles_scripts() {
             $file_version
         );
     }
-
-    // 15. Main Child Theme Style (minimal overrides only)
-    wp_enqueue_style(
-        'shoptimizer-child-style',
-        get_stylesheet_directory_uri() . '/style.css',
-        array_map(function($file) { return 'mkx-' . $file; }, array_keys($css_files)),
-        $version
-    );
 
     // Подключаем JavaScript для шапки
     wp_enqueue_script(
