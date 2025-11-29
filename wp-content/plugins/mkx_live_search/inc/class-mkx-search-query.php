@@ -204,9 +204,32 @@ class MKX_Search_Query {
             }
         }
         
-        // Sort categories by name
-        usort($categories, function($a, $b) {
-            return strcmp($a['name'], $b['name']);
+        // Define priority slugs
+        $priority_slugs = [
+            'displei-iphone',
+            'displei-huawei-honor',
+            'displei-dlya-infinix',
+            'displei-oppo',
+            'displei-realme',
+            'displei-dlya-samsung',
+            'displei-tecno',
+            'displei-vivo',
+            'displei-xiaomi-redmi',
+        ];
+
+        // Custom sort categories
+        usort($categories, function($a, $b) use ($priority_slugs) {
+            $a_is_priority = in_array($a['slug'], $priority_slugs);
+            $b_is_priority = in_array($b['slug'], $priority_slugs);
+
+            if ($a_is_priority && !$b_is_priority) {
+                return -1; // a comes first
+            } elseif (!$a_is_priority && $b_is_priority) {
+                return 1; // b comes first
+            } else {
+                // Both are priority or both are not, sort alphabetically
+                return strcmp($a['name'], $b['name']);
+            }
         });
 
         set_transient($cache_key, $categories, HOUR_IN_SECONDS);

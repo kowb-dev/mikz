@@ -104,4 +104,15 @@ function mkx_register_custom_widgets() {
 }
 add_action( 'widgets_init', 'mkx_register_custom_widgets' );
 
+/**
+ * Clear MKX Live Search cache when a product is saved or a category is edited.
+ */
+function mkx_clear_live_search_cache() {
+    if (class_exists('MKX_Search_Query')) {
+        MKX_Search_Query::instance()->clear_search_cache();
+    }
+}
+add_action('save_post_product', 'mkx_clear_live_search_cache');
+add_action('edited_product_cat', 'mkx_clear_live_search_cache');
+
 
