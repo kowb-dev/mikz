@@ -843,7 +843,7 @@
     background: var(--mkx-primary);
     color: var(--mkx-white);
     font-size: var(--fs-md);
-    padding: 0.4rem;
+    padding: 0.3rem;
     aspect-ratio: 1/1;
     border-radius: 50%;
     min-width: 1.9rem;
