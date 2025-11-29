@@ -142,7 +142,7 @@ function shoptimizer_child_enqueue_styles_scripts() {
     // 14. Mobile Responsive (CRITICAL - fixes mobile shop page)
     wp_enqueue_style(
         'mkx-responsive-mobile',
-        get_stylesheet_directory_uri() . '/assets/css/08-responsive-mobile.css',
+        get_stylesheet_directory_uri() . '/assets/css/responsive-mobile.css',
         array( 'mkx-woocommerce-grid', 'mkx-woocommerce-list' ),
         $version
     );
