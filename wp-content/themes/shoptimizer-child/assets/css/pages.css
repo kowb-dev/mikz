@@ -1,0 +1,177 @@
+/*
+ * PAGE-SPECIFIC STYLES
+ * Custom styles for specific pages and templates
+ */
+
+/* General page title styling */
+.page .entry-title {
+    text-align: center;
+    font-size: var(--mkx-fs-h1);
+    margin: var(--space-xl) auto;
+    padding-bottom: var(--space-md);
+    border-bottom: 2px solid var(--mkx-primary-lighter);
+    position: relative;
+}
+
+/* Post meta */
+.post-meta,
+.posted-on {
+    display: none !important;
+}
+
+/* Blockquotes in content area */
+.content-area blockquote {
+    background: var(--mkx-info-lighter) !important;
+    padding: var(--space-lg) var(--space-xl) var(--space-px);
+    border-radius: var(--radius-md) !important;
+    border-left: inset 5px var(--mkx-info-light) !important;
+}
+
+/* Specific page layouts */
+.post-12 {
+    max-width: var(--container-narrow);
+    margin: 0 auto;
+}
+
+.page-id-3111 .content-area {
+    display: flex !important;
+    float: none !important;
+    justify-content: center !important;
+}
+
+/* Page without sidebar */
+@media (min-width: 993px) {
+    body.page-template-default:not(:has(#secondary.widget-area)) .content-area {
+        width: var(--container-narrow) !important;
+        margin: 0 auto !important;
+    }
+}
+
+/* Warranty page - print-friendly layout */
+.mkx-warranty-page {
+    width: 210mm;
+    height: auto;
+    margin: 0 auto;
+    padding: 20mm 25mm 20mm 30mm;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: black;
+    page-break-after: always;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .mkx-warranty-page {
+        width: 100%;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        font-size: 10pt;
+        overflow: visible;
+    }
+}
+
+/* Specific page ID adjustments */
+.page-id-10 .mkx-site-content {
+    margin: 0 !important;
+    transform: translateX(10%) !important;
+}
+
+.page-id-10 .content-area {
+    flex-direction: column !important;
+}
+
+.page-id-10 .wc-block-grid__product .wc-block-grid__product-add-to-cart,
+.wc-block-grid__product .wc-block-grid__product-onsale,
+.wc-block-grid__product .wc-block-grid__product-price,
+.wc-block-grid__product .wc-block-grid__product-rating {
+    margin: 0 !important;
+}
+
+.page-id-10 .wc-block-grid__product-add-to-cart.wp-block-button .wc-block-components-product-button__button,
+.wc-block-grid__product-add-to-cart.wp-block-button a.wp-block-button__link {
+    margin-bottom: -4rem !important;
+}
+
+/* Useful notes section (article grid) */
+.mkx-useful-notes-section {
+    padding: var(--space-4xl) 0;
+}
+
+.mkx-articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--grid-gap);
+    margin-top: var(--space-xl);
+}
+
+.mkx-article-card {
+    background-color: var(--mkx-bg-primary);
+    border: 1px solid var(--mkx-border-primary);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--mkx-transition-medium) var(--mkx-ease), 
+                box-shadow var(--mkx-transition-medium) var(--mkx-ease);
+}
+
+.mkx-article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.mkx-article-card-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--mkx-text-primary);
+}
+
+.mkx-article-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--mkx-border-primary);
+}
+
+.mkx-article-title {
+    font-size: var(--mkx-fs-h5);
+    font-weight: var(--mkx-font-semibold);
+    line-height: var(--mkx-lh-tight);
+    padding: var(--space-md);
+    margin: 0;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .mkx-useful-notes-section {
+        padding: var(--space-3xl) 0;
+    }
+    
+    .mkx-articles-grid {
+        grid-template-columns: 1fr;
+        gap: var(--grid-gap-sm);
+    }
+    
+    .mkx-article-thumbnail {
+        height: 180px;
+    }
+    
+    .mkx-article-title {
+        font-size: var(--mkx-fs-h6);
+        min-height: 70px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: background-color var(--mkx-transition-fast) var(--mkx-ease), 
+                    border-color var(--mkx-transition-fast) var(--mkx-ease);
+    }
+}

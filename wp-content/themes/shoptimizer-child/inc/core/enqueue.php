@@ -4,7 +4,7 @@
  * Modular CSS architecture for better maintainability
  *
  * @package Shoptimizer Child
- * @version 1.1.0
+ * @version 1.2.0
  * @author KB
  * @link https://kowb.ru
  */
@@ -35,123 +35,46 @@ function shoptimizer_child_enqueue_styles_scripts() {
         $parent_theme ? $parent_theme->get('Version') : '1.0.0'
     );
 
-    // 1. CSS Variables (load FIRST - foundation for all other styles)
-    wp_enqueue_style(
-        'mkx-variables',
-        get_stylesheet_directory_uri() . '/assets/css/01-variables.css',
-        array( 'shoptimizer-style' ),
-        $version
+    // Enqueue all CSS files from the assets/css directory
+    $css_files = array(
+        'variables' => [],
+        'base' => ['variables'],
+        'main' => ['base'],
+        'pages' => ['main'],
+        'header' => ['main'],
+        'mobile-nav' => ['header'],
+        'footer' => ['main'],
+        'footer-accordion' => ['footer'],
+        'hero-carousel' => ['main'],
+        'catalog-section' => ['main'],
+        'subcategory-grid' => ['main'],
+        'archive-product' => ['main'],
+        'shop-list-view' => ['main'],
+        'mkz-shop-list-overrides' => ['shop-list-view'],
+        'woo_base' => ['main'],
+        'woo_category' => ['woo_base'],
+        'woo_products' => ['woo_base'],
+        'woo_single' => ['woo_base'],
+        'woo_widgets' => ['woo_base'],
+        'woo_wishlist' => ['woo_base'],
+        'responsive-mobile' => ['main'],
+        'print' => ['main'],
     );
 
-    // 2. Layout (global containers and structure)
-    wp_enqueue_style(
-        'mkx-layout',
-        get_stylesheet_directory_uri() . '/assets/css/02-layout.css',
-        array( 'mkx-variables' ),
-        $version
-    );
-
-    // 3. Utilities (helper classes, accessibility)
-    wp_enqueue_style(
-        'mkx-utilities',
-        get_stylesheet_directory_uri() . '/assets/css/03-utilities.css',
-        array( 'mkx-variables' ),
-        $version
-    );
-
-    // 4. WooCommerce Grid (category/brand pages)
-    wp_enqueue_style(
-        'mkx-woocommerce-grid',
-        get_stylesheet_directory_uri() . '/assets/css/04-woocommerce-grid.css',
-        array( 'mkx-variables', 'mkx-layout' ),
-        $version
-    );
-
-    // 5. WooCommerce List View (shop page desktop)
-    wp_enqueue_style(
-        'mkx-woocommerce-list',
-        get_stylesheet_directory_uri() . '/assets/css/05-woocommerce-list.css',
-        array( 'mkx-woocommerce-grid' ),
-        $version
-    );
-
-    // 6. WooCommerce Base (notices, cart, general)
-    wp_enqueue_style(
-        'mkx-woocommerce-base',
-        get_stylesheet_directory_uri() . '/assets/css/06-woocommerce-base.css',
-        array( 'mkx-variables' ),
-        $version
-    );
-
-    // 7. Header
-    wp_enqueue_style(
-        'mkx-header-style',
-        get_stylesheet_directory_uri() . '/assets/css/header.css',
-        array( 'mkx-variables', 'mkx-layout' ),
-        $version
-    );
-
-    // 8. Mobile Navigation
-    wp_enqueue_style(
-        'mkx-mobile-nav-style',
-        get_stylesheet_directory_uri() . '/assets/css/mobile-nav.css',
-        array( 'mkx-header-style' ),
-        $version
-    );
-
-    // 9. Hero Carousel
-    wp_enqueue_style(
-        'mkx-hero-carousel-style',
-        get_stylesheet_directory_uri() . '/assets/css/hero-carousel.css',
-        array( 'mkx-variables' ),
-        $version
-    );
-
-    // 10. Catalog Section
-    wp_enqueue_style(
-        'mkx-catalog-section-style',
-        get_stylesheet_directory_uri() . '/assets/css/catalog-section.css',
-        array( 'mkx-variables' ),
-        $version
-    );
-
-    // 11. Subcategory Grid
-    wp_enqueue_style(
-        'mkx-subcategory-grid-style',
-        get_stylesheet_directory_uri() . '/assets/css/subcategory-grid.css',
-        array( 'mkx-variables' ),
-        $version
-    );
-
-    // 12. Footer
-    wp_enqueue_style(
-        'mkx-footer-style',
-        get_stylesheet_directory_uri() . '/assets/css/footer.css',
-        array( 'mkx-variables' ),
-        $version
-    );
-
-    // 13. Footer Accordion
-    wp_enqueue_style(
-        'mkx-footer-accordion-style',
-        get_stylesheet_directory_uri() . '/assets/css/footer-accordion.css',
-        array( 'mkx-footer-style' ),
-        $version
-    );
-
-    // 14. Mobile Responsive (CRITICAL - fixes mobile shop page)
-    wp_enqueue_style(
-        'mkx-responsive-mobile',
-        get_stylesheet_directory_uri() . '/assets/css/responsive-mobile.css',
-        array( 'mkx-woocommerce-grid', 'mkx-woocommerce-list' ),
-        $version
-    );
+    foreach ($css_files as $file => $deps) {
+        wp_enqueue_style(
+            'mkx-' . $file,
+            get_stylesheet_directory_uri() . '/assets/css/' . $file . '.css',
+            array_map(function($dep) { return 'mkx-' . $dep; }, $deps),
+            $version
+        );
+    }
 
     // 15. Main Child Theme Style (minimal overrides only)
     wp_enqueue_style(
         'shoptimizer-child-style',
         get_stylesheet_directory_uri() . '/style.css',
-        array( 'mkx-variables', 'mkx-layout', 'mkx-woocommerce-grid', 'mkx-woocommerce-list', 'mkx-responsive-mobile' ),
+        array_map(function($file) { return 'mkx-' . $file; }, array_keys($css_files)),
         $version
     );
 

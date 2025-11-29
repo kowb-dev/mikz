@@ -1,0 +1,149 @@
+/*
+ * YITH WISHLIST & COMPARE
+ * Styles for wishlist and product comparison features
+ */
+
+/* Main positioning context */
+.woocommerce ul.products li.product {
+    position: relative !important;
+}
+
+/* Hide text labels */
+.yith-wcwl-add-to-wishlist-button__label,
+a.compare.button .label {
+    display: none !important;
+}
+
+/* Wishlist button block */
+.products .product .yith-add-to-wishlist-button-block {
+    display: block !important;
+    position: absolute !important;
+    top: 0.6rem !important;
+    right: 1.05rem !important;
+    z-index: 10 !important;
+    width: 28px !important;
+    height: 28px !important;
+    border: none !important;
+    background: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+    text-align: left !important;
+}
+
+/* Compare button */
+.products .product .compare.button {
+    display: block !important;
+    position: absolute !important;
+    top: 3.4rem !important;
+    right: 1rem !important;
+    z-index: 10 !important;
+    width: 18px !important;
+    height: 18px !important;
+    border: none !important;
+    background: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+    text-align: left !important;
+    font-size: 0 !important;
+}
+
+/* Wishlist SVG icon */
+.products .product .yith-wcwl-add-to-wishlist-button .yith-wcwl-icon {
+    width: 27px !important;
+    height: auto;
+    margin: 0 !important;
+    color: var(--mkx-text-primary);
+    border: 0.001rem solid;
+    border-radius: 50%;
+    padding: 0.3rem;
+    opacity: 0.45;
+    background-color: var(--mkx-white);
+}
+
+/* Compare icon */
+.products .product .compare.button::before {
+    font-family: "Phosphor" !important;
+    content: "\e150" !important;
+    font-size: 15px !important;
+    font-weight: var(--mkx-font-light, 300);
+    font-style: normal !important;
+    color: var(--mkx-text-primary);
+    line-height: 1 !important;
+    border: 0.001rem solid;
+    border-radius: 50%;
+    padding: 0.3rem;
+    opacity: 0.45;
+    background-color: var(--mkx-white);
+}
+
+/* Desktop hover states */
+@media (min-width: 993px) {
+    .products .product .yith-add-to-wishlist-button-block,
+    .products .product .compare.button {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .products .product:hover .yith-add-to-wishlist-button-block,
+    .products .product:hover .compare.button {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .products .product .compare.button:hover::before,
+    .products .product .yith-wcwl-add-to-wishlist-button:hover .yith-wcwl-icon {
+        color: var(--mkx-primary) !important;
+    }
+}
+
+/* Mobile visibility */
+@media (max-width: 992px) {
+    .products .product .compare.button,
+    .products .product .yith-add-to-wishlist-button-block {
+        visibility: visible;
+    }
+    
+    .products .product .compare.button::before,
+    .products .product .yith-wcwl-add-to-wishlist-button .yith-wcwl-icon {
+        color: var(--mkx-text-muted);
+    }
+}
+
+/* Tablet adjustments */
+@media (max-width: 768px) {
+    .products .product .compare.button {
+        display: block !important;
+        position: absolute !important;
+        top: 3.4rem !important;
+        right: 0 !important;
+    }
+    
+    .products .product .yith-add-to-wishlist-button-block {
+        display: block !important;
+        position: absolute !important;
+        top: 0.6rem !important;
+        right: 1.29rem !important;
+    }
+}
+
+/* Compare & wishlist table adjustments */
+.compare-list .quantity,
+.wishlist_table .quantity {
+    display: none;
+}
+
+.wishlist_table .product-add-to-cart a.button {
+    color: white;
+}
+
+#yith-woocompare table.dataTable.compare-list tbody .product_info td {
+    vertical-align: bottom;
+}
+
+/* Static brands (non-clickable) */
+.other-brands-static {
+    pointer-events: none;
+}
