@@ -303,11 +303,11 @@
     max-width: var(--container-max) !important;
 }
 
-.related.products.woocommerce ul.products li.product,
+/* .related .woocommerce ul.products li.product,
 .woocommerce ul.products[class*="columns-"] li.product {
     height: 34rem;
     justify-content: space-between;
-}
+} */
 
 @media (min-width: 1200px) {
     .related.products ul.products {

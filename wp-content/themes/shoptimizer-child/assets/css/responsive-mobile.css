@@ -47,13 +47,7 @@
         display: none !important;
     }
 
-    /* Show grid-style product actions on mobile */
-    .woocommerce ul.products li.product.mkz-product-list-item .mkx-product-actions {
-        display: flex !important;
-        flex-direction: column !important;
-        padding: 0 var(--space-lg, 1rem) var(--space-lg, 1rem) !important;
-        margin-top: auto !important;
-    }
+
 
     /* Mobile product image */
     .woocommerce ul.products li.product.mkz-product-list-item .mkz-product-list-item__image {
@@ -137,6 +131,29 @@
         opacity: 1 !important;
         visibility: visible !important;
     }
+
+    /* Mobile product actions layout fix */
+    .woocommerce ul.products li.product .mkx-product-actions {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: var(--space-sm) !important;
+    }
+
+    .woocommerce ul.products li.product .mkx-product-actions .quantity {
+        width: 66% !important;
+        height: var(--button-height-md) !important;
+    }
+
+    .woocommerce ul.products li.product .mkx-product-actions .button {
+        width: 33% !important;
+        /* height: var(--button-height-md) !important; */
+        border-radius: var(--radius-full) !important;
+    }
+    .woocommerce ul.products li.product .quantity .minus, .woocommerce ul.products li.product .quantity .plus {
+    padding: 0 0.9rem!important;
+}
 }
 
 /* =============================================================================
@@ -166,7 +183,6 @@
     .tax-pwb-brand ul.products li.product,
     .woocommerce.post-type-archive-product ul.products li.product {
         border-radius: var(--radius-lg, 0.75rem) !important;
-        padding: 0.5rem !important;
     }
 }
 
