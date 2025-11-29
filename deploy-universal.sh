@@ -38,7 +38,7 @@ deploy_files() {
     echo ""
     
     echo -e "${YELLOW}ВНИМАНИЕ!${NC}" "Эта операция синхронизирует вашу локальную директорию с хостингом."
-    echo "Будут удалены файлы на хостинге, которых нет локально (в пределах темы)."
+    echo "Будут удалены файлы на хостинге, которых нет локально."
     echo ""
     echo "Локально: $LOCAL_WP_PATH/"
     echo "Хостинг:  $REMOTE_SSH_ALIAS:$REMOTE_WP_PATH/"
@@ -50,20 +50,28 @@ deploy_files() {
     fi
     
     echo ""
-    echo -e "${GREEN}Шаг 1/3: Синхронизация файлов темы...${NC}"
+    echo -e "${GREEN}Шаг 1/3: Синхронизация файлов...${NC}"
     rsync -avz --delete \
         --exclude '.git' \
-        --exclude 'db-backups' \
-        --exclude '.idea' \
+        --exclude '.gitignore' \
+        --exclude '.env' \
+        --exclude 'wp-config.php' \
+        --exclude 'wp-content/uploads' \
+        --exclude 'wp-content/cache' \
+        --exclude 'wp-content/upgrade' \
+        --exclude 'node_modules' \
+        --exclude '.DS_Store' \
+        --exclude '*.log' \
+        --exclude 'deploy.sh' \
         --exclude 'deploy-universal.sh' \
         --exclude 'db_push_script.sh' \
-        "$LOCAL_WP_PATH/wp-content/themes/shoptimizer-child/" "$REMOTE_SSH_ALIAS:$REMOTE_WP_PATH/wp-content/themes/shoptimizer-child/" || {
-        echo -e "${RED}Ошибка при синхронизации файлов темы.${NC}"
+        "$LOCAL_WP_PATH/" "$REMOTE_SSH_ALIAS:$REMOTE_WP_PATH/" || {
+        echo -e "${RED}Ошибка при синхронизации файлов.${NC}"
         exit 1
     }
 
     echo -e "${GREEN}Шаг 2/3: Установка прав на директории и файлы на хостинге...${NC}"
-    ssh $REMOTE_SSH_ALIAS "cd $REMOTE_WP_PATH/wp-content/themes/shoptimizer-child/ && find . -type d -exec chmod 755 {} \; && find . -type f -exec chmod 644 {} \;" || {
+    ssh $REMOTE_SSH_ALIAS "cd $REMOTE_WP_PATH && find . -type d -exec chmod 755 {} \; && find . -type f -exec chmod 644 {} \;" || {
         echo -e "${RED}Ошибка при установке прав на файлы.${NC}"
         exit 1
     }
@@ -159,7 +167,7 @@ elif [ "$1" == "db" ]; then
 else
     echo "Использование: $0 [files|db]"
     echo ""
-    echo "  files:  Синхронизировать файлы темы (wp-content/themes/shoptimizer-child) с хостингом."
+    echo "  files:  Синхронизировать файлы (wp-content/themes/shoptimizer-child) с хостингом."
     echo "  db:     Загрузить локальную базу данных на хостинг."
     echo ""
     exit 1
