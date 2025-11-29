@@ -1,34 +1,24 @@
 <?php
 /**
- * Search Query Handler
+ * Search Query Handler with Enhanced Search Combinations
  *
  * @package MKX_Live_Search
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * MKX Search Query Class
- *
- * @class MKX_Search_Query
- */
 class MKX_Search_Query {
 
-    /**
-     * Instance
-     *
-     * @var MKX_Search_Query
-     */
     private static $instance = null;
-
+    
     /**
-     * Get instance
-     *
-     * @return MKX_Search_Query
+     * Search combinations mapping
      */
+    private $search_combinations = array();
+
     public static function instance() {
         if (is_null(self::$instance)) {
             self::$instance = new self();
@@ -36,19 +26,98 @@ class MKX_Search_Query {
         return self::$instance;
     }
 
-    /**
-     * Constructor
-     */
     private function __construct() {
-        // Empty constructor
+        $this->init_search_combinations();
     }
 
     /**
-     * Search products
-     *
-     * @param string $search_term Search term
-     * @param array  $args Additional arguments
-     * @return array
+     * Initialize search combinations from JS file
+     */
+    private function init_search_combinations() {
+        $this->search_combinations = array(
+            // БРЕНДЫ
+            'brands' => array(
+                'apple' => array('apple', 'аппле', 'апл', 'эпл', 'эппл', 'апель', 'фззду'),
+                'iphone' => array('iphone', 'айфон', 'ифон', 'іфон', 'b`jyt', 'b`jy', 'айфoн'),
+                'ipad' => array('ipad', 'айпад', 'айпэд', 'ипад', 'іпад', 'b`fl'),
+                'samsung' => array('samsung', 'самсунг', 'самсунк', 'сансунг', 'самсун', 'самс', 'cfvceyu', 'cfvcey'),
+                'xiaomi' => array('xiaomi', 'сяоми', 'ксяоми', 'шаоми', 'ксиаоми', '[bfjvb', '[bfv'),
+                'redmi' => array('redmi', 'редми', 'htlvb'),
+                'huawei' => array('huawei', 'хуавей', 'хуавэй', 'хавей', 'хуавай', 'uefdtb', 'uefdt'),
+                'honor' => array('honor', 'хонор', 'хоннор', 'ujyjh'),
+                'nokia' => array('nokia', 'нокиа', 'нокия', 'yjrbf'),
+                'oppo' => array('oppo', 'оппо', 'опо', 'jggj'),
+                'vivo' => array('vivo', 'виво', 'віво', 'dbdj'),
+                'realme' => array('realme', 'реалме', 'риалми', 'риалме', 'реалми', 'htfkvt'),
+                'infinix' => array('infinix', 'инфиникс', 'инфініх', 'byabyb['),
+                'tecno' => array('tecno', 'текно', 'тэкно', 'ntryj'),
+            ),
+            // ТИПЫ ЗАПЧАСТЕЙ
+            'parts' => array(
+                'display' => array('дисплей', 'диспей', 'дисплэй', 'диспл', 'дисп', 'lbcgktq', 'lbcgk', 'экран', 'єкран', '\'rhfy', 'lcd', 'лсд', 'лцд', 'ktl', 'модуль', 'vjlekm'),
+                'battery' => array('акб', 'fr,', 'аккумулятор', 'аккум', 'батарея', 'батарейка', 'акум', 'frrevekznjh', 'frreve', ',fnfhtz'),
+                'back_cover' => array('задняя крышка', 'крышка', 'задняя', 'зад крышка', 'pflyzz rhsirn', 'rhsirn', 'pflyzz', 'корпус', 'корп', 'rjhgec', 'rjhg', 'рамка', 'рама', 'hfvrf', 'hfvf'),
+                'flex' => array('шлейф', 'шлеф', 'iktqa', 'ikta', 'межплатный', 'межплат', 'vt;gkfnysq', 'vt;gkfn', 'флекс', 'aktrc'),
+                'charging' => array('шлейф зарядки', 'зарядка', 'порт зарядки', 'iktqa pfhzlrb', 'pfhzlrf', 'плата зарядки', 'charging port', 'gkfnf pfhzlrb', 'разъем', 'разьем', 'hfp]tv'),
+                'glass' => array('стекло', 'стекл', 'cntrkj', 'тачскрин', 'тачскрін', 'тач', 'nfxcrhby', 'nfx', 'переклейка', 'gthtrktrrf'),
+                'speaker' => array('динамик', 'динамік', 'дин', 'lbyfvbr', 'lby', 'динамики', 'спикер', 'speaker', 'lbyfvbrb', 'cgbrhh'),
+            ),
+        );
+    }
+
+    /**
+     * Expand search term with combinations
+     */
+    private function expand_search_term($search_term) {
+        $search_term = mb_strtolower(trim($search_term), 'UTF-8');
+        $words = preg_split('/\s+/', $search_term);
+        $expanded_terms = array($search_term); // Always include original
+        
+        foreach ($words as $word) {
+            if (empty($word)) continue;
+            
+            $word_length = mb_strlen($word, 'UTF-8');
+            $found_exact = false;
+            
+            // Check exact match first
+            foreach ($this->search_combinations as $category => $subcategories) {
+                foreach ($subcategories as $canonical => $variants) {
+                    if (in_array($word, $variants)) {
+                        // Add canonical term
+                        $expanded_terms[] = $canonical;
+                        // Add all variants
+                        $expanded_terms = array_merge($expanded_terms, $variants);
+                        $found_exact = true;
+                        break 2;
+                    }
+                }
+            }
+            
+            // If no exact match and word is 2-4 characters, check partial matches
+            if (!$found_exact && $word_length >= 2 && $word_length <= 4) {
+                foreach ($this->search_combinations as $category => $subcategories) {
+                    foreach ($subcategories as $canonical => $variants) {
+                        foreach ($variants as $variant) {
+                            // Check if variant starts with the word (first 2-4 chars)
+                            if (mb_strlen($variant, 'UTF-8') >= $word_length) {
+                                $variant_prefix = mb_substr($variant, 0, $word_length, 'UTF-8');
+                                if ($variant_prefix === $word) {
+                                    $expanded_terms[] = $canonical;
+                                    $expanded_terms = array_merge($expanded_terms, $variants);
+                                    break 3;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return array_unique($expanded_terms);
+    }
+
+    /**
+     * Search products with expanded terms
      */
     public function search_products($search_term, $args = array()) {
         if (empty($search_term) || strlen($search_term) < 2) {
@@ -63,9 +132,11 @@ class MKX_Search_Query {
         );
 
         $args = wp_parse_args($args, $defaults);
-        $search_term = sanitize_text_field($search_term);
-
-        $product_ids = $this->get_product_ids_by_search($search_term, $args);
+        
+        // Expand search term
+        $expanded_terms = $this->expand_search_term($search_term);
+        
+        $product_ids = $this->get_product_ids_by_search($expanded_terms, $args);
 
         if (empty($product_ids)) {
             return array();
@@ -98,17 +169,39 @@ class MKX_Search_Query {
     }
 
     /**
-     * Get product IDs by search term
-     *
-     * @param string $search_term Search term
-     * @param array  $args Arguments
-     * @return array
+     * Get product IDs by expanded search terms
      */
-    private function get_product_ids_by_search($search_term, $args) {
+    private function get_product_ids_by_search($search_terms, $args) {
         global $wpdb;
 
-        $search_term_like = '%' . $wpdb->esc_like($search_term) . '%';
-        
+        if (!is_array($search_terms)) {
+            $search_terms = array($search_terms);
+        }
+
+        $like_conditions = array();
+        $prepare_values = array();
+
+        foreach ($search_terms as $term) {
+            $like = '%' . $wpdb->esc_like($term) . '%';
+            
+            $like_conditions[] = "
+                (p.post_title LIKE %s 
+                OR pm_sku.meta_value LIKE %s 
+                OR t.name LIKE %s 
+                OR pm_attr.meta_value LIKE %s
+                OR p.post_content LIKE %s)
+            ";
+            
+            // Add 5 placeholders for each term
+            $prepare_values[] = $like;
+            $prepare_values[] = $like;
+            $prepare_values[] = $like;
+            $prepare_values[] = $like;
+            $prepare_values[] = $like;
+        }
+
+        $conditions_sql = implode(' OR ', $like_conditions);
+
         $sql = "
             SELECT DISTINCT p.ID, 
                    CASE 
@@ -121,36 +214,31 @@ class MKX_Search_Query {
             FROM {$wpdb->posts} p
             LEFT JOIN {$wpdb->postmeta} pm_sku ON (p.ID = pm_sku.post_id AND pm_sku.meta_key = '_sku')
             LEFT JOIN {$wpdb->term_relationships} tr ON (p.ID = tr.object_id)
-            LEFT JOIN {$wpdb->term_taxonomy} tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id AND tt.taxonomy IN ('product_cat', 'product_brand'))
+            LEFT JOIN {$wpdb->term_taxonomy} tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id AND tt.taxonomy IN ('product_cat', 'product_brand', 'pa_brand'))
             LEFT JOIN {$wpdb->terms} t ON (tt.term_id = t.term_id)
             LEFT JOIN {$wpdb->postmeta} pm_attr ON (p.ID = pm_attr.post_id AND pm_attr.meta_key LIKE 'attribute_%')
             WHERE p.post_type = 'product'
             AND p.post_status = 'publish'
-            AND (
-                p.post_title LIKE %s
-                OR pm_sku.meta_value LIKE %s
-                OR t.name LIKE %s
-                OR pm_attr.meta_value LIKE %s
-            )
+            AND ({$conditions_sql})
             ORDER BY relevance ASC, p.post_title ASC
             LIMIT %d
         ";
 
-        $limit = absint($args['limit']) * 2;
+        // Prepare values for relevance calculation (first term only)
+        $first_term_like = '%' . $wpdb->esc_like($search_terms[0]) . '%';
+        $relevance_values = array(
+            $first_term_like,
+            $first_term_like,
+            $first_term_like,
+            $first_term_like,
+        );
+
+        // Combine all prepare values
+        $all_values = array_merge($relevance_values, $prepare_values);
+        $all_values[] = absint($args['limit']) * 3; // Limit
 
         $results = $wpdb->get_col(
-            $wpdb->prepare(
-                $sql,
-                $search_term_like,
-                $search_term_like,
-                $search_term_like,
-                $search_term_like,
-                $search_term_like,
-                $search_term_like,
-                $search_term_like,
-                $search_term_like,
-                $limit
-            )
+            $wpdb->prepare($sql, $all_values)
         );
 
         return array_map('absint', $results);
@@ -158,9 +246,6 @@ class MKX_Search_Query {
 
     /**
      * Get categories from search results
-     *
-     * @param string $search_term Search term
-     * @return array
      */
     public function get_search_categories($search_term) {
         if (empty($search_term) || strlen($search_term) < 2) {
@@ -174,15 +259,16 @@ class MKX_Search_Query {
             return $cached;
         }
 
-        // Get product IDs using the comprehensive search method
-        $product_ids = $this->get_product_ids_by_search($search_term, array('limit' => 100)); // Increased limit to get more products
+        // Expand search term
+        $expanded_terms = $this->expand_search_term($search_term);
+        
+        $product_ids = $this->get_product_ids_by_search($expanded_terms, array('limit' => 100));
 
         if (empty($product_ids)) {
             set_transient($cache_key, array(), HOUR_IN_SECONDS);
             return array();
         }
 
-        // Now get all unique categories for these product IDs
         $category_terms = wp_get_object_terms($product_ids, 'product_cat');
         
         $categories = array();
@@ -204,8 +290,8 @@ class MKX_Search_Query {
             }
         }
         
-        // Define priority slugs
-        $priority_slugs = [
+        // Priority slugs for display categories
+        $priority_slugs = array(
             'displei-iphone',
             'displei-huawei-honor',
             'displei-dlya-infinix',
@@ -215,19 +301,20 @@ class MKX_Search_Query {
             'displei-tecno',
             'displei-vivo',
             'displei-xiaomi-redmi',
-        ];
+            'akb-iphone',
+            'akb-samsung',
+            'akb-xiaomi-redmi',
+        );
 
-        // Custom sort categories
         usort($categories, function($a, $b) use ($priority_slugs) {
             $a_is_priority = in_array($a['slug'], $priority_slugs);
             $b_is_priority = in_array($b['slug'], $priority_slugs);
 
             if ($a_is_priority && !$b_is_priority) {
-                return -1; // a comes first
+                return -1;
             } elseif (!$a_is_priority && $b_is_priority) {
-                return 1; // b comes first
+                return 1;
             } else {
-                // Both are priority or both are not, sort alphabetically
                 return strcmp($a['name'], $b['name']);
             }
         });
@@ -239,9 +326,6 @@ class MKX_Search_Query {
 
     /**
      * Format product for response
-     *
-     * @param WP_Post $product Product post object
-     * @return array|null
      */
     public function format_product_response($product) {
         $wc_product = wc_get_product($product->ID);
@@ -266,9 +350,6 @@ class MKX_Search_Query {
 
     /**
      * Get product image
-     *
-     * @param WC_Product $product Product object
-     * @return string
      */
     private function get_product_image($product) {
         $image_id = $product->get_image_id();
@@ -282,8 +363,6 @@ class MKX_Search_Query {
 
     /**
      * Clear search cache
-     *
-     * @return void
      */
     public function clear_search_cache() {
         global $wpdb;

@@ -153,10 +153,18 @@ final class MKX_Live_Search {
         );
 
         wp_enqueue_script(
+            'mkx-search-combinations',
+            MKX_LS_PLUGIN_URL . 'assets/js/search_combinations.js',
+            array(),
+            time(),
+            true
+        );
+
+        wp_enqueue_script(
             'mkx-live-search-js',
             MKX_LS_PLUGIN_URL . 'assets/js/mkx-live-search.js',
-            array('jquery'),
-            MKX_LS_VERSION,
+            array('jquery', 'mkx-search-combinations'),
+            time(),
             true
         );
 
@@ -164,7 +172,7 @@ final class MKX_Live_Search {
             'mkx-live-search-init-js',
             MKX_LS_PLUGIN_URL . 'assets/js/mkx-live-search-init.js',
             array('jquery', 'mkx-live-search-js'),
-            MKX_LS_VERSION,
+            time(),
             true
         );
 

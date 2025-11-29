@@ -76,8 +76,39 @@
             this.searchInput.addClass('mkx-search-loading');
 
             this.debounceTimer = setTimeout(function() {
-                self.performSearch(term);
+                const expandedTerm = self.expandSearchTerm(term);
+                self.performSearch(expandedTerm);
             }, mkxLiveSearch.delay);
+        },
+
+        expandSearchTerm: function(term) {
+            console.log('Original term:', term);
+            if (typeof searchCombinations === 'undefined') {
+                console.log('searchCombinations is not defined');
+                return term;
+            }
+
+            const words = term.toLowerCase().split(' ');
+            const expandedWords = words.map(word => {
+                for (const category in searchCombinations) {
+                    if (typeof searchCombinations[category] === 'object' && !Array.isArray(searchCombinations[category])) {
+                        for (const subCategory in searchCombinations[category]) {
+                            if (searchCombinations[category][subCategory].includes(word)) {
+                                return searchCombinations[category][subCategory][0];
+                            }
+                        }
+                    } else if (Array.isArray(searchCombinations[category])) {
+                        if (searchCombinations[category].includes(word)) {
+                            return searchCombinations[category][0];
+                        }
+                    }
+                }
+                return word;
+            });
+            
+            const expandedTerm = expandedWords.join(' ');
+            console.log('Expanded term:', expandedTerm);
+            return expandedTerm;
         },
 
         performSearch: function(term) {
