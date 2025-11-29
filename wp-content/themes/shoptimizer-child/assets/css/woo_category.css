@@ -198,8 +198,4 @@
         font-size: var(--fs-base) !important;
         padding: 0 !important;
     }
-
-    .woocommerce.archive #content {
-        padding: 0 0.5rem !important;
-    }
 }

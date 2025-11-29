@@ -4,7 +4,7 @@
  * Modular CSS architecture for better maintainability
  *
  * @package Shoptimizer Child
- * @version 1.2.0
+ * @version 1.2.1
  * @author KB
  * @link https://kowb.ru
  */
@@ -62,11 +62,13 @@ function shoptimizer_child_enqueue_styles_scripts() {
     );
 
     foreach ($css_files as $file => $deps) {
+        // Use a consistent version number for all child theme assets
+        $file_version = ($file === 'responsive-mobile') ? time() : $version;
         wp_enqueue_style(
             'mkx-' . $file,
             get_stylesheet_directory_uri() . '/assets/css/' . $file . '.css',
             array_map(function($dep) { return 'mkx-' . $dep; }, $deps),
-            $version
+            $file_version
         );
     }
 
@@ -118,6 +120,15 @@ function shoptimizer_child_enqueue_styles_scripts() {
     wp_enqueue_script(
         'mkx-quantity-handler-script',
         get_stylesheet_directory_uri() . '/assets/js/quantity-handler.js',
+        array(),
+        $version,
+        true
+    );
+
+    // Подключаем JavaScript для фильтров (drawer functionality)
+    wp_enqueue_script(
+        'mkx-filters-script',
+        get_stylesheet_directory_uri() . '/assets/js/filters.js',
         array(),
         $version,
         true
@@ -177,7 +188,7 @@ add_action( 'wp_enqueue_scripts', 'shoptimizer_child_defer_scripts', 999 );
 function shoptimizer_child_defer_scripts() {
     // Добавляем атрибут defer к нашим скриптам для оптимизации
     add_filter( 'script_loader_tag', function( $tag, $handle ) {
-        if ( in_array( $handle, array( 'mkx-header-script', 'mkx-hero-carousel-script', 'mkx-footer-script', 'mkx-quantity-handler-script', 'mkx-footer-accordion-script' ) ) ) {
+        if ( in_array( $handle, array( 'mkx-header-script', 'mkx-hero-carousel-script', 'mkx-footer-script', 'mkx-quantity-handler-script', 'mkx-footer-accordion-script', 'mkx-filters-script' ) ) ) {
             return str_replace( ' src', ' defer src', $tag );
         }
         return $tag;

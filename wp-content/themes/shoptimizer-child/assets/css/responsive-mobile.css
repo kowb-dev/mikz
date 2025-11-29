@@ -108,8 +108,13 @@
         width: 26px !important;
         height: 26px !important;
         font-size: 16px !important;
-    }
+       
 
+    }
+.woocommerce ul.products li.product .quantity .minus, .woocommerce ul.products li.product .quantity .plus {
+ padding: 0 0.9rem!important;
+
+}
     /* Mobile add to cart button */
     .woocommerce ul.products li.product.mkz-product-list-item .button {
         width: 100% !important;
@@ -139,6 +144,7 @@
         justify-content: space-between !important;
         align-items: center !important;
         gap: var(--space-sm) !important;
+        padding: 0 0 var(--space-lg);
     }
 
     .woocommerce ul.products li.product .mkx-product-actions .quantity {
@@ -148,12 +154,59 @@
 
     .woocommerce ul.products li.product .mkx-product-actions .button {
         width: 33% !important;
-        /* height: var(--button-height-md) !important; */
         border-radius: var(--radius-full) !important;
     }
-    .woocommerce ul.products li.product .quantity .minus, .woocommerce ul.products li.product .quantity .plus {
-    padding: 0 0.9rem!important;
-}
+
+    /* =============================================================================
+       MOBILE FILTERS WIDGET
+       ============================================================================= */
+
+    .secondary-wrapper {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        z-index: 9999 !important;
+        display: none; /* Hidden by default */
+    }
+
+    .secondary-wrapper.open {
+        display: block !important;
+    }
+
+    #secondary.widget-area {
+        position: absolute !important;
+        top: 0 !important;
+        left: -80% !important; /* Start off-screen */
+        width: 80% !important;
+        height: 100% !important;
+        background-color: #fff !important;
+        padding: var(--space-xl) !important;
+        transition: left var(--mkx-transition-medium) var(--mkx-ease) !important;
+        overflow-y: auto;
+    }
+
+    .secondary-wrapper.open #secondary.widget-area {
+        left: 0 !important;
+    }
+
+    .filters.close-drawer {
+        position: absolute;
+        top: var(--space-md);
+        right: var(--space-md);
+        width: var(--button-height-md);
+        height: var(--button-height-md);
+        background-color: var(--mkx-white);
+        border-radius: var(--radius-full);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 10000;
+        border: 1px solid var(--mkx-border-primary);
+    }
 }
 
 /* =============================================================================
