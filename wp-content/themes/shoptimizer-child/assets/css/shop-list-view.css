@@ -320,3 +320,11 @@ table.wc-product-table tbody td,
     padding: var(--space-xs)!important;
     margin-top: 0;
 }
+
+.mkz-product-list-item__actions .quantity .qty {
+   width: var(--space-xl)!important;
+}
+.mkz-product-list-item__actions a.button.product_type_simple.add_to_cart_button.ajax_add_to_cart {
+    padding: 0 1rem!important;
+
+}
