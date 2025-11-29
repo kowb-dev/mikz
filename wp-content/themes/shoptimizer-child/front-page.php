@@ -418,8 +418,8 @@ get_header(); ?>
                 </div>
                 <div class="mkx-articles-grid">
                     <article class="mkx-article-card">
-                        <a href="http://mix.dev.loc/remont-razema-dlya-zaryadki-svoimi-rukami-poshagovoe-rukovodstvo-dlya-novichkov/" class="mkx-article-card-link">
-                            <img src="http://mix.dev.loc/wp-content/uploads/2025/09/remont-razema-dlya-zaryadki-svoimi-rukami.webp"
+                        <a href="/remont-razema-dlya-zaryadki-svoimi-rukami-poshagovoe-rukovodstvo-dlya-novichkov/" class="mkx-article-card-link">
+                            <img src="/wp-content/uploads/2025/09/remont-razema-dlya-zaryadki-svoimi-rukami.webp"
                                  alt="Ремонт разъема для зарядки своими руками"
                                  width="350"
                                  height="200"
@@ -431,8 +431,8 @@ get_header(); ?>
                         </a>
                     </article>
                     <article class="mkx-article-card">
-                        <a href="http://mix.dev.loc/akkumulyatory-dlya-smartfonov-chto-nuzhno-znat-o-batareyah-populyarnyh-brendov/" class="mkx-article-card-link">
-                            <img src="http://mix.dev.loc/wp-content/uploads/2025/09/akkumulyatory-dlya-smartfonov-chto-nuzhno-znat-o-batareyah-populyarnyh-brendov.webp"
+                        <a href="/akkumulyatory-dlya-smartfonov-chto-nuzhno-znat-o-batareyah-populyarnyh-brendov/" class="mkx-article-card-link">
+                            <img src="/wp-content/uploads/2025/09/akkumulyatory-dlya-smartfonov-chto-nuzhno-znat-o-batareyah-populyarnyh-brendov.webp"
                                  alt="Аккумуляторы для смартфонов: что нужно знать о батареях популярных брендов"
                                  width="350"
                                  height="200"
@@ -444,8 +444,8 @@ get_header(); ?>
                         </a>
                     </article>
                     <article class="mkx-article-card">
-                        <a href="http://mix.dev.loc/ekrany-dlya-iphone-original-oem-kopiya-ili-analog-kak-vybrat-i-ne-oshibitsya/" class="mkx-article-card-link">
-                            <img src="http://mix.dev.loc/wp-content/uploads/2025/09/ekrany-dlya-iphone.webp"
+                        <a href="/ekrany-dlya-iphone-original-oem-kopiya-ili-analog-kak-vybrat-i-ne-oshibitsya/" class="mkx-article-card-link">
+                            <img src="/wp-content/uploads/2025/09/ekrany-dlya-iphone.webp"
                                  alt="Экраны для iPhone: оригинал, OEM, копия или аналог? Как выбрать и не ошибиться"
                                  width="350"
                                  height="200"

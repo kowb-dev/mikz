@@ -125,7 +125,9 @@ class MKX_Search_Results {
         $query_handler->clear_search_cache();
     }
 
-    public function display_search_categories() {
+
+
+public function display_search_categories() {
         if (!is_search() || !isset($_GET['s'])) {
             return;
         }
@@ -143,10 +145,52 @@ class MKX_Search_Results {
             return;
         }
 
+        // Приоритетные slugs для категорий дисплеев
+        $display_priority_slugs = array(
+            'displei-iphone',
+            'displei-huawei-honor',
+            'displei-dlya-infinix',
+            'displei-oppo',
+            'displei-realme',
+            'displei-dlya-samsung',
+            'displei-tecno',
+            'displei-vivo',
+            'displei-xiaomi-redmi',
+            'displei-ekrany-lcd',
+        );
+
+        // Получаем текущую выбранную категорию
         $active_category = isset($_GET['product_cat']) ? sanitize_text_field(wp_unslash($_GET['product_cat'])) : '';
+
+        // Если категория не выбрана вручную, автоматически выбираем первую категорию дисплеев
+        if (empty($active_category)) {
+            foreach ($categories as $category) {
+                if (in_array($category['slug'], $display_priority_slugs)) {
+                    $active_category = $category['slug'];
+                    
+                    // Перенаправляем на URL с выбранной категорией
+                    $redirect_url = add_query_arg(
+                        array(
+                            's' => $search_term,
+                            'post_type' => 'product',
+                            'product_cat' => $active_category,
+                        ),
+                        home_url('/')
+                    );
+                    
+                    // Проверяем, что мы еще не на странице с категорией
+                    if (!isset($_GET['product_cat'])) {
+                        wp_safe_redirect($redirect_url);
+                        exit;
+                    }
+                    break;
+                }
+            }
+        }
 
         $this->render_search_categories($categories, $search_term, $active_category);
     }
+
 
     private function render_search_categories($categories, $search_term, $active_category) {
         ?>

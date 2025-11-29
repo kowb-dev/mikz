@@ -202,6 +202,22 @@ class MKX_Search_Query {
 
         $conditions_sql = implode(' OR ', $like_conditions);
 
+        // Приоритетные slugs для категорий дисплеев
+        $display_slugs = array(
+            'displei-iphone',
+            'displei-huawei-honor',
+            'displei-dlya-infinix',
+            'displei-oppo',
+            'displei-realme',
+            'displei-dlya-samsung',
+            'displei-tecno',
+            'displei-vivo',
+            'displei-xiaomi-redmi',
+            'displei-ekrany-lcd',
+        );
+        
+        $display_slugs_str = "'" . implode("','", array_map('esc_sql', $display_slugs)) . "'";
+
         $sql = "
             SELECT DISTINCT p.ID, 
                    CASE 
@@ -210,17 +226,24 @@ class MKX_Search_Query {
                        WHEN t.name LIKE %s THEN 3
                        WHEN pm_attr.meta_value LIKE %s THEN 4
                        ELSE 5
-                   END as relevance
+                   END as relevance,
+                   CASE 
+                       WHEN t_cat.slug IN ({$display_slugs_str}) THEN 0
+                       ELSE 1
+                   END as category_priority
             FROM {$wpdb->posts} p
             LEFT JOIN {$wpdb->postmeta} pm_sku ON (p.ID = pm_sku.post_id AND pm_sku.meta_key = '_sku')
             LEFT JOIN {$wpdb->term_relationships} tr ON (p.ID = tr.object_id)
             LEFT JOIN {$wpdb->term_taxonomy} tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id AND tt.taxonomy IN ('product_cat', 'product_brand', 'pa_brand'))
             LEFT JOIN {$wpdb->terms} t ON (tt.term_id = t.term_id)
+            LEFT JOIN {$wpdb->term_relationships} tr_cat ON (p.ID = tr_cat.object_id)
+            LEFT JOIN {$wpdb->term_taxonomy} tt_cat ON (tr_cat.term_taxonomy_id = tt_cat.term_taxonomy_id AND tt_cat.taxonomy = 'product_cat')
+            LEFT JOIN {$wpdb->terms} t_cat ON (tt_cat.term_id = t_cat.term_id)
             LEFT JOIN {$wpdb->postmeta} pm_attr ON (p.ID = pm_attr.post_id AND pm_attr.meta_key LIKE 'attribute_%')
             WHERE p.post_type = 'product'
             AND p.post_status = 'publish'
             AND ({$conditions_sql})
-            ORDER BY relevance ASC, p.post_title ASC
+            ORDER BY category_priority ASC, relevance ASC, p.post_title ASC
             LIMIT %d
         ";
 
@@ -245,7 +268,7 @@ class MKX_Search_Query {
     }
 
     /**
-     * Get categories from search results
+     * Get categories from search results with Display priority
      */
     public function get_search_categories($search_term) {
         if (empty($search_term) || strlen($search_term) < 2) {
@@ -290,8 +313,8 @@ class MKX_Search_Query {
             }
         }
         
-        // Priority slugs for display categories
-        $priority_slugs = array(
+        // Приоритетные slugs для категорий дисплеев (всегда показываем первыми)
+        $display_priority_slugs = array(
             'displei-iphone',
             'displei-huawei-honor',
             'displei-dlya-infinix',
@@ -301,22 +324,30 @@ class MKX_Search_Query {
             'displei-tecno',
             'displei-vivo',
             'displei-xiaomi-redmi',
-            'akb-iphone',
-            'akb-samsung',
-            'akb-xiaomi-redmi',
+            'displei-ekrany-lcd',
         );
 
-        usort($categories, function($a, $b) use ($priority_slugs) {
-            $a_is_priority = in_array($a['slug'], $priority_slugs);
-            $b_is_priority = in_array($b['slug'], $priority_slugs);
+        // Сортировка: сначала дисплеи (в порядке приоритета), затем остальное по алфавиту
+        usort($categories, function($a, $b) use ($display_priority_slugs) {
+            $a_is_display = in_array($a['slug'], $display_priority_slugs);
+            $b_is_display = in_array($b['slug'], $display_priority_slugs);
 
-            if ($a_is_priority && !$b_is_priority) {
-                return -1;
-            } elseif (!$a_is_priority && $b_is_priority) {
-                return 1;
-            } else {
-                return strcmp($a['name'], $b['name']);
+            // Если обе категории - дисплеи, сортируем по приоритету
+            if ($a_is_display && $b_is_display) {
+                $a_priority = array_search($a['slug'], $display_priority_slugs);
+                $b_priority = array_search($b['slug'], $display_priority_slugs);
+                return $a_priority - $b_priority;
             }
+
+            // Дисплеи всегда первые
+            if ($a_is_display && !$b_is_display) {
+                return -1;
+            } elseif (!$a_is_display && $b_is_display) {
+                return 1;
+            }
+
+            // Остальные категории сортируем по алфавиту
+            return strcmp($a['name'], $b['name']);
         });
 
         set_transient($cache_key, $categories, HOUR_IN_SECONDS);
