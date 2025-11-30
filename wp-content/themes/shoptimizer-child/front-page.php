@@ -397,7 +397,37 @@ get_header(); ?>
 
 				// Display shop content if WooCommerce is active
 				if ( class_exists( 'WooCommerce' ) ) :
-					echo do_shortcode( '[products limit="10" columns="4" orderby="popularity"]' );
+                    
+                    $args = array(
+                        'post_type'      => 'product',
+                        'posts_per_page' => 10,
+                        'post_status'    => 'publish',
+                        'tax_query'      => array(
+                            'relation' => 'AND',
+                            array(
+                                'taxonomy' => 'product_visibility',
+                                'field'    => 'name',
+                                'terms'    => 'featured',
+                            ),
+                            array(
+                                'taxonomy' => 'product_cat',
+                                'field'    => 'slug',
+                                'terms'    => 'misc',
+                                'operator' => 'NOT IN',
+                            ),
+                        ),
+                    );
+                    $featured_products = new WP_Query( $args );
+
+                    if ( $featured_products->have_posts() ) :
+                        echo '<div class="woocommerce columns-4"><ul class="products columns-4">';
+                        while ( $featured_products->have_posts() ) : $featured_products->the_post();
+                            wc_get_template_part( 'content', 'product' );
+                        endwhile;
+                        echo '</ul></div>';
+                    endif;
+                    wp_reset_postdata();
+
 				endif;
 				?>
             </div>
