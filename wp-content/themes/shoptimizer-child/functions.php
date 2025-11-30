@@ -52,6 +52,7 @@ require_once get_stylesheet_directory() . '/inc/features/body-classes.php';
 require_once get_stylesheet_directory() . '/inc/features/page-specific-styles.php';
 require_once get_stylesheet_directory() . '/inc/features/blog-enhancements.php';
 require_once get_stylesheet_directory() . '/inc/features/query-modifications.php';
+require_once get_stylesheet_directory() . '/inc/features/wholesale-prices.php';
 require_once get_stylesheet_directory() . '/inc/mobile-nav.php';
 require_once get_stylesheet_directory() . '/inc/template-tags.php';
 require_once get_stylesheet_directory() . '/inc/widget-clear-filters.php';
