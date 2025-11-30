@@ -3,17 +3,11 @@
  *
  * @package MoySklad_WC_Sync
  * @version 2.1.0
- * 
- * FILE: admin.js
- * PATH: /wp-content/plugins/moysklad-wc-sync/assets/js/admin.js
  */
 
 (function($) {
 	'use strict';
 
-	/**
-	 * Admin Controller Class with Progress Tracking
-	 */
 	class MsWcSyncAdmin {
 		constructor() {
 			this.messageDiv = $('#ms-wc-sync-message');
@@ -22,22 +16,15 @@
 			this.init();
 		}
 
-		/**
-		 * Initialize admin controller
-		 */
 		init() {
 			this.bindEvents();
 			this.createProgressBar();
 			
-			// Проверяем, не запущена ли синхронизация
 			if (msWcSync.is_locked) {
 				this.startProgressPolling();
 			}
 		}
 
-		/**
-		 * Bind DOM events
-		 */
 		bindEvents() {
 			$('#ms-wc-sync-manual').on('click', (e) => this.handleManualSync(e));
 			$('#ms-wc-sync-test-connection').on('click', (e) => this.handleTestConnection(e));
@@ -45,9 +32,6 @@
 			$('#ms-wc-sync-reschedule').on('click', (e) => this.handleReschedule(e));
 		}
 
-		/**
-		 * Create progress bar HTML
-		 */
 		createProgressBar() {
 			const progressHtml = `
 				<div id="ms-wc-sync-progress-container" style="display: none; margin: 20px 0;">
@@ -71,16 +55,10 @@
 			this.progressBar = $('#ms-wc-sync-progress-container');
 		}
 
-		/**
-		 * Show message to user
-		 * 
-		 * @param {string} message - Message text
-		 * @param {string} type - Message type (success|error|warning)
-		 * @param {number} duration - Display duration in ms
-		 */
 		showMessage(message, type = 'success', duration = 5000) {
 			const noticeClass = type === 'success' ? 'notice-success' : 
-			                   type === 'warning' ? 'notice-warning' : 'notice-error';
+			                   type === 'warning' ? 'notice-warning' : 
+			                   type === 'info' ? 'notice-info' : 'notice-error';
 			
 			const $notice = $(`
 				<div class="notice ${noticeClass} is-dismissible">
@@ -93,14 +71,12 @@
 
 			this.messageDiv.html($notice);
 
-			// Handle dismiss button
 			$notice.find('.notice-dismiss').on('click', function() {
 				$(this).parent().fadeOut(300, function() {
 					$(this).remove();
 				});
 			});
 
-			// Auto-hide after duration
 			if (duration > 0) {
 				setTimeout(() => {
 					$notice.fadeOut(300, function() {
@@ -110,35 +86,21 @@
 			}
 		}
 
-		/**
-		 * Show progress bar
-		 */
 		showProgressBar() {
 			this.progressBar.slideDown(300);
 			this.updateProgress(0, 'Инициализация...', '');
 		}
 
-		/**
-		 * Hide progress bar
-		 */
 		hideProgressBar() {
 			this.progressBar.slideUp(300);
 		}
 
-		/**
-		 * Update progress bar
-		 * 
-		 * @param {number} percent - Progress percentage (0-100)
-		 * @param {string} message - Status message
-		 * @param {string} details - Additional details
-		 */
 		updateProgress(percent, message, details = '') {
 			const $bar = $('#ms-wc-sync-progress-bar');
 			const $percent = $('#ms-wc-sync-progress-percent');
 			const $message = $('#ms-wc-sync-progress-message');
 			const $details = $('#ms-wc-sync-progress-details');
 
-			// Обработка ошибки
 			if (percent < 0) {
 				$bar.css({
 					'background': 'linear-gradient(90deg, #dc3232 0%, #b32d2e 100%)',
@@ -150,7 +112,6 @@
 				return;
 			}
 
-			// Нормальный прогресс
 			percent = Math.min(100, Math.max(0, percent));
 			$bar.css('width', percent + '%');
 			$percent.text(percent + '%');
@@ -160,15 +121,11 @@
 				$details.text(details);
 			}
 
-			// Зеленый цвет при завершении
 			if (percent === 100) {
 				$bar.css('background', 'linear-gradient(90deg, #00a32a 0%, #008a20 100%)');
 			}
 		}
 
-		/**
-		 * Start polling for progress updates
-		 */
 		startProgressPolling() {
 			this.showProgressBar();
 			
@@ -186,36 +143,33 @@
 					if (response.success && response.data) {
 						const { percent, message, timestamp } = response.data;
 						
-						// Проверяем свежесть данных (не старше 30 секунд)
 						const age = Math.floor(Date.now() / 1000) - timestamp;
 						
 						if (age > 30) {
-							// Данные устарели - возможно синхронизация завершилась
-							this.stopProgressPolling();
+							this.updateProgress(100, 'Завершено', 'Перезагрузка страницы...');
+							setTimeout(() => {
+								this.stopProgressPolling();
+								location.reload();
+							}, 1000);
 							return;
 						}
 
 						this.updateProgress(percent, message, `Обновлено ${age} сек. назад`);
 
-						// Если завершено
 						if (percent === 100 || percent < 0) {
 							setTimeout(() => {
 								this.stopProgressPolling();
-								if (percent === 100) {
-									location.reload();
-								}
+								location.reload();
 							}, 2000);
 						}
 					}
 				} catch (error) {
 					console.error('Progress polling error:', error);
+					this.stopProgressPolling();
 				}
-			}, 2000); // Обновление каждые 2 секунды
+			}, 2000);
 		}
 
-		/**
-		 * Stop polling for progress updates
-		 */
 		stopProgressPolling() {
 			if (this.progressInterval) {
 				clearInterval(this.progressInterval);
@@ -227,21 +181,14 @@
 			}, 3000);
 		}
 
-		/**
-		 * Handle manual sync button click
-		 * 
-		 * @param {Event} e - Click event
-		 */
 		async handleManualSync(e) {
 			e.preventDefault();
 
 			const $button = $(e.currentTarget);
 			const originalText = $button.text();
 
-			// Disable button
 			$button.prop('disabled', true).text(msWcSync.strings.sync_in_progress);
 
-			// Show progress bar
 			this.showProgressBar();
 			this.startProgressPolling();
 
@@ -252,16 +199,17 @@
 					data: {
 						action: 'ms_wc_sync_manual',
 						nonce: msWcSync.nonce
-					}
+					},
+					timeout: 180000
 				});
 
 				if (response.success) {
 					const results = response.data;
 					const message = `${msWcSync.strings.sync_complete}: ${results.success} success, ${results.failed} failed (${results.created} created, ${results.updated} updated)`;
 					
-					this.showMessage(message, 'success', 0); // Не скрывать автоматически
+					this.showMessage(message, 'success', 0);
+					this.updateProgress(100, 'Завершено', message);
 					
-					// Reload page after 3 seconds
 					setTimeout(() => {
 						location.reload();
 					}, 3000);
@@ -273,19 +221,20 @@
 				}
 			} catch (error) {
 				console.error('Sync error:', error);
-				this.showMessage(msWcSync.strings.sync_error, 'error');
-				this.updateProgress(-1, 'Ошибка соединения', error.toString());
+				
+				if (error.statusText === 'timeout') {
+					this.showMessage('Синхронизация запущена. Обновите страницу через несколько минут.', 'info', 0);
+					this.updateProgress(50, 'Выполняется в фоне...', 'Обновите страницу через несколько минут');
+				} else {
+					this.showMessage(msWcSync.strings.sync_error, 'error');
+					this.updateProgress(-1, 'Ошибка соединения', error.toString());
+				}
 				this.stopProgressPolling();
 			} finally {
 				$button.prop('disabled', false).text(originalText);
 			}
 		}
 
-		/**
-		 * Handle test connection button click
-		 * 
-		 * @param {Event} e - Click event
-		 */
 		async handleTestConnection(e) {
 			e.preventDefault();
 
@@ -324,11 +273,6 @@
 			}
 		}
 
-		/**
-		 * Handle reset lock button click
-		 * 
-		 * @param {Event} e - Click event
-		 */
 		async handleResetLock(e) {
 			e.preventDefault();
 
@@ -356,7 +300,6 @@
 					this.hideProgressBar();
 					this.stopProgressPolling();
 					
-					// Reload after 1 second
 					setTimeout(() => {
 						location.reload();
 					}, 1000);
@@ -375,11 +318,6 @@
 			}
 		}
 		
-		/**
-		 * Handle reschedule cron button click
-		 * 
-		 * @param {Event} e - Click event
-		 */
 		async handleReschedule(e) {
 			e.preventDefault();
 
@@ -404,7 +342,6 @@
 						'success'
 					);
 					
-					// Reload after 2 seconds
 					setTimeout(() => {
 						location.reload();
 					}, 2000);
@@ -421,7 +358,6 @@
 		}
 	}
 
-	// Initialize when DOM is ready
 	$(document).ready(() => {
 		new MsWcSyncAdmin();
 	});

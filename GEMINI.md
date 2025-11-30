@@ -79,7 +79,6 @@ Architecture Standards
 Idiomatic: Follow WordPress coding standards and PHP best practices
 Functional: Leverage functional programming concepts where appropriate
 Extensible: Design for future enhancements and modifications
-Self-Documenting: Code should be clear enough to understand without extensive comments
 Consistent: Maintain consistent coding style and patterns throughout
 Resilient: Handle errors gracefully and provide fallback mechanisms
 Portable: Code should work across different environments and WordPress versions
@@ -158,10 +157,6 @@ Follow WCAG guidelines for accessibility
 Implement proper semantic HTML5 and BEM CSS methodology
 Code Documentation Standards
 Documentation Requirements
-Add meaningful PHPDoc comments for functions and classes
-Include inline comments for complex logic
-Provide usage examples where helpful
-Document any non-obvious business logic
 Explain integration points with WordPress/WooCommerce
 Always add/change versions to the files on every file change
 Follow WordPress documentation standards

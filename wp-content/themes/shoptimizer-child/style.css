@@ -320,35 +320,35 @@
 .custom-price-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Horizontally center the rows */
-    gap: 0.25em; /* Space between retail and wholesale rows */
+    align-items: center; 
+    gap: 0.25em;
     margin-top: 1em;
     margin-bottom: 1em;
 }
 
 .price-row {
     display: flex;
-    align-items: baseline; /* Align label and price by their text baseline */
-    gap: 0.5em; /* Space between label and value */
+    align-items: baseline; 
+    gap: 0.5em; 
 }
 
 .price-label {
-    font-size: 0.9em;
-    font-weight: bold;
-    color: #666;
+    font-size: var(--fs-sm);
+    font-weight: var(--mkx-font-bold);
+    color: var(--mkx-text-secondary);
 }
 
 .price-value {
-    font-size: 1.2em;
-    color: #333;
+    font-size: var(--fs-base);
+    color: var(--mkx-text-primary);
 }
 
 .wholesale-label {
-    color: #c09853;
+    color: var(--mkx-warning-dark);
 }
 
 .wholesale-value {
-    font-size: 1.6em; /* Make it more noticeable */
-    font-weight: bold;
-    color: #c09853;
+    font-size: var(--fs-lg);
+    font-weight: var(--mkx-font-bold);
+    color: var(--mkx-warning-dark);
 }

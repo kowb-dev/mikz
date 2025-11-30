@@ -38,7 +38,7 @@ if ( empty( $product ) || ! $product->is_visible() ) {
         <div class="mkz-product-list-item__price-and-actions">
             <div class="mkz-product-list-item__price-stock-wrapper">
                 <div class="mkz-product-list-item__price">
-                    <?php woocommerce_template_loop_price(); ?>
+                    <?php shoptimizer_child_template_loop_price(); ?>
                 </div>
                 <div class="mkz-product-list-item__stock">
                     <?php echo wc_get_stock_html( $product ); ?>

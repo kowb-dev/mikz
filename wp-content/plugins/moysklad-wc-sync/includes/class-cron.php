@@ -4,9 +4,6 @@
  *
  * @package MoySklad_WC_Sync
  * @version 2.1.0
- * 
- * FILE: class-cron.php
- * PATH: /wp-content/plugins/moysklad-wc-sync/includes/class-cron.php
  */
 
 declare(strict_types=1);
@@ -17,9 +14,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * Cron Manager with improved scheduling
- */
 class Cron {
     private const CRON_HOOK = 'ms_wc_sync_daily_sync';
     private static ?Cron $instance = null;
@@ -27,8 +21,6 @@ class Cron {
     private function __construct() {
         add_filter('cron_schedules', [$this, 'add_custom_schedule']);
         add_action(self::CRON_HOOK, [$this, 'run_sync']);
-        
-        // Проверяем и восстанавливаем расписание если оно отсутствует
         add_action('admin_init', [$this, 'ensure_scheduled']);
     }
 
@@ -39,12 +31,6 @@ class Cron {
         return self::$instance;
     }
 
-    /**
-     * Add custom cron schedule
-     *
-     * @param array $schedules Existing schedules
-     * @return array Modified schedules
-     */
     public function add_custom_schedule(array $schedules): array {
         $schedules['ms_wc_sync_daily'] = [
             'interval' => DAY_IN_SECONDS,
@@ -54,34 +40,25 @@ class Cron {
         return $schedules;
     }
 
-    /**
-     * Ensure cron is scheduled (runs on admin_init)
-     */
     public function ensure_scheduled(): void {
         if (!wp_next_scheduled(self::CRON_HOOK)) {
             $this->schedule_event();
         }
     }
 
-    /**
-     * Schedule cron event
-     */
     public function schedule_event(): void {
-        if (!wp_next_scheduled(self::CRON_HOOK)) {
-            $timestamp = $this->get_next_runtime();
-            $scheduled = wp_schedule_event($timestamp, 'ms_wc_sync_daily', self::CRON_HOOK);
-            
-            if ($scheduled === false) {
-                error_log('[MoySklad WC Sync] Failed to schedule cron event');
-            } else {
-                error_log('[MoySklad WC Sync] Cron event scheduled for ' . date('Y-m-d H:i:s', $timestamp));
-            }
+        $this->clear_scheduled_event();
+        
+        $timestamp = $this->get_next_runtime();
+        $scheduled = wp_schedule_event($timestamp, 'ms_wc_sync_daily', self::CRON_HOOK);
+        
+        if ($scheduled === false) {
+            error_log('[MoySklad WC Sync] Failed to schedule cron event');
+        } else {
+            error_log('[MoySklad WC Sync] Cron event scheduled for ' . date('Y-m-d H:i:s', $timestamp));
         }
     }
 
-    /**
-     * Clear scheduled event
-     */
     public function clear_scheduled_event(): void {
         $timestamp = wp_next_scheduled(self::CRON_HOOK);
         if ($timestamp) {
@@ -89,15 +66,9 @@ class Cron {
             error_log('[MoySklad WC Sync] Cron event unscheduled');
         }
         
-        // Очистить все события этого типа (на случай дублей)
         wp_clear_scheduled_hook(self::CRON_HOOK);
     }
 
-    /**
-     * Get next runtime timestamp (23:50 in site timezone)
-     *
-     * @return int Unix timestamp
-     */
     private function get_next_runtime(): int {
         $timezone = wp_timezone();
         $now = new \DateTime('now', $timezone);
@@ -105,7 +76,6 @@ class Cron {
         $target = clone $now;
         $target->setTime(23, 50, 0);
 
-        // Если уже прошло 23:50 сегодня, планируем на завтра
         if ($target <= $now) {
             $target->modify('+1 day');
         }
@@ -113,22 +83,17 @@ class Cron {
         return $target->getTimestamp();
     }
 
-    /**
-     * Run synchronization with lock mechanism
-     */
     public function run_sync(): void {
         $lock_key = 'ms_wc_sync_running';
         
-        // Проверяем блокировку
         if (get_transient($lock_key)) {
             error_log('[MoySklad WC Sync] Cron sync skipped - already running');
             return;
         }
 
-        // Устанавливаем блокировку
         set_transient($lock_key, [
             'timestamp' => time(),
-            'user_id' => 0, // Cron запуск
+            'user_id' => 0,
         ], HOUR_IN_SECONDS);
 
         try {
@@ -146,18 +111,14 @@ class Cron {
                 'duration' => $results['duration']
             ]));
             
+            delete_transient($lock_key);
+            
         } catch (\Exception $e) {
             error_log('[MoySklad WC Sync] Cron sync failed: ' . $e->getMessage());
-        } finally {
             delete_transient($lock_key);
         }
     }
     
-    /**
-     * Get cron schedule info for debugging
-     *
-     * @return array
-     */
     public static function get_schedule_info(): array {
         $next_run = wp_next_scheduled(self::CRON_HOOK);
         $schedules = wp_get_schedules();

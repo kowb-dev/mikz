@@ -4,9 +4,6 @@
  *
  * @package MoySklad_WC_Sync
  * @version 2.2.0
- * 
- * FILE: class-sync-engine.php
- * PATH: /wp-content/plugins/moysklad-wc-sync/includes/class-sync-engine.php
  */
 
 declare(strict_types=1);
@@ -17,23 +14,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-/**
- * Optimized Sync Engine with detailed price synchronization logging
- */
 class Sync_Engine {
     private API $api;
     private Logger $logger;
     
-    // Оптимизация для слабого хостинга
-    private const BATCH_SIZE = 50;
-    private const MAX_EXECUTION_TIME = 120;
+    private int $batch_size;
+    private int $max_execution_time;
     private const MEMORY_LIMIT_THRESHOLD = 0.8;
     private const PAUSE_BETWEEN_BATCHES = 1;
 
     private int $start_time;
     private int $memory_limit;
     
-    // Статистика по ценам для отладки
     private array $price_stats = [
         'total_products' => 0,
         'products_with_prices' => 0,
@@ -48,18 +40,17 @@ class Sync_Engine {
         $this->logger = new Logger();
         $this->start_time = time();
         
+        // Получаем настройки из админки
+        $this->batch_size = (int) get_option('ms_wc_sync_batch_size', 50);
+        $this->max_execution_time = (int) get_option('ms_wc_sync_max_time', 180);
+        
         $memory_limit = ini_get('memory_limit');
         $this->memory_limit = $this->parse_memory_limit($memory_limit);
         
-        @set_time_limit(300);
+        @set_time_limit($this->max_execution_time + 60);
         @ini_set('memory_limit', '256M');
     }
 
-    /**
-     * Run full synchronization with resource monitoring and progress tracking
-     *
-     * @return array Sync results
-     */
     public function run_sync(): array {
         $results = [
             'success' => 0,
@@ -74,22 +65,19 @@ class Sync_Engine {
             'total_processed' => 0,
         ];
 
-        // Инициализация прогресса
         $this->update_progress(0, 'Запуск синхронизации...');
 
         $this->logger->log('info', 'Sync started', [
             'memory_limit' => ini_get('memory_limit'),
             'max_execution_time' => ini_get('max_execution_time'),
-            'batch_size' => self::BATCH_SIZE
+            'batch_size' => $this->batch_size,
+            'max_time_setting' => $this->max_execution_time
         ]);
 
         try {
             $this->sync_all_products($results);
             
-            // Добавляем статистику по ценам в результаты
             $results['price_stats'] = $this->price_stats;
-            
-            // Завершаем прогресс
             $this->update_progress(100, 'Синхронизация завершена');
             
         } catch (\Exception $e) {
@@ -97,14 +85,11 @@ class Sync_Engine {
                 'exception' => $e->getTrace()
             ]);
             $results['errors'][] = $e->getMessage();
-            
-            // Ошибка в прогрессе
             $this->update_progress(-1, 'Ошибка: ' . $e->getMessage());
         }
 
         $results['duration'] = time() - $this->start_time;
 
-        // Детальное логирование итогов синхронизации
         $this->logger->log('info', sprintf(
             'Sync completed: %d success, %d failed, %d created, %d updated, %d skipped (Duration: %d seconds)',
             $results['success'],
@@ -122,12 +107,6 @@ class Sync_Engine {
         return $results;
     }
 
-    /**
-     * Update sync progress
-     *
-     * @param int $percent Progress percentage (0-100, -1 for error)
-     * @param string $message Status message
-     */
     private function update_progress(int $percent, string $message): void {
         update_option('ms_wc_sync_progress', [
             'percent' => $percent,
@@ -136,16 +115,10 @@ class Sync_Engine {
         ], false);
     }
 
-    /**
-     * Sync products with resource limits and progress tracking
-     *
-     * @param array $results Results array passed by reference
-     */
     private function sync_all_products(array &$results): void {
         $offset = 0;
         $batch_number = 0;
         
-        // Получаем общее количество товаров для прогресс-бара
         $total_products = $this->get_total_products_count();
         
         $this->logger->log('info', 'Total products to sync', [
@@ -159,7 +132,6 @@ class Sync_Engine {
                 break;
             }
             
-            // Обновляем прогресс
             $progress_percent = $total_products > 0 ? min(100, (int)(($offset / $total_products) * 100)) : 0;
             $this->update_progress(
                 $progress_percent, 
@@ -172,8 +144,7 @@ class Sync_Engine {
                 'elapsed_time' => time() - $this->start_time
             ]);
 
-            // Получаем товары
-            $products_response = $this->api->get_products(self::BATCH_SIZE, $offset);
+            $products_response = $this->api->get_products($this->batch_size, $offset);
 
             if (is_wp_error($products_response)) {
                 $error_message = $products_response->get_error_message();
@@ -187,10 +158,8 @@ class Sync_Engine {
                 break;
             }
 
-            // Получаем остатки и цены для текущей партии
             $assortment_map = $this->get_assortment_for_batch($products_response['rows']);
 
-            // Обрабатываем товары партии
             foreach ($products_response['rows'] as $ms_product) {
                 if (!$this->can_continue($results, true)) {
                     break 2;
@@ -212,8 +181,8 @@ class Sync_Engine {
                 $results['total_processed']++;
             }
 
-            $offset += self::BATCH_SIZE;
-            $has_more = count($products_response['rows']) === self::BATCH_SIZE;
+            $offset += $this->batch_size;
+            $has_more = count($products_response['rows']) === $this->batch_size;
 
             if ($has_more && self::PAUSE_BETWEEN_BATCHES > 0) {
                 sleep(self::PAUSE_BETWEEN_BATCHES);
@@ -224,11 +193,6 @@ class Sync_Engine {
         } while ($has_more);
     }
     
-    /**
-     * Get total products count from MoySklad
-     *
-     * @return int Total products count
-     */
     private function get_total_products_count(): int {
         $response = $this->api->get_products(1, 0);
         
@@ -239,12 +203,6 @@ class Sync_Engine {
         return $response['meta']['size'] ?? 0;
     }
 
-    /**
-     * Get assortment data for current batch with improved price retrieval
-     *
-     * @param array $products Current batch of products
-     * @return array Assortment data mapped by product ID
-     */
     private function get_assortment_for_batch(array $products): array {
         $assortment_map = [];
         $product_ids = array_column($products, 'id');
@@ -254,51 +212,53 @@ class Sync_Engine {
             'product_ids_sample' => array_slice($product_ids, 0, 5)
         ]);
 
-        // ИСПРАВЛЕНИЕ: Получаем assortment с бОльшим лимитом
-        // и делаем несколько запросов если нужно
         $assortment_offset = 0;
-        $assortment_limit = 100; // Увеличенный лимит
+        $assortment_limit = 100;
         $found_ids = [];
-        $max_pages = 5; // Максимум 5 страниц для поиска
-        $current_page = 0;
+        $attempts = 0;
+        $max_attempts = 50;
 
         do {
-            $current_page++;
+            $attempts++;
             
             $response = $this->api->get_assortment($assortment_limit, $assortment_offset);
 
             if (is_wp_error($response)) {
                 $this->logger->log('warning', 'Failed to load assortment page: ' . $response->get_error_message(), [
-                    'page' => $current_page,
+                    'attempt' => $attempts,
                     'offset' => $assortment_offset
                 ]);
                 break;
             }
 
             if (empty($response['rows'])) {
+                $this->logger->log('info', 'No more assortment data', [
+                    'attempts' => $attempts,
+                    'found' => count($found_ids)
+                ]);
                 break;
             }
 
-            $this->logger->log('info', "Processing assortment page #{$current_page}", [
+            $this->logger->log('info', "Processing assortment attempt #{$attempts}", [
                 'items_received' => count($response['rows']),
-                'offset' => $assortment_offset
+                'offset' => $assortment_offset,
+                'found_so_far' => count($found_ids)
             ]);
 
             foreach ($response['rows'] as $item) {
-                if (isset($item['id']) && in_array($item['id'], $product_ids, true)) {
+                if (isset($item['id']) && in_array($item['id'], $product_ids, true) && !isset($assortment_map[$item['id']])) {
                     $assortment_map[$item['id']] = $item;
                     $found_ids[] = $item['id'];
                     
-                    // Логируем найденные цены
                     $this->log_assortment_item($item);
                 }
             }
 
-            // Если нашли все товары из батча, можем остановиться
             if (count($found_ids) >= count($product_ids)) {
                 $this->logger->log('info', 'All products found in assortment', [
                     'found' => count($found_ids),
-                    'total' => count($product_ids)
+                    'total' => count($product_ids),
+                    'attempts' => $attempts
                 ]);
                 break;
             }
@@ -306,26 +266,28 @@ class Sync_Engine {
             $assortment_offset += $assortment_limit;
             $has_more_assortment = count($response['rows']) === $assortment_limit;
 
-        } while ($has_more_assortment && $current_page < $max_pages);
+        } while ($has_more_assortment && $attempts < $max_attempts);
 
-        // Логируем товары, для которых не нашли assortment
         $missing_ids = array_diff($product_ids, $found_ids);
         if (!empty($missing_ids)) {
             $this->logger->log('warning', 'Some products not found in assortment', [
                 'missing_count' => count($missing_ids),
                 'missing_ids_sample' => array_slice($missing_ids, 0, 10),
-                'pages_checked' => $current_page
+                'attempts_made' => $attempts,
+                'records_checked' => $attempts * $assortment_limit
             ]);
         }
+
+        $this->logger->log('info', 'Assortment search completed', [
+            'found' => count($found_ids),
+            'missing' => count($missing_ids),
+            'total_needed' => count($product_ids),
+            'attempts' => $attempts
+        ]);
 
         return $assortment_map;
     }
 
-    /**
-     * Log detailed information about assortment item prices
-     *
-     * @param array $item Assortment item
-     */
     private function log_assortment_item(array $item): void {
         if (empty($item['salePrices'])) {
             $this->logger->log('warning', 'Product has no salePrices in assortment', [
@@ -351,16 +313,13 @@ class Sync_Engine {
         ]);
     }
 
-    /**
-     * Check if sync can continue based on resources
-     */
     private function can_continue(array &$results, bool $strict = false): bool {
         $elapsed = time() - $this->start_time;
-        if ($elapsed >= self::MAX_EXECUTION_TIME) {
+        if ($elapsed >= $this->max_execution_time) {
             $results['stopped_reason'] = 'Time limit reached';
             $this->logger->log('warning', 'Sync stopped: time limit reached', [
                 'elapsed' => $elapsed,
-                'limit' => self::MAX_EXECUTION_TIME
+                'limit' => $this->max_execution_time
             ]);
             return false;
         }
@@ -383,9 +342,6 @@ class Sync_Engine {
         return true;
     }
 
-    /**
-     * Sync single product with detailed logging
-     */
     private function sync_product(array $ms_product, ?array $assortment_data): array {
         $this->price_stats['total_products']++;
         
@@ -436,9 +392,6 @@ class Sync_Engine {
         }
     }
 
-    /**
-     * Update product data with enhanced price logging
-     */
     private function update_product_data(\WC_Product $product, array $ms_product, ?array $assortment_data): void {
         $product->set_name(sanitize_text_field($ms_product['name']));
         
@@ -469,9 +422,6 @@ class Sync_Engine {
         }
     }
 
-    /**
-     * Update product stock
-     */
     private function update_stock(\WC_Product $product, array $assortment_data): void {
         if (isset($assortment_data['stock'])) {
             $stock = (int) $assortment_data['stock'];
@@ -481,9 +431,6 @@ class Sync_Engine {
         }
     }
 
-    /**
-     * Update product prices with detailed logging
-     */
     private function update_prices(\WC_Product $product, array $assortment_data, string $product_name): void {
         if (empty($assortment_data['salePrices']) || !is_array($assortment_data['salePrices'])) {
             $this->logger->log('warning', 'No salePrices array found for product', [
@@ -511,14 +458,12 @@ class Sync_Engine {
             $price_type_lower = mb_strtolower($price_type);
             $price_value = (float) $price_item['value'] / 100;
 
-            // Сохраняем все встреченные типы цен
             $all_price_types[] = $price_type;
             if (!isset($this->price_stats['price_types_encountered'][$price_type])) {
                 $this->price_stats['price_types_encountered'][$price_type] = 0;
             }
             $this->price_stats['price_types_encountered'][$price_type]++;
 
-            // Определяем тип цены
             if (str_contains($price_type_lower, 'розница') || 
                 str_contains($price_type_lower, 'retail') ||
                 str_contains($price_type_lower, 'розничная')) {
@@ -532,7 +477,6 @@ class Sync_Engine {
             }
         }
 
-        // Детальное логирование процесса обновления цен
         $this->logger->log('info', 'Processing prices for product', [
             'product_name' => $product_name,
             'sku' => $product->get_sku(),
@@ -542,7 +486,6 @@ class Sync_Engine {
             'total_prices_in_moysklad' => count($assortment_data['salePrices'])
         ]);
 
-        // Обновляем розничную цену
         if ($retail_price !== null) {
             $product->set_regular_price((string) $retail_price);
             $product->set_price((string) $retail_price);
@@ -560,7 +503,6 @@ class Sync_Engine {
             ]);
         }
 
-        // Обновляем оптовую цену
         if ($wholesale_price !== null) {
             update_post_meta($product->get_id(), '_wholesale_price', $wholesale_price);
             
