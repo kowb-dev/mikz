@@ -165,13 +165,13 @@ final class Plugin {
         }
 
         Logger::create_table();
-        Cron::schedule_event();
+        Cron::get_instance()->schedule_event();
         
         flush_rewrite_rules();
     }
 
     public function deactivate(): void {
-        Cron::clear_scheduled_event();
+        Cron::get_instance()->clear_scheduled_event();
         flush_rewrite_rules();
     }
 
