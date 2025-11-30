@@ -80,7 +80,6 @@ deploy_files() {
         --exclude '.env' \
         --exclude 'wp-config.php' \
         --exclude 'wp-content/uploads/' \
-        --exclude 'wp-content/plugins/' \
         --exclude 'wp-content/backups-dup-pro/' \
         --exclude 'wp-content/cache/' \
         --exclude 'wp-content/upgrade/' \

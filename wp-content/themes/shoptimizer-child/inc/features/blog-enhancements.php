@@ -17,7 +17,7 @@ function mkx_enqueue_article_styles() {
     if ( is_home() || is_singular( 'post' ) || is_category() || is_tag() || is_author() || is_date() ) {
         wp_enqueue_style(
             'mkx-article-styles',
-            get_stylesheet_directory_uri() . '/inc/mkx-article-styles.css',
+            get_stylesheet_directory_uri() . '/assets/css/mkx-article-styles.css',
             array(),
             '1.0.0'
         );

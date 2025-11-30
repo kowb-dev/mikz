@@ -16,7 +16,7 @@ function mkz_enqueue_order_guide_styles() {
 	if (is_page('how-to-order') || is_page('kak-oformit-zakaz')) {
 		wp_enqueue_style(
 			'mkz-order-guide-styles',
-			get_stylesheet_directory_uri() . '/inc/order-guide-styles.css',
+			get_stylesheet_directory_uri() . '/assets/css/order-guide-styles.css',
 			array(),
 			'1.0.0'
 		);
@@ -29,7 +29,7 @@ function mikz_enqueue_payment_delivery_styles() {
 	if (is_page('payment-delivery') || is_page('oplata-i-dostavka')) {
 		wp_enqueue_style(
 			'mikz-payment-delivery',
-			get_stylesheet_directory_uri() . '/inc/mikz-payment-delivery.css',
+			get_stylesheet_directory_uri() . '/assets/css/mikz-payment-delivery.css',
 			array(),
 			'1.0.0'
 		);
@@ -50,7 +50,7 @@ function mkz_contacts_page_styles() {
 	if (is_page('kontakty') || is_page('contacts')) {
 		wp_enqueue_style(
 			'mkz-contacts-page',
-			get_stylesheet_directory_uri() . '/inc/contacts-page.css',
+			get_stylesheet_directory_uri() . '/assets/css/contacts-page.css',
 			array('shoptimizer-style'),
 			'1.0.1',
 			'all'

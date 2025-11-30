@@ -115,4 +115,7 @@ function mkx_clear_live_search_cache() {
 add_action('save_post_product', 'mkx_clear_live_search_cache');
 add_action('edited_product_cat', 'mkx_clear_live_search_cache');
 
+require_once get_stylesheet_directory() . '/inc/shoptimizer-child-no-results.php';
+
+
 
