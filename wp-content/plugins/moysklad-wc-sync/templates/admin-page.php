@@ -3,10 +3,7 @@
  * Admin Settings Page Template with Progress Bar
  *
  * @package MoySklad_WC_Sync
- * @version 2.1.0
- * 
- * FILE: admin-page.php
- * PATH: /wp-content/plugins/moysklad-wc-sync/templates/admin-page.php
+ * @version 2.2.0
  */
 
 declare(strict_types=1);
@@ -28,7 +25,7 @@ if (!defined('ABSPATH')) {
                     if ($last_run) {
                         $dt = new DateTime($last_run, new DateTimeZone('UTC'));
                         $dt->setTimezone(wp_timezone());
-                        echo esc_html($dt->format('Y-m-d H:i:s'));
+                        echo esc_html($dt->format('d.m.Y H:i:s'));
                     } else {
                         echo esc_html__('Never', 'moysklad-wc-sync');
                     }
@@ -43,12 +40,17 @@ if (!defined('ABSPATH')) {
                     if ($next_run) {
                         $dt = new DateTime('@' . $next_run);
                         $dt->setTimezone(wp_timezone());
-                        echo esc_html($dt->format('Y-m-d H:i:s'));
+                        echo esc_html($dt->format('d.m.Y H:i:s'));
                     } else {
                         echo esc_html__('Not scheduled', 'moysklad-wc-sync');
                     }
                     ?>
                 </p>
+                <?php if (!$next_run) : ?>
+                    <button type="button" class="button button-small" id="ms-wc-sync-reschedule" style="margin-top: 8px;">
+                        <?php echo esc_html__('Schedule Now', 'moysklad-wc-sync'); ?>
+                    </button>
+                <?php endif; ?>
             </div>
 
             <?php if (!empty($last_results)) : ?>
@@ -122,6 +124,78 @@ if (!defined('ABSPATH')) {
                         </p>
                     </td>
                 </tr>
+                
+                <tr>
+                    <th scope="row">
+                        <label for="ms_wc_sync_interval">
+                            <?php echo esc_html__('Sync Frequency', 'moysklad-wc-sync'); ?>
+                        </label>
+                    </th>
+                    <td>
+                        <select id="ms_wc_sync_interval" name="ms_wc_sync_interval">
+                            <?php 
+                            $current_interval = get_option('ms_wc_sync_interval', 'daily');
+                            $intervals = \MoySklad\WC\Sync\Admin::get_sync_intervals();
+                            foreach ($intervals as $value => $label) : 
+                            ?>
+                                <option value="<?php echo esc_attr($value); ?>" <?php selected($current_interval, $value); ?>>
+                                    <?php echo esc_html($label); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <p class="description">
+                            <?php echo esc_html__('How often should products be synchronized?', 'moysklad-wc-sync'); ?>
+                        </p>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th scope="row">
+                        <label for="ms_wc_sync_batch_size">
+                            <?php echo esc_html__('Batch Size', 'moysklad-wc-sync'); ?>
+                        </label>
+                    </th>
+                    <td>
+                        <input
+                            type="number"
+                            id="ms_wc_sync_batch_size"
+                            name="ms_wc_sync_batch_size"
+                            value="<?php echo esc_attr(get_option('ms_wc_sync_batch_size', 50)); ?>"
+                            min="10"
+                            max="100"
+                            step="10"
+                            class="small-text"
+                        />
+                        <p class="description">
+                            <?php echo esc_html__('Number of products to process per batch (10-100). Lower values use less memory but take longer.', 'moysklad-wc-sync'); ?>
+                        </p>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th scope="row">
+                        <label for="ms_wc_sync_max_time">
+                            <?php echo esc_html__('Max Execution Time', 'moysklad-wc-sync'); ?>
+                        </label>
+                    </th>
+                    <td>
+                        <input
+                            type="number"
+                            id="ms_wc_sync_max_time"
+                            name="ms_wc_sync_max_time"
+                            value="<?php echo esc_attr(get_option('ms_wc_sync_max_time', 180)); ?>"
+                            min="60"
+                            max="600"
+                            step="30"
+                            class="small-text"
+                        />
+                        <span><?php echo esc_html__('seconds', 'moysklad-wc-sync'); ?></span>
+                        <p class="description">
+                            <?php echo esc_html__('Maximum time for one sync run (60-600 seconds). If you have many products, increase this value or reduce batch size.', 'moysklad-wc-sync'); ?>
+                        </p>
+                    </td>
+                </tr>
+                
                 <tr>
                     <th scope="row">
                         <?php echo esc_html__('Price Synchronization', 'moysklad-wc-sync'); ?>
@@ -159,8 +233,6 @@ if (!defined('ABSPATH')) {
         </form>
 
         <div id="ms-wc-sync-message"></div>
-        
-        <!-- Progress bar will be inserted here by JavaScript -->
 
         <h2><?php echo esc_html__('Recent Logs', 'moysklad-wc-sync'); ?></h2>
         <table class="wp-list-table widefat fixed striped">
