@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-11-26 12:00+0000\n"
-"PO-Revision-Date: 2025-11-26 12:00+0000\n"
+"PO-Revision-Date: 2025-11-30 12:00+0000\n"
 "X-Generator: Gemini\n"
 "X-Domain: moysklad-wc-sync\n"
 
@@ -167,3 +167,26 @@ msgstr "Расписание успешно обновлено"
 
 msgid "Failed to schedule cron"
 msgstr "Не удалось запланировать задачу"
+
+# New translations for log messages
+
+msgid "Sync completed: %d success, %d failed, %d created, %d updated, %d skipped (Duration: %d seconds)"
+msgstr "Синхронизация завершена: %d успешно, %d сбоев, %d создано, %d обновлено, %d пропущено (Длительность: %d секунд)"
+
+msgid "Sync stopped: time limit reached"
+msgstr "Синхронизация остановлена: достигнут лимит времени"
+
+msgid "Some products not found in assortment"
+msgstr "Некоторые товары не найдены в ассортименте"
+
+msgid "Processing assortment page #%d"
+msgstr "Обработка страницы ассортимента #%d"
+
+msgid "Fetching assortment data for batch"
+msgstr "Получение данных ассортимента для партии"
+
+msgid "Processing batch #%d"
+msgstr "Обработка партии #%d"
+
+msgid "Product synced without assortment data"
+msgstr "Товар синхронизирован без данных ассортимента"
