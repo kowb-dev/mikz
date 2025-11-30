@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the MoySklad WooCommerce Sync plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: MoySklad WooCommerce Sync 2.0.1\n"
+"Project-Id-Version: MoySklad WooCommerce Sync 2.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/moysklad-wc-sync\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10,12 +10,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-26 12:00+0000\n"
-"PO-Revision-Date: 2025-11-30 12:00+0000\n"
+"POT-Creation-Date: 2025-12-01 12:00+0000\n"
+"PO-Revision-Date: 2025-12-01 12:00+0000\n"
 "X-Generator: Gemini\n"
 "X-Domain: moysklad-wc-sync\n"
 
-#. Plugin Name of the plugin/theme
 msgid "MoySklad WooCommerce Sync"
 msgstr "Синхронизация МойСклад для WooCommerce"
 
@@ -43,8 +42,8 @@ msgstr "Ошибка соединения"
 msgid "Insufficient permissions."
 msgstr "Недостаточно прав."
 
-msgid "Sync is already running."
-msgstr "Синхронизация уже запущена."
+msgid "Sync is already running. If stuck, use Reset button."
+msgstr "Синхронизация уже запущена. Если зависла, используйте кнопку Остановить."
 
 msgid "Connection successful!"
 msgstr "Соединение успешно!"
@@ -79,6 +78,39 @@ msgstr "API токен МойСклад"
 msgid "Enter your MoySklad API token. You can generate it in your MoySklad account settings."
 msgstr "Введите ваш API токен для МойСклад. Вы можете сгенерировать его в настройках вашего аккаунта МойСклад."
 
+msgid "Sync Frequency"
+msgstr "Частота синхронизации"
+
+msgid "Every hour"
+msgstr "Каждый час"
+
+msgid "Twice daily"
+msgstr "Два раза в день"
+
+msgid "Once daily"
+msgstr "Один раз в день"
+
+msgid "Once weekly"
+msgstr "Один раз в неделю"
+
+msgid "How often should products be synchronized?"
+msgstr "Как часто синхронизировать товары?"
+
+msgid "Batch Size"
+msgstr "Размер пакета"
+
+msgid "Number of products to process per batch (10-100). Lower values use less memory but take longer."
+msgstr "Количество товаров для обработки за один раз (10-100). Меньшие значения используют меньше памяти, но работают дольше."
+
+msgid "Max Execution Time"
+msgstr "Максимальное время выполнения"
+
+msgid "seconds"
+msgstr "секунд"
+
+msgid "Maximum time for one sync run (60-600 seconds). If you have many products, increase this value or reduce batch size."
+msgstr "Максимальное время для одного запуска синхронизации (60-600 секунд). Если у вас много товаров, увеличьте это значение или уменьшите размер партии."
+
 msgid "Price Synchronization"
 msgstr "Синхронизация цен"
 
@@ -109,6 +141,18 @@ msgstr "Проверить соединение"
 msgid "Run Manual Sync"
 msgstr "Запустить ручную синхронизацию"
 
+msgid "Stop Sync"
+msgstr "Остановить"
+
+msgid "Sync Status"
+msgstr "Статус синхронизации"
+
+msgid "Running"
+msgstr "Выполняется"
+
+msgid "Started %d seconds ago"
+msgstr "Запущена %d секунд назад"
+
 msgid "Recent Logs"
 msgstr "Последние логи"
 
@@ -124,41 +168,6 @@ msgstr "Сообщение"
 msgid "No logs found."
 msgstr "Логи не найдены."
 
-msgid "MoySklad WooCommerce Sync requires WooCommerce to be installed and active."
-msgstr "Для работы плагина MoySklad WooCommerce Sync требуется установленный и активный WooCommerce."
-
-msgid "MoySklad WooCommerce Sync requires PHP version %s or higher. You are running %s."
-msgstr "Для работы плагина MoySklad WooCommerce Sync требуется PHP версии %s или выше. Ваша версия: %s."
-
-# Additional translations for progress bar and reset functionality
-
-msgid "Sync is already running. If stuck, use Reset button."
-msgstr "Синхронизация уже запущена. Если зависла, используйте кнопку Остановить."
-
-msgid "Are you sure you want to stop the current synchronization?"
-msgstr "Вы уверены, что хотите остановить текущую синхронизацию?"
-
-msgid "Synchronization stopped"
-msgstr "Синхронизация остановлена"
-
-msgid "Failed to stop synchronization"
-msgstr "Не удалось остановить синхронизацию"
-
-msgid "Stop Sync"
-msgstr "Остановить"
-
-msgid "Sync Status"
-msgstr "Статус синхронизации"
-
-msgid "Running"
-msgstr "Выполняется"
-
-msgid "Started %d seconds ago"
-msgstr "Запущена %d секунд назад"
-
-msgid "Show details"
-msgstr "Показать детали"
-
 msgid "Schedule Now"
 msgstr "Запланировать сейчас"
 
@@ -168,25 +177,17 @@ msgstr "Расписание успешно обновлено"
 msgid "Failed to schedule cron"
 msgstr "Не удалось запланировать задачу"
 
-# New translations for log messages
+msgid "Are you sure you want to reset the sync lock? Do this only if sync is stuck."
+msgstr "Вы уверены, что хотите сбросить блокировку синхронизации? Делайте это только если синхронизация зависла."
 
-msgid "Sync completed: %d success, %d failed, %d created, %d updated, %d skipped (Duration: %d seconds)"
-msgstr "Синхронизация завершена: %d успешно, %d сбоев, %d создано, %d обновлено, %d пропущено (Длительность: %d секунд)"
+msgid "Sync lock has been reset"
+msgstr "Блокировка синхронизации сброшена"
 
-msgid "Sync stopped: time limit reached"
-msgstr "Синхронизация остановлена: достигнут лимит времени"
+msgid "Failed to reset sync lock"
+msgstr "Не удалось сбросить блокировку синхронизации"
 
-msgid "Some products not found in assortment"
-msgstr "Некоторые товары не найдены в ассортименте"
+msgid "Daily at 23:50"
+msgstr "Ежедневно в 23:50"
 
-msgid "Processing assortment page #%d"
-msgstr "Обработка страницы ассортимента #%d"
-
-msgid "Fetching assortment data for batch"
-msgstr "Получение данных ассортимента для партии"
-
-msgid "Processing batch #%d"
-msgstr "Обработка партии #%d"
-
-msgid "Product synced without assortment data"
-msgstr "Товар синхронизирован без данных ассортимента"
+msgid "Weekly"
+msgstr "Еженедельно"
