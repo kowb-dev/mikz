@@ -129,3 +129,41 @@ msgstr "Для работы плагина MoySklad WooCommerce Sync требу�
 
 msgid "MoySklad WooCommerce Sync requires PHP version %s or higher. You are running %s."
 msgstr "Для работы плагина MoySklad WooCommerce Sync требуется PHP версии %s или выше. Ваша версия: %s."
+
+# Additional translations for progress bar and reset functionality
+
+msgid "Sync is already running. If stuck, use Reset button."
+msgstr "Синхронизация уже запущена. Если зависла, используйте кнопку Остановить."
+
+msgid "Are you sure you want to stop the current synchronization?"
+msgstr "Вы уверены, что хотите остановить текущую синхронизацию?"
+
+msgid "Synchronization stopped"
+msgstr "Синхронизация остановлена"
+
+msgid "Failed to stop synchronization"
+msgstr "Не удалось остановить синхронизацию"
+
+msgid "Stop Sync"
+msgstr "Остановить"
+
+msgid "Sync Status"
+msgstr "Статус синхронизации"
+
+msgid "Running"
+msgstr "Выполняется"
+
+msgid "Started %d seconds ago"
+msgstr "Запущена %d секунд назад"
+
+msgid "Show details"
+msgstr "Показать детали"
+
+msgid "Schedule Now"
+msgstr "Запланировать сейчас"
+
+msgid "Cron schedule updated successfully"
+msgstr "Расписание успешно обновлено"
+
+msgid "Failed to schedule cron"
+msgstr "Не удалось запланировать задачу"

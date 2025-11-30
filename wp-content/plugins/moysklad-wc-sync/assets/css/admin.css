@@ -1,8 +1,8 @@
 /**
- * Admin Styles
+ * Admin Styles with Progress Bar
  *
  * @package MoySklad_WC_Sync
- * @version 1.0.0
+ * @version 2.1.0
  */
 
 .ms-wc-sync-dashboard {
@@ -81,13 +81,106 @@
 	color: #856404;
 }
 
+.ms-wc-sync-log-debug {
+	background: #e2e3e5;
+	color: #383d41;
+}
+
 .button#ms-wc-sync-manual,
-.button#ms-wc-sync-test-connection {
+.button#ms-wc-sync-test-connection,
+.button#ms-wc-sync-reset-lock {
 	margin-left: 0.5rem;
 }
 
 .button#ms-wc-sync-manual:disabled,
-.button#ms-wc-sync-test-connection:disabled {
+.button#ms-wc-sync-test-connection:disabled,
+.button#ms-wc-sync-reset-lock:disabled {
 	opacity: 0.6;
 	cursor: not-allowed;
+}
+
+.button#ms-wc-sync-reset-lock {
+	color: #d63638;
+	border-color: #d63638;
+}
+
+.button#ms-wc-sync-reset-lock:hover {
+	background: #d63638;
+	color: #fff;
+	border-color: #d63638;
+}
+
+/* Progress Bar Styles */
+#ms-wc-sync-progress-container {
+	animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+#ms-wc-sync-progress-bar {
+	position: relative;
+	min-width: 30px; /* Минимальная ширина для отображения процентов */
+}
+
+#ms-wc-sync-progress-percent {
+	position: relative;
+	z-index: 1;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#ms-wc-sync-progress-message {
+	font-size: 14px;
+	color: #1d2327;
+}
+
+#ms-wc-sync-progress-details {
+	opacity: 0.8;
+}
+
+/* Log details styling */
+details summary {
+	outline: none;
+	user-select: none;
+}
+
+details summary::-webkit-details-marker {
+	display: none;
+}
+
+details summary::before {
+	content: '▶ ';
+	display: inline-block;
+	transition: transform 0.2s;
+}
+
+details[open] summary::before {
+	transform: rotate(90deg);
+}
+
+details pre {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+/* Pulsing animation for running sync */
+.ms-wc-sync-stat-card[style*="border-color: #d63638"] {
+	animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+	0%, 100% {
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	}
+	50% {
+		box-shadow: 0 1px 8px rgba(214, 54, 56, 0.3);
+	}
 }

@@ -1,9 +1,9 @@
 <?php
 /**
- * Admin Interface
+ * Admin Interface with Progress Bar and Reset
  *
  * @package MoySklad_WC_Sync
- * @version 2.0.0
+ * @version 2.1.0
  * 
  * FILE: class-admin.php
  * PATH: /wp-content/plugins/moysklad-wc-sync/includes/class-admin.php
@@ -18,17 +18,25 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Admin Interface with improved security
+ * Admin Interface with improved sync handling
  */
 class Admin {
     private static ?Admin $instance = null;
+    
+    private const SYNC_LOCK_KEY = 'ms_wc_sync_running';
+    private const SYNC_LOCK_TIMEOUT = 300; // 5 минут
 
     private function __construct() {
         add_action('admin_menu', [$this, 'add_admin_menu']);
         add_action('admin_init', [$this, 'register_settings']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
+        
+        // AJAX handlers
         add_action('wp_ajax_ms_wc_sync_manual', [$this, 'handle_manual_sync']);
         add_action('wp_ajax_ms_wc_sync_test_connection', [$this, 'handle_test_connection']);
+        add_action('wp_ajax_ms_wc_sync_get_progress', [$this, 'handle_get_progress']);
+        add_action('wp_ajax_ms_wc_sync_reset_lock', [$this, 'handle_reset_lock']);
+        add_action('wp_ajax_ms_wc_sync_reschedule', [$this, 'handle_reschedule_cron']);
     }
 
     public static function get_instance(): Admin {
@@ -91,12 +99,16 @@ class Admin {
         wp_localize_script('ms-wc-sync-admin', 'msWcSync', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('ms_wc_sync_nonce'),
+            'is_locked' => $this->is_sync_locked(),
             'strings' => [
                 'sync_in_progress' => __('Synchronization in progress...', 'moysklad-wc-sync'),
                 'sync_complete' => __('Synchronization completed', 'moysklad-wc-sync'),
                 'sync_error' => __('Synchronization failed', 'moysklad-wc-sync'),
                 'test_success' => __('Connection successful', 'moysklad-wc-sync'),
                 'test_failed' => __('Connection failed', 'moysklad-wc-sync'),
+                'reset_confirm' => __('Are you sure you want to reset the sync lock? Do this only if sync is stuck.', 'moysklad-wc-sync'),
+                'reset_success' => __('Sync lock has been reset', 'moysklad-wc-sync'),
+                'reset_failed' => __('Failed to reset sync lock', 'moysklad-wc-sync'),
             ],
         ]);
     }
@@ -114,6 +126,8 @@ class Admin {
         $last_run = get_option('ms_wc_sync_last_run');
         $last_results = get_option('ms_wc_sync_last_results', []);
         $next_run = wp_next_scheduled('ms_wc_sync_daily_sync');
+        $is_locked = $this->is_sync_locked();
+        $lock_info = $this->get_sync_lock_info();
 
         require MS_WC_SYNC_PLUGIN_DIR . 'templates/admin-page.php';
     }
@@ -128,11 +142,13 @@ class Admin {
             wp_send_json_error(['message' => __('Insufficient permissions.', 'moysklad-wc-sync')]);
         }
 
-        if (get_transient('ms_wc_sync_running')) {
-            wp_send_json_error(['message' => __('Sync is already running.', 'moysklad-wc-sync')]);
+        // Проверка с учетом таймаута
+        if ($this->is_sync_locked()) {
+            wp_send_json_error(['message' => __('Sync is already running. If stuck, use Reset button.', 'moysklad-wc-sync')]);
         }
 
-        set_transient('ms_wc_sync_running', true, HOUR_IN_SECONDS);
+        // Устанавливаем блокировку с таймаутом
+        $this->set_sync_lock();
 
         try {
             $sync_engine = new Sync_Engine();
@@ -145,7 +161,8 @@ class Admin {
         } catch (\Exception $e) {
             wp_send_json_error(['message' => $e->getMessage()]);
         } finally {
-            delete_transient('ms_wc_sync_running');
+            // ВАЖНО: всегда снимаем блокировку
+            $this->release_sync_lock();
         }
     }
 
@@ -167,5 +184,107 @@ class Admin {
         }
 
         wp_send_json_success(['message' => __('Connection successful!', 'moysklad-wc-sync')]);
+    }
+
+    /**
+     * Handle get progress AJAX request
+     */
+    public function handle_get_progress(): void {
+        check_ajax_referer('ms_wc_sync_nonce', 'nonce');
+
+        if (!current_user_can('manage_woocommerce')) {
+            wp_send_json_error(['message' => __('Insufficient permissions.', 'moysklad-wc-sync')]);
+        }
+
+        $progress = get_option('ms_wc_sync_progress', [
+            'percent' => 0,
+            'message' => '',
+            'timestamp' => 0,
+        ]);
+
+        wp_send_json_success($progress);
+    }
+
+    /**
+     * Handle reset lock AJAX request
+     */
+    public function handle_reset_lock(): void {
+        check_ajax_referer('ms_wc_sync_nonce', 'nonce');
+
+        if (!current_user_can('manage_woocommerce')) {
+            wp_send_json_error(['message' => __('Insufficient permissions.', 'moysklad-wc-sync')]);
+        }
+
+        $this->release_sync_lock();
+        
+        // Также очищаем прогресс
+        delete_option('ms_wc_sync_progress');
+
+        wp_send_json_success(['message' => __('Sync lock has been reset', 'moysklad-wc-sync')]);
+    }
+
+    /**
+     * Check if sync is locked with timeout handling
+     *
+     * @return bool
+     */
+    private function is_sync_locked(): bool {
+        $lock = get_transient(self::SYNC_LOCK_KEY);
+        
+        if (!$lock) {
+            return false;
+        }
+
+        // Проверяем не истек ли таймаут
+        if (is_array($lock) && isset($lock['timestamp'])) {
+            $elapsed = time() - $lock['timestamp'];
+            
+            if ($elapsed > self::SYNC_LOCK_TIMEOUT) {
+                // Автоматически снимаем блокировку по таймауту
+                $this->release_sync_lock();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Set sync lock with timestamp
+     */
+    private function set_sync_lock(): void {
+        set_transient(self::SYNC_LOCK_KEY, [
+            'timestamp' => time(),
+            'user_id' => get_current_user_id(),
+        ], self::SYNC_LOCK_TIMEOUT);
+    }
+
+    /**
+     * Release sync lock
+     */
+    private function release_sync_lock(): void {
+        delete_transient(self::SYNC_LOCK_KEY);
+    }
+
+    /**
+     * Get sync lock information
+     *
+     * @return array|null
+     */
+    private function get_sync_lock_info(): ?array {
+        $lock = get_transient(self::SYNC_LOCK_KEY);
+        
+        if (!$lock || !is_array($lock)) {
+            return null;
+        }
+
+        $elapsed = time() - ($lock['timestamp'] ?? 0);
+        
+        return [
+            'timestamp' => $lock['timestamp'] ?? 0,
+            'user_id' => $lock['user_id'] ?? 0,
+            'elapsed' => $elapsed,
+            'is_expired' => $elapsed > self::SYNC_LOCK_TIMEOUT,
+        ];
     }
 }

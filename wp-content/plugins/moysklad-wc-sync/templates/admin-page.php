@@ -1,9 +1,9 @@
 <?php
 /**
- * Admin Settings Page Template
+ * Admin Settings Page Template with Progress Bar
  *
  * @package MoySklad_WC_Sync
- * @version 2.0.0
+ * @version 2.1.0
  * 
  * FILE: admin-page.php
  * PATH: /wp-content/plugins/moysklad-wc-sync/templates/admin-page.php
@@ -77,6 +77,25 @@ if (!defined('ABSPATH')) {
                     </p>
                 </div>
             <?php endif; ?>
+            
+            <?php if ($is_locked) : ?>
+                <div class="ms-wc-sync-stat-card" style="border-color: #d63638;">
+                    <h3 style="color: #d63638;"><?php echo esc_html__('Sync Status', 'moysklad-wc-sync'); ?></h3>
+                    <p class="ms-wc-sync-stat-value" style="color: #d63638; font-size: 1rem;">
+                        <?php echo esc_html__('Running', 'moysklad-wc-sync'); ?>
+                    </p>
+                    <?php if ($lock_info && !$lock_info['is_expired']) : ?>
+                        <p style="font-size: 0.75rem; color: #646970; margin-top: 0.5rem;">
+                            <?php 
+                            printf(
+                                esc_html__('Started %d seconds ago', 'moysklad-wc-sync'),
+                                $lock_info['elapsed']
+                            );
+                            ?>
+                        </p>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
         </div>
 
         <form method="post" action="options.php" class="ms-wc-sync-settings-form">
@@ -127,13 +146,21 @@ if (!defined('ABSPATH')) {
                 <button type="button" class="button button-secondary" id="ms-wc-sync-test-connection">
                     <?php echo esc_html__('Test Connection', 'moysklad-wc-sync'); ?>
                 </button>
-                <button type="button" class="button button-secondary" id="ms-wc-sync-manual">
+                <button type="button" class="button button-secondary" id="ms-wc-sync-manual" <?php echo $is_locked ? 'disabled' : ''; ?>>
                     <?php echo esc_html__('Run Manual Sync', 'moysklad-wc-sync'); ?>
                 </button>
+                
+                <?php if ($is_locked) : ?>
+                    <button type="button" class="button button-link-delete" id="ms-wc-sync-reset-lock" style="margin-left: 10px;">
+                        <?php echo esc_html__('Stop Sync', 'moysklad-wc-sync'); ?>
+                    </button>
+                <?php endif; ?>
             </p>
         </form>
 
         <div id="ms-wc-sync-message"></div>
+        
+        <!-- Progress bar will be inserted here by JavaScript -->
 
         <h2><?php echo esc_html__('Recent Logs', 'moysklad-wc-sync'); ?></h2>
         <table class="wp-list-table widefat fixed striped">
@@ -161,7 +188,15 @@ if (!defined('ABSPATH')) {
                                     <?php echo esc_html(ucfirst($log['log_level'])); ?>
                                 </span>
                             </td>
-                            <td><?php echo esc_html($log['message']); ?></td>
+                            <td>
+                                <?php echo esc_html($log['message']); ?>
+                                <?php if (!empty($log['context'])) : ?>
+                                    <details style="margin-top: 5px;">
+                                        <summary style="cursor: pointer; color: #2271b1;">Show details</summary>
+                                        <pre style="background: #f6f7f7; padding: 10px; border-radius: 3px; font-size: 11px; margin-top: 5px; overflow-x: auto;"><?php echo esc_html($log['context']); ?></pre>
+                                    </details>
+                                <?php endif; ?>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
