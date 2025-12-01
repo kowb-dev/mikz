@@ -122,7 +122,7 @@ require_once get_stylesheet_directory() . '/inc/shoptimizer-child-no-results.php
 /**
  * Remove YITH WooCommerce Compare button and add custom one.
  */
-function shoptimizer_child_custom_compare_button() {
+function shoptimizer_child_custom_compare_button_setup() {
     // Check if YITH WooCommerce Compare is active
     if ( class_exists( 'YITH_Woocompare_Frontend_Premium' ) || class_exists( 'YITH_Woocompare_Frontend' ) ) {
         global $yith_woocompare;
@@ -134,17 +134,22 @@ function shoptimizer_child_custom_compare_button() {
         add_action( 'woocommerce_after_add_to_cart_button', 'shoptimizer_child_display_custom_compare_button', 20 );
     }
 }
-add_action( 'init', 'shoptimizer_child_custom_compare_button' );
+add_action( 'wp_loaded', 'shoptimizer_child_custom_compare_button_setup', 99 );
 
 /**
  * Display the custom compare button.
  */
 function shoptimizer_child_display_custom_compare_button() {
+    // Ensure YITH WooCommerce Compare classes are available
     if ( ! class_exists( 'YITH_Woocompare_Frontend_Premium' ) && ! class_exists( 'YITH_Woocompare_Frontend' ) ) {
         return;
     }
 
     global $product;
+
+    if ( ! $product ) {
+        return;
+    }
 
     $product_id = $product->get_id();
     $compare_url = add_query_arg(
@@ -156,9 +161,20 @@ function shoptimizer_child_display_custom_compare_button() {
     );
 
     $class = 'compare';
-    if ( YITH_Woocompare_Frontend::is_product_in_compare( $product_id ) ) {
+    $is_in_compare = false;
+
+    // Check if product is in compare list. Use static method for robustness.
+    if ( class_exists( 'YITH_Woocompare_Frontend' ) ) {
+        $is_in_compare = YITH_Woocompare_Frontend::is_product_in_compare( $product_id );
+    } elseif ( class_exists( 'YITH_Woocompare_Frontend_Premium' ) ) {
+        // Fallback for premium if needed, though Frontend should contain static method
+        $is_in_compare = YITH_Woocompare_Frontend_Premium::is_product_in_compare( $product_id );
+    }
+
+    if ( $is_in_compare ) {
         $class .= ' added';
-        $compare_url = YITH_Woocompare_Frontend::get_compare_page_url(); // Use static method for compare page url
+        // If product is in compare, the button should link to the compare table
+        $compare_url = class_exists( 'YITH_Woocompare_Frontend' ) ? YITH_Woocompare_Frontend::get_compare_page_url() : '#';
     }
 
     // Output the custom compare button HTML

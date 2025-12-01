@@ -286,7 +286,7 @@
 
 .summary.entry-summary .product_meta a:hover,
 .product_meta a:hover {
-    color: var(--mkx-primary) !important;
+    color: var(--mkx-primary) !importan;
     text-decoration: underline !important;
 }
 
@@ -419,45 +419,8 @@
     border-color: var(--mkx-primary);
 }
 
-/* Price styles (already present, kept for consistency) */
-.custom-price-container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-}
-
-.price-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-}
-
-.price-label {
-    font-weight: var(--mkx-font-bold);
-}
-
-.wholesale-label {
-    color: var(--mkx-primary);
-}
-
-.price-value {
-    font-size: var(--fs-lg);
-}
-
-.wholesale-value {
-    color: var(--mkx-primary);
-    font-size: var(--fs-xl);
-}
-
-.min-quantity-row {
-    font-size: var(--fs-sm);
-    color: var(--mkx-text-secondary);
-    text-align: right;
-}
-
-/* NEW: Style for "added" state of wishlist and compare buttons */
-.product-actions .action-item a.added,
-.product-actions .action-item .exists a.add_to_wishlist {
+/* NEW: Style for "added" state of compare button */
+.product-actions .action-item a.compare.added {
     border-width: 2px !important;
     border-color: var(--mkx-dark) !important;
 }
