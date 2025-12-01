@@ -38,7 +38,7 @@ class MKX_Search_Query {
             // БРЕНДЫ
             'brands' => array(
                 'apple' => array('apple', 'аппле', 'апл', 'эпл', 'эппл', 'апель', 'фззду'),
-                'iphone' => array('iphone', 'айфон', 'ифон', 'іфон', 'b`jyt', 'b`jy', 'fqa', 'fqaj', 'fqajy', 'айфoн'),
+                'iphone' => array('iphone', 'айфон', 'ифон', 'іфон', 'b`jyt', 'b`jy', 'айфoн'),
                 'ipad' => array('ipad', 'айпад', 'айпэд', 'ипад', 'іпад', 'b`fl'),
                 'samsung' => array('samsung', 'самсунг', 'самсунк', 'сансунг', 'самсун', 'самс', 'cfvceyu', 'cfvcey'),
                 'xiaomi' => array('xiaomi', 'сяоми', 'ксяоми', 'шаоми', 'ксиаоми', '[bfjvb', '[bfv'),
@@ -50,7 +50,7 @@ class MKX_Search_Query {
                 'vivo' => array('vivo', 'виво', 'віво', 'dbdj'),
                 'realme' => array('realme', 'реалме', 'риалми', 'риалме', 'реалми', 'htfkvt'),
                 'infinix' => array('infinix', 'инфиникс', 'инфініх', 'byabyb['),
-                'tecno' => array('te', 'tecn', 'tecn', 'tecno', 'тек', 'текн', 'текно', 'тэк', 'тэкн', 'тэкно', 'ntryj'),
+                'tecno' => array('tecno', 'текно', 'тэкно', 'ntryj'),
             ),
             // ТИПЫ ЗАПЧАСТЕЙ
             'parts' => array(
