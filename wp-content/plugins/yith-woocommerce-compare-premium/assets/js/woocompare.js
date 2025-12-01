@@ -183,8 +183,7 @@ jQuery(document).ready(function ($) {
 					// Reload button.
 					unblockItem( button );
 					button.addClass('added')
-						.attr('href', response.table_url )
-						.text(yith_woocompare.added_label);
+						.attr('href', response.table_url );
 
 					if ( yith_woocompare.auto_open === 'yes' && ! response.only_one && ! yith_woocompare.is_page ) {
 						$('body').trigger('yith_woocompare_open_popup', {response: response.table_url, button: button});

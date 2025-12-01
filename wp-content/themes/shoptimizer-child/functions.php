@@ -119,5 +119,54 @@ add_action('edited_product_cat', 'mkx_clear_live_search_cache');
 
 require_once get_stylesheet_directory() . '/inc/shoptimizer-child-no-results.php';
 
+/**
+ * Remove YITH WooCommerce Compare button and add custom one.
+ */
+function shoptimizer_child_custom_compare_button() {
+    // Check if YITH WooCommerce Compare is active
+    if ( class_exists( 'YITH_Woocompare_Frontend_Premium' ) || class_exists( 'YITH_Woocompare_Frontend' ) ) {
+        global $yith_woocompare;
 
+        // Remove the default compare button action
+        remove_action( 'woocommerce_after_add_to_cart_button', array( $yith_woocompare->obj, 'add_compare_link' ), 20 );
 
+        // Add custom compare button action
+        add_action( 'woocommerce_after_add_to_cart_button', 'shoptimizer_child_display_custom_compare_button', 20 );
+    }
+}
+add_action( 'init', 'shoptimizer_child_custom_compare_button' );
+
+/**
+ * Display the custom compare button.
+ */
+function shoptimizer_child_display_custom_compare_button() {
+    if ( ! class_exists( 'YITH_Woocompare_Frontend_Premium' ) && ! class_exists( 'YITH_Woocompare_Frontend' ) ) {
+        return;
+    }
+
+    global $product;
+
+    $product_id = $product->get_id();
+    $compare_url = add_query_arg(
+        array(
+            'action' => 'yith-woocompare-add-product',
+            'id'     => $product_id,
+        ),
+        site_url()
+    );
+
+    $class = 'compare';
+    if ( YITH_Woocompare_Frontend::is_product_in_compare( $product_id ) ) {
+        $class .= ' added';
+        $compare_url = YITH_Woocompare_Frontend::get_compare_page_url(); // Use static method for compare page url
+    }
+
+    // Output the custom compare button HTML
+    ?>
+    <div class="action-item">
+        <a href="<?php echo esc_url( $compare_url ); ?>" class="<?php echo esc_attr( $class ); ?>" data-product_id="<?php echo esc_attr( $product_id ); ?>" rel="nofollow">
+            <i class="ph ph-chart-bar"></i>
+        </a>
+    </div>
+    <?php
+}

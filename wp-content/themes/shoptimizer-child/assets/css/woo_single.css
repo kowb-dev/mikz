@@ -286,7 +286,7 @@
 
 .summary.entry-summary .product_meta a:hover,
 .product_meta a:hover {
-    color: var(--mkx-primary) !importan;
+    color: var(--mkx-primary) !important;
     text-decoration: underline !important;
 }
 
@@ -455,3 +455,9 @@
     text-align: right;
 }
 
+/* NEW: Style for "added" state of wishlist and compare buttons */
+.product-actions .action-item a.added,
+.product-actions .action-item .exists a.add_to_wishlist {
+    border-width: 2px !important;
+    border-color: var(--mkx-dark) !important;
+}
