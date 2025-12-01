@@ -383,7 +383,6 @@
 .summary.entry-summary .price-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
 
 .summary.entry-summary .price-label {
@@ -396,11 +395,12 @@
 
 .summary.entry-summary .price-value {
     font-size: var(--fs-lg);
-    font-weight: var(--mkx-font-semibold);
+
 }
 
 .summary.entry-summary .wholesale-value {
     color: var(--mkx-primary);
+    font-size: var(--fs-xl);
 }
 
 .summary.entry-summary .min-quantity-row {
