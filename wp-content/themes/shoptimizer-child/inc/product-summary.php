@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Remove all default and theme actions from woocommerce_single_product_summary.
+ *
+ * Hooked to 'wp_loaded' to ensure it runs after the parent theme and plugins have registered their hooks.
  */
 function kb_remove_all_single_product_summary_actions() {
     // Default WooCommerce hooks
@@ -38,7 +40,7 @@ function kb_remove_all_single_product_summary_actions() {
     remove_action( 'woocommerce_single_product_summary', 'shoptimizer_change_displayed_sale_price_html', 11 );
     remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_template_single_meta', 15 );
 }
-add_action( 'init', 'kb_remove_all_single_product_summary_actions' );
+add_action( 'wp_loaded', 'kb_remove_all_single_product_summary_actions', 999 );
 
 
 /**
@@ -71,18 +73,12 @@ function kb_custom_single_product_summary() {
 
     // Stock
     $availability = $product->get_availability();
-    $availability_html = empty( $availability['availability'] ) ? '' : '<p class="stock ' . esc_attr( $availability['class'] ) . '">✓ ' . esc_html( $availability['availability'] ) . '</p>';
-    echo $availability_html;
-
+    if ( ! empty( $availability['availability'] ) ) {
+        echo '<p class="stock ' . esc_attr( $availability['class'] ) . '">✓ ' . esc_html( $availability['availability'] ) . '</p>';
+    }
 
     // Prices
-    // Here we will need to get the wholesale price. I'll assume it's stored in a meta field for now.
-    // I need to check how wholesale prices are implemented. I'll search for "wholesale" in the project.
-    // For now, I'll use a placeholder.
-    $regular_price = $product->get_regular_price();
-    $sale_price = $product->get_sale_price();
     $price_html = $product->get_price_html();
-
     ?>
     <div class="custom-price-container">
         <div class="price-row retail-price-row">
@@ -90,16 +86,15 @@ function kb_custom_single_product_summary() {
             <div class="price-value"><?php echo $price_html; ?></div>
         </div>
         <?php
-        // Placeholder for wholesale price
         $wholesale_price = get_post_meta( $product->get_id(), '_wholesale_price', true );
         if ( ! empty( $wholesale_price ) && is_user_logged_in() ) {
             $current_user = wp_get_current_user();
             $user_roles = $current_user->roles;
 
-            // Check if the user has a role that can see the wholesale price
             if ( in_array( 'wholesale_customer', $user_roles, true ) || in_array( 'administrator', $user_roles, true ) ) {
+                $regular_price = $product->get_regular_price();
                 $discount = 0;
-                if($regular_price > 0){
+                if ( $regular_price > 0 ) {
                     $discount = round( ( ( $regular_price - $wholesale_price ) / $regular_price ) * 100 );
                 }
 
@@ -122,54 +117,53 @@ function kb_custom_single_product_summary() {
     </div>
     <?php
 
-    // Add to cart with quantity
-    do_action( 'woocommerce_before_add_to_cart_form' ); ?>
-    <form class="cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data'>
-        <?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>
-
-        <div class="quantity-wrapper">
-            <?php
-            woocommerce_quantity_input( array(
-                'min_value'   => apply_filters( 'woocommerce_quantity_input_min', $product->get_min_purchase_quantity(), $product ),
-                'max_value'   => apply_filters( 'woocommerce_quantity_input_max', $product->get_max_purchase_quantity(), $product ),
-                'input_value' => isset( $_POST['quantity'] ) ? wc_stock_amount( wp_unslash( $_POST['quantity'] ) ) : $product->get_min_purchase_quantity(), // WPCS: CSRF ok, input var ok.
-            ) );
-            ?>
-        </div>
-
-        <button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="single_add_to_cart_button button alt"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
-
-        <div class="product-actions">
-            <?php if ( shortcode_exists( 'yith_wcwl_add_to_wishlist' ) ) : ?>
-                <div class="action-item">
-                    <?php echo do_shortcode( '[yith_wcwl_add_to_wishlist]' ); ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if ( class_exists( 'YITH_Woocompare' ) ) : ?>
-                <div class="action-item">
-                    <a href="<?php echo esc_url( add_query_arg( array( 'id' => $product->get_id() ), YITH_Woocompare()->get_compare_url() ) ); ?>" class="compare" data-product_id="<?php echo esc_attr( $product->get_id() ); ?>" rel="nofollow">
-                        <i class="ph-chart-bar"></i>
-                    </a>
-                </div>
-            <?php endif; ?>
-        </div>
-
-        <?php do_action( 'woocommerce_after_add_to_cart_button' ); ?>
-    </form>
-    <?php do_action( 'woocommerce_after_add_to_cart_form' ); ?>
-    <?php
+    // Add to cart form
+    if ( $product->is_in_stock() ) : ?>
+        <?php do_action( 'woocommerce_before_add_to_cart_form' ); ?>
+        <form class="cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data'>
+            <div class="cart-main-actions">
+                <?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>
+                <button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="single_add_to_cart_button button alt"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
+                <?php do_action( 'woocommerce_after_add_to_cart_button' ); ?>
+            </div>
+        </form>
+        <?php do_action( 'woocommerce_after_add_to_cart_form' ); ?>
+    <?php endif;
 }
 add_action( 'woocommerce_single_product_summary', 'kb_custom_single_product_summary', 10 );
 
-add_filter( 'yith_wcwl_add_to_wishlist_button_html', 'kb_custom_wishlist_button_html', 10, 3 );
-function kb_custom_wishlist_button_html( $html, $url, $product_type ) {
+/**
+ * Add Wishlist and Compare buttons after the add to cart form.
+ */
+function kb_add_product_actions_after_add_to_cart() {
     global $product;
     $product_id = $product->get_id();
+    ?>
+    <div class="product-actions">
+        <?php if ( defined( 'YITH_WCWL' ) ) : ?>
+            <div class="action-item">
+                <?php
+                    $wishlist_url = YITH_WCWL()->get_add_to_wishlist_url( $product_id );
+                    echo '<a href="' . esc_url( $wishlist_url ) . '" class="add_to_wishlist single_add_to_wishlist" data-product-id="' . esc_attr( $product_id ) . '" rel="nofollow">';
+                    echo '<i class="ph ph-heart"></i>';
+                    echo '</a>';
+                ?>
+            </div>
+        <?php endif; ?>
 
-    $html = '<a href="' . esc_url($url) . '" class="add_to_wishlist single_add_to_wishlist" data-product-id="' . esc_attr($product_id) . '" data-product-type="' . esc_attr($product_type) . '" rel="nofollow">';
-    $html .= '<i class="ph-heart"></i>';
-    $html .= '</a>';
-
-    return $html;
+        <?php if ( class_exists( 'YITH_Woocompare' ) ) :
+            $compare_url = add_query_arg( array(
+                'action' => 'yith-woocompare-add-product',
+                'id' => $product_id
+            ), site_url() );
+        ?>
+            <div class="action-item">
+                <a href="<?php echo esc_url( $compare_url ); ?>" class="compare" data-product_id="<?php echo esc_attr( $product_id ); ?>" rel="nofollow">
+                    <i class="ph ph-chart-bar"></i>
+                </a>
+            </div>
+        <?php endif; ?>
+    </div>
+    <?php
 }
+add_action( 'woocommerce_after_add_to_cart_form', 'kb_add_product_actions_after_add_to_cart', 10 );
