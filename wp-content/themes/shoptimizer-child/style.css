@@ -352,3 +352,11 @@
     font-weight: var(--mkx-font-bold);
     color: var(--mkx-warning-dark);
 }
+
+.summary.entry-summary .price-value {
+    font-size: var(--fs-xl);
+}
+.summary.entry-summary .wholesale-value {
+
+    font-size: var(--fs-2xl);
+}
