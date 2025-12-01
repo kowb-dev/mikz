@@ -9,6 +9,73 @@
 
 defined( 'YITH_WOOCOMPARE' ) || exit; // Exit if accessed directly.
 
+/**
+ * Wrapper class for WC_Product to avoid dynamic property creation.
+ *
+ * @since 2.14.0
+ */
+class YITH_Compare_Product {
+	/**
+	 * The product object.
+	 *
+	 * @var WC_Product
+	 */
+	protected $_product;
+
+	/**
+	 * The fields for the comparison table.
+	 *
+	 * @var array
+	 */
+	public $fields = array();
+
+	/**
+	 * Constructor.
+	 *
+	 * @param WC_Product $product The product object.
+	 */
+	public function __construct( $product ) {
+		$this->_product = $product;
+	}
+
+	/**
+	 * Magic method to proxy method calls to the product object.
+	 *
+	 * @param string $name The method name.
+	 * @param array  $arguments The method arguments.
+	 * @return mixed
+	 */
+	public function __call( $name, $arguments ) {
+		if ( is_callable( array( $this->_product, $name ) ) ) {
+			return call_user_func_array( array( $this->_product, $name ), $arguments );
+		}
+		return null;
+	}
+
+	/**
+	 * Magic method to get properties from the product object.
+	 *
+	 * @param string $name The property name.
+	 * @return mixed
+	 */
+	public function __get( $name ) {
+		if ( property_exists( $this->_product, $name ) ) {
+			return $this->_product->{$name};
+		}
+		return null;
+	}
+
+	/**
+	 * Magic method to check if a property is set on the product object.
+	 *
+	 * @param string $name The property name.
+	 * @return bool
+	 */
+	public function __isset( $name ) {
+		return isset( $this->_product->{$name} );
+	}
+}
+
 if ( ! class_exists( 'YITH_Woocompare_Frontend_Premium' ) ) {
 	/**
 	 * YITH Custom Login Frontend
@@ -583,10 +650,11 @@ if ( ! class_exists( 'YITH_Woocompare_Frontend_Premium' ) ) {
 			$fields   = $this->fields( $products );
 
 			foreach ( $products as $product_id ) {
-				$product = $this->wc_get_product( $product_id );
-				if ( ! $product ) {
+				$product_obj = $this->wc_get_product( $product_id );
+				if ( ! $product_obj ) {
 					continue;
 				}
+				$product = new YITH_Compare_Product( $product_obj );
 
 				$product->fields = array();
 				$attributes      = $product->get_attributes();
