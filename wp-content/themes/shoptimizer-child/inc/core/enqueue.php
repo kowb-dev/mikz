@@ -34,6 +34,14 @@ function shoptimizer_child_enqueue_styles_scripts() {
         array(),
         $parent_theme ? $parent_theme->get('Version') : '1.0.0'
     );
+    
+    // Enqueue Phosphor Icons
+    wp_enqueue_style(
+        'phosphor-icons',
+        'https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css',
+        array(),
+        '2.1.1'
+    );
 
     // Enqueue all CSS files from the assets/css directory
     $css_files = array(

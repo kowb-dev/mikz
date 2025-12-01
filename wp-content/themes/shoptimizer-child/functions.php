@@ -62,6 +62,7 @@ require_once get_stylesheet_directory() . '/inc/widget-custom-price-filter.php';
 // Интеграции с плагинами (только если плагины активны)
 if ( class_exists( 'WooCommerce' ) ) {
 	require_once get_stylesheet_directory() . '/inc/integrations/woocommerce/functions.php';
+    require_once get_stylesheet_directory() . '/inc/product-summary.php';
 }
 
 // Административные функции (только в админке)
