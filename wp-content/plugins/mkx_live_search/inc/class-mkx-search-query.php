@@ -272,98 +272,162 @@ class MKX_Search_Query {
         return array_map('absint', $results);
     }
 
-    /**
-     * Get categories from search results with Display priority
-     */
-    public function get_search_categories($search_term) {
-        if (empty($search_term) || strlen($search_term) < 2) {
-            return array();
-        }
-
-        $cache_key = 'mkx_search_cats_' . md5($search_term);
-        $cached = get_transient($cache_key);
-
-        if (false !== $cached && is_array($cached)) {
-            return $cached;
-        }
-
-        // Expand search term
-        $expanded_terms = $this->expand_search_term($search_term);
-        
-        $product_ids = $this->get_product_ids_by_search($expanded_terms, array('limit' => 100));
-
-        if (empty($product_ids)) {
-            set_transient($cache_key, array(), HOUR_IN_SECONDS);
-            return array();
-        }
-
-        $category_terms = wp_get_object_terms($product_ids, 'product_cat');
-        
-        $categories = array();
-        $seen_cats = array();
-
-        if (!is_wp_error($category_terms) && !empty($category_terms)) {
-            foreach ($category_terms as $cat) {
-                if (in_array($cat->term_id, $seen_cats)) {
-                    continue;
-                }
-                
-                // Exclude the 'Misc' category (ID 253)
-                if ( 253 === (int) $cat->term_id ) {
-                    continue;
-                }
-
-                $categories[] = array(
-                    'id' => $cat->term_id,
-                    'name' => $cat->name,
-                    'slug' => $cat->slug,
-                );
-
-                $seen_cats[] = $cat->term_id;
-            }
-        }
-        
-        // Приоритетные slugs для категорий дисплеев (всегда показываем первыми)
-        $display_priority_slugs = array(
-            'displei-iphone',
-            'displei-huawei-honor',
-            'displei-dlya-infinix',
-            'displei-oppo',
-            'displei-realme',
-            'displei-dlya-samsung',
-            'displei-tecno',
-            'displei-vivo',
-            'displei-xiaomi-redmi',
-            'displei-ekrany-lcd',
-        );
-
-        // Сортировка: сначала дисплеи (в порядке приоритета), затем остальное по алфавиту
-        usort($categories, function($a, $b) use ($display_priority_slugs) {
-            $a_is_display = in_array($a['slug'], $display_priority_slugs);
-            $b_is_display = in_array($b['slug'], $display_priority_slugs);
-
-            // Если обе категории - дисплеи, сортируем по приоритету
-            if ($a_is_display && $b_is_display) {
-                $a_priority = array_search($a['slug'], $display_priority_slugs);
-                $b_priority = array_search($b['slug'], $display_priority_slugs);
-                return $a_priority - $b_priority;
-            }
-
-            // Дисплеи всегда первые
-            if ($a_is_display && !$b_is_display) {
-                return -1;
-            } elseif (!$a_is_display && $b_is_display) {
-                return 1;
-            }
-
-            // Остальные категории сортируем по алфавиту
-            return strcmp($a['name'], $b['name']);
-        });
-
-        set_transient($cache_key, $categories, HOUR_IN_SECONDS);
-
-        return $categories;
+ /**
+ * Get categories from search results with smart sorting
+ * ЗАМЕНИТЬ в inc/class-mkx-search-query.php
+ */
+public function get_search_categories($search_term) {
+    if (empty($search_term) || strlen($search_term) < 2) {
+        return array();
     }
+
+    // Отключаем кэш временно для отладки
+    // $cache_key = 'mkx_search_cats_' . md5($search_term);
+    // $cached = get_transient($cache_key);
+    // if (false !== $cached && is_array($cached)) {
+    //     return $cached;
+    // }
+
+    $expanded_terms = $this->expand_search_term($search_term);
+    $product_ids = $this->get_product_ids_by_search($expanded_terms, array('limit' => 100));
+
+    if (empty($product_ids)) {
+        return array();
+    }
+
+    $category_terms = wp_get_object_terms($product_ids, 'product_cat');
+    
+    $categories = array();
+    $seen_cats = array();
+
+    if (!is_wp_error($category_terms) && !empty($category_terms)) {
+        foreach ($category_terms as $cat) {
+            if (in_array($cat->term_id, $seen_cats) || 253 === (int) $cat->term_id) {
+                continue;
+            }
+
+            $categories[] = array(
+                'id' => $cat->term_id,
+                'name' => $cat->name,
+                'slug' => $cat->slug,
+            );
+
+            $seen_cats[] = $cat->term_id;
+        }
+    }
+    
+    // Умная сортировка по релевантности
+    $search_lower = mb_strtolower($search_term, 'UTF-8');
+    
+    // Определяем что ищут
+    $is_battery = (mb_strpos($search_lower, 'акб') !== false || 
+                   mb_strpos($search_lower, 'аккум') !== false || 
+                   mb_strpos($search_lower, 'батарея') !== false ||
+                   mb_strpos($search_lower, 'battery') !== false);
+                   
+    $is_display = (mb_strpos($search_lower, 'дисплей') !== false || 
+                   mb_strpos($search_lower, 'диспл') !== false ||
+                   mb_strpos($search_lower, 'экран') !== false ||
+                   mb_strpos($search_lower, 'lcd') !== false ||
+                   mb_strpos($search_lower, 'display') !== false);
+                   
+    $is_glass = (mb_strpos($search_lower, 'стекло') !== false || 
+                 mb_strpos($search_lower, 'тачскрин') !== false ||
+                 mb_strpos($search_lower, 'glass') !== false);
+                 
+    $is_back_cover = (mb_strpos($search_lower, 'крышка') !== false || 
+                      mb_strpos($search_lower, 'корпус') !== false ||
+                      mb_strpos($search_lower, 'рамка') !== false);
+    
+    // Определяем бренд
+    $is_iphone = (mb_strpos($search_lower, 'айфон') !== false || 
+                  mb_strpos($search_lower, 'iphone') !== false ||
+                  mb_strpos($search_lower, 'apple') !== false);
+                  
+    $is_samsung = (mb_strpos($search_lower, 'самсунг') !== false || 
+                   mb_strpos($search_lower, 'samsung') !== false);
+                   
+    $is_xiaomi = (mb_strpos($search_lower, 'сяоми') !== false || 
+                  mb_strpos($search_lower, 'xiaomi') !== false ||
+                  mb_strpos($search_lower, 'редми') !== false ||
+                  mb_strpos($search_lower, 'redmi') !== false);
+                  
+    $is_huawei = (mb_strpos($search_lower, 'хуавей') !== false || 
+                  mb_strpos($search_lower, 'huawei') !== false ||
+                  mb_strpos($search_lower, 'хонор') !== false ||
+                  mb_strpos($search_lower, 'honor') !== false);
+
+    // Сортировка с приоритетами
+    usort($categories, function($a, $b) use ($is_battery, $is_display, $is_glass, $is_back_cover, 
+                                              $is_iphone, $is_samsung, $is_xiaomi, $is_huawei) {
+        $a_priority = 0;
+        $b_priority = 0;
+        
+        // Приоритет для категории A
+        if ($is_battery && mb_strpos($a['slug'], 'akb') !== false) {
+            $a_priority += 50;
+            if ($is_iphone && mb_strpos($a['slug'], 'iphone') !== false) $a_priority += 50;
+            elseif ($is_samsung && mb_strpos($a['slug'], 'samsung') !== false) $a_priority += 50;
+            elseif ($is_xiaomi && mb_strpos($a['slug'], 'xiaomi') !== false) $a_priority += 50;
+            elseif ($is_huawei && mb_strpos($a['slug'], 'huawei') !== false) $a_priority += 50;
+        }
+        
+        if ($is_display && mb_strpos($a['slug'], 'displei') !== false) {
+            $a_priority += 50;
+            if ($is_iphone && mb_strpos($a['slug'], 'iphone') !== false) $a_priority += 50;
+            elseif ($is_samsung && mb_strpos($a['slug'], 'samsung') !== false) $a_priority += 50;
+            elseif ($is_xiaomi && mb_strpos($a['slug'], 'xiaomi') !== false) $a_priority += 50;
+            elseif ($is_huawei && mb_strpos($a['slug'], 'huawei') !== false) $a_priority += 50;
+        }
+        
+        if ($is_glass && (mb_strpos($a['slug'], 'steklo') !== false || mb_strpos($a['slug'], 'tachskrin') !== false)) {
+            $a_priority += 50;
+        }
+        
+        if ($is_back_cover && mb_strpos($a['slug'], 'kryshka') !== false) {
+            $a_priority += 50;
+            if ($is_iphone && mb_strpos($a['slug'], 'iphone') !== false) $a_priority += 50;
+        }
+        
+        // Приоритет для категории B
+        if ($is_battery && mb_strpos($b['slug'], 'akb') !== false) {
+            $b_priority += 50;
+            if ($is_iphone && mb_strpos($b['slug'], 'iphone') !== false) $b_priority += 50;
+            elseif ($is_samsung && mb_strpos($b['slug'], 'samsung') !== false) $b_priority += 50;
+            elseif ($is_xiaomi && mb_strpos($b['slug'], 'xiaomi') !== false) $b_priority += 50;
+            elseif ($is_huawei && mb_strpos($b['slug'], 'huawei') !== false) $b_priority += 50;
+        }
+        
+        if ($is_display && mb_strpos($b['slug'], 'displei') !== false) {
+            $b_priority += 50;
+            if ($is_iphone && mb_strpos($b['slug'], 'iphone') !== false) $b_priority += 50;
+            elseif ($is_samsung && mb_strpos($b['slug'], 'samsung') !== false) $b_priority += 50;
+            elseif ($is_xiaomi && mb_strpos($b['slug'], 'xiaomi') !== false) $b_priority += 50;
+            elseif ($is_huawei && mb_strpos($b['slug'], 'huawei') !== false) $b_priority += 50;
+        }
+        
+        if ($is_glass && (mb_strpos($b['slug'], 'steklo') !== false || mb_strpos($b['slug'], 'tachskrin') !== false)) {
+            $b_priority += 50;
+        }
+        
+        if ($is_back_cover && mb_strpos($b['slug'], 'kryshka') !== false) {
+            $b_priority += 50;
+            if ($is_iphone && mb_strpos($b['slug'], 'iphone') !== false) $b_priority += 50;
+        }
+        
+        // Сортируем по приоритету
+        if ($a_priority !== $b_priority) {
+            return $b_priority - $a_priority; // От большего к меньшему
+        }
+        
+        // Если приоритеты равны - по алфавиту
+        return strcmp($a['name'], $b['name']);
+    });
+
+    // set_transient($cache_key, $categories, HOUR_IN_SECONDS);
+
+    return $categories;
+}
 
     /**
      * Format product for response

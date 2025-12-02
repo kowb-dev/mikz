@@ -157,52 +157,57 @@
         });
     }
 
-    function renderResults(data, term, $container) {
-        let html = '';
+function renderResults(data, term, $container) {
+    let html = '';
 
-        if (data.categories && data.categories.length > 0) {
-            html += '<div class="mkx-search-results__categories" style="padding: 12px; border-bottom: 1px solid #f1f5f9;">';
-            html += '<h4 style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; margin: 0 0 8px 0;">Категории</h4>';
+    // Категории - теперь уже отсортированы на сервере
+    if (data.categories && data.categories.length > 0) {
+        html += '<div class="mkx-search-results__categories" style="padding: 12px; border-bottom: 1px solid #f1f5f9;">';
+        html += '<h4 style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; margin: 0 0 8px 0;">Категории</h4>';
 
-            data.categories.forEach(function(category) {
-                const url = buildSearchUrl(term, category.slug);
-                html += `
+        // Показываем только первые 5 категорий в dropdown
+        const categoriesToShow = data.categories.slice(0, 5);
+        
+        categoriesToShow.forEach(function(category) {
+            const url = buildSearchUrl(term, category.slug);
+            html += `
 <a href="${url}"
    style="display: block; padding: 6px 8px; color: #0f172a; text-decoration: none; border-radius: 4px; font-size: 14px; transition: all 0.2s;"
    onmouseover="this.style.background='#f8fafc'; this.style.color='#f57300';"
    onmouseout="this.style.background='transparent'; this.style.color='#0f172a';">
     ${escapeHtml(category.name)}
 </a>`;
-            });
+        });
 
-            html += '</div>';
-        }
+        html += '</div>';
+    }
 
-        if (data.products && data.products.length > 0) {
-            html += '<div class="mkx-search-results__products" style="padding: 12px;">';
-            html += '<h4 style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; margin: 0 0 8px 0;">Товары</h4>';
+    // Товары
+    if (data.products && data.products.length > 0) {
+        html += '<div class="mkx-search-results__products" style="padding: 12px;">';
+        html += '<h4 style="font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; margin: 0 0 8px 0;">Товары</h4>';
 
-            data.products.forEach(function(product) {
-                html += renderProduct(product);
-            });
+        data.products.forEach(function(product) {
+            html += renderProduct(product);
+        });
 
-            html += '</div>';
+        html += '</div>';
 
-            const searchUrl = buildSearchUrl(term);
-            html += `
+        const searchUrl = buildSearchUrl(term);
+        html += `
 <a href="${searchUrl}"
    style="display: block; padding: 12px; text-align: center; color: #f57300; text-decoration: none; font-weight: 500; border-top: 1px solid #f1f5f9;">
     Показать все результаты
 </a>`;
-        }
-
-        if (html === '') {
-            html = '<div class="mkx-search-results__empty" style="padding: 24px; text-align: center; color: #64748b;">Ничего не найдено</div>';
-        }
-
-        $container.html(html);
-        $container.addClass('mkx-search-results--visible');
     }
+
+    if (html === '') {
+        html = '<div class="mkx-search-results__empty" style="padding: 24px; text-align: center; color: #64748b;">Ничего не найдено</div>';
+    }
+
+    $container.html(html);
+    $container.addClass('mkx-search-results--visible');
+}
 
     function renderProduct(product) {
         const stockText = product.in_stock

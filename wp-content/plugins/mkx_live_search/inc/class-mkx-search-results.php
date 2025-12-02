@@ -126,70 +126,210 @@ class MKX_Search_Results {
     }
 
 
-
 public function display_search_categories() {
-        if (!is_search() || !isset($_GET['s'])) {
-            return;
+    if (!is_search() || !isset($_GET['s'])) {
+        return;
+    }
+
+    $search_term = sanitize_text_field(wp_unslash($_GET['s']));
+
+    if (empty($search_term)) {
+        return;
+    }
+
+    $query_handler = MKX_Search_Query::instance();
+    $categories = $query_handler->get_search_categories($search_term);
+
+    if (empty($categories)) {
+        return;
+    }
+
+    $search_lower = mb_strtolower($search_term, 'UTF-8');
+    
+    // Определяем ТИП детали
+    $part_type_keywords = array(
+        'battery' => array('акб', 'fr,', 'аккум', 'батарея', 'battery', 'аккумулятор'),
+        'display' => array('дисплей', 'диспл', 'дисп', 'экран', 'lcd', 'модуль', 'display', 'screen'),
+        'back_cover' => array('крышка', 'корпус', 'рамка', 'задняя', 'back', 'cover'),
+        'glass' => array('стекло', 'тачскрин', 'тач', 'glass', 'touch'),
+        'flex' => array('шлейф', 'флекс', 'flex'),
+        'charging' => array('зарядка', 'порт', 'разъем', 'charging', 'port'),
+        'speaker' => array('динамик', 'спикер', 'speaker'),
+    );
+
+    $detected_part_type = null;
+    foreach ($part_type_keywords as $type => $keywords) {
+        foreach ($keywords as $keyword) {
+            if (mb_strpos($search_lower, $keyword) !== false) {
+                $detected_part_type = $type;
+                break 2;
+            }
         }
+    }
 
-        $search_term = sanitize_text_field(wp_unslash($_GET['s']));
+    // Определяем БРЕНД
+    $brand_keywords = array(
+        'iphone' => array('iphone', 'айфон', 'ифон', 'іфон', 'айфoн', 'apple', 'аппле'),
+        'samsung' => array('samsung', 'самсунг', 'самсунк', 'сансунг', 'самс'),
+        'xiaomi' => array('xiaomi', 'сяоми', 'ксяоми', 'шаоми', 'redmi', 'редми'),
+        'huawei' => array('huawei', 'хуавей', 'хуавэй', 'honor', 'хонор'),
+        'nokia' => array('nokia', 'нокиа', 'нокия'),
+        'oppo' => array('oppo', 'оппо'),
+        'vivo' => array('vivo', 'виво'),
+        'realme' => array('realme', 'реалме', 'риалми'),
+        'infinix' => array('infinix', 'инфиникс'),
+        'tecno' => array('tecno', 'текно'),
+    );
 
-        if (empty($search_term)) {
-            return;
+    $detected_brand = null;
+    foreach ($brand_keywords as $brand => $keywords) {
+        foreach ($keywords as $keyword) {
+            if (mb_strpos($search_lower, $keyword) !== false) {
+                $detected_brand = $brand;
+                break 2;
+            }
         }
+    }
 
-        $query_handler = MKX_Search_Query::instance();
-        $categories = $query_handler->get_search_categories($search_term);
+    // Соответствие категорий брендам и типам деталей
+    $category_mapping = array(
+        // Дисплеи
+        'displei-iphone' => array('brand' => 'iphone', 'type' => 'display'),
+        'displei-huawei-honor' => array('brand' => 'huawei', 'type' => 'display'),
+        'displei-dlya-infinix' => array('brand' => 'infinix', 'type' => 'display'),
+        'displei-oppo' => array('brand' => 'oppo', 'type' => 'display'),
+        'displei-realme' => array('brand' => 'realme', 'type' => 'display'),
+        'displei-dlya-samsung' => array('brand' => 'samsung', 'type' => 'display'),
+        'displei-tecno' => array('brand' => 'tecno', 'type' => 'display'),
+        'displei-vivo' => array('brand' => 'vivo', 'type' => 'display'),
+        'displei-xiaomi-redmi' => array('brand' => 'xiaomi', 'type' => 'display'),
+        'displei-ekrany-lcd' => array('brand' => null, 'type' => 'display'),
+        
+        // АКБ
+        'akb-iphone' => array('brand' => 'iphone', 'type' => 'battery'),
+        'akb-huawei-honor' => array('brand' => 'huawei', 'type' => 'battery'),
+        'akb-dlya-nokia' => array('brand' => 'nokia', 'type' => 'battery'),
+        'akb-dlya-samsung' => array('brand' => 'samsung', 'type' => 'battery'),
+        'akb-dlya-xiaomi-redmi' => array('brand' => 'xiaomi', 'type' => 'battery'),
+        
+        // Задние крышки
+        'zadnyaya-kryshka-ramka-korpus-dlya-iphone' => array('brand' => 'iphone', 'type' => 'back_cover'),
+        'zadnyaya-kryshka-ramka-korpus' => array('brand' => null, 'type' => 'back_cover'),
+        
+        // Стекла
+        'steklo' => array('brand' => null, 'type' => 'glass'),
+        'tachskrin' => array('brand' => null, 'type' => 'glass'),
+        
+        // Аккумуляторы (общая категория)
+        'akkumulyatory' => array('brand' => null, 'type' => 'battery'),
+    );
 
-        if (empty($categories)) {
-            return;
-        }
+    $active_category = isset($_GET['product_cat']) ? sanitize_text_field(wp_unslash($_GET['product_cat'])) : '';
 
-        // Приоритетные slugs для категорий дисплеев
-        $display_priority_slugs = array(
-            'displei-iphone',
-            'displei-huawei-honor',
-            'displei-dlya-infinix',
-            'displei-oppo',
-            'displei-realme',
-            'displei-dlya-samsung',
-            'displei-tecno',
-            'displei-vivo',
-            'displei-xiaomi-redmi',
-            'displei-ekrany-lcd',
-        );
+    // ОТЛАДКА
+    if (current_user_can('manage_options')) {
+        echo '<div style="background:#fff3cd;border:3px solid #ff9800;padding:20px;margin:20px 0;font-family:monospace;font-size:13px;">';
+        echo '<h3 style="margin:0 0 15px 0;color:#ff9800;">🐛 ОТЛАДКА ПОИСКА</h3>';
+        echo '<strong>Запрос:</strong> ' . esc_html($search_term) . '<br>';
+        echo '<strong>Обнаружен бренд:</strong> ' . ($detected_brand ? '<code style="background:#007bff;color:white;padding:2px 8px;border-radius:3px;">' . $detected_brand . '</code>' : '<em>не определен</em>') . '<br>';
+        echo '<strong>Обнаружен тип детали:</strong> ' . ($detected_part_type ? '<code style="background:#28a745;color:white;padding:2px 8px;border-radius:3px;">' . $detected_part_type . '</code>' : '<em>не определен</em>') . '<br>';
+        echo '<strong>Всего категорий:</strong> ' . count($categories) . '<br>';
+        echo '<strong>Активная категория из GET:</strong> ' . ($active_category ? esc_html($active_category) : '<em>не выбрана</em>') . '<br><br>';
+        
+        echo '<table style="border-collapse:collapse;width:100%;margin:10px 0;font-size:12px;">';
+        echo '<tr style="background:#f0f0f0;"><th style="border:1px solid #ddd;padding:6px;">№</th><th style="border:1px solid #ddd;padding:6px;">Название</th><th style="border:1px solid #ddd;padding:6px;">Slug</th><th style="border:1px solid #ddd;padding:6px;">Приоритет</th></tr>';
+    }
 
-        // Получаем текущую выбранную категорию
-        $active_category = isset($_GET['product_cat']) ? sanitize_text_field(wp_unslash($_GET['product_cat'])) : '';
+    if (empty($active_category)) {
+        $best_category = null;
+        $best_priority = -1;
 
-        // Если категория не выбрана вручную, автоматически выбираем первую категорию дисплеев
-        if (empty($active_category)) {
-            foreach ($categories as $category) {
-                if (in_array($category['slug'], $display_priority_slugs)) {
-                    $active_category = $category['slug'];
-                    
-                    // Перенаправляем на URL с выбранной категорией
-                    $redirect_url = add_query_arg(
-                        array(
-                            's' => $search_term,
-                            'post_type' => 'product',
-                            'product_cat' => $active_category,
-                        ),
-                        home_url('/')
-                    );
-                    
-                    // Проверяем, что мы еще не на странице с категорией
-                    if (!isset($_GET['product_cat'])) {
-                        wp_safe_redirect($redirect_url);
-                        exit;
-                    }
-                    break;
+        foreach ($categories as $i => $category) {
+            $priority = 0;
+            
+            if (isset($category_mapping[$category['slug']])) {
+                $cat_brand = $category_mapping[$category['slug']]['brand'];
+                $cat_type = $category_mapping[$category['slug']]['type'];
+                
+                // Полное совпадение: и бренд, и тип детали
+                if ($detected_brand && $detected_part_type && 
+                    $cat_brand === $detected_brand && $cat_type === $detected_part_type) {
+                    $priority = 100;
                 }
+                // Совпадает только тип детали
+                elseif ($detected_part_type && $cat_type === $detected_part_type) {
+                    $priority = 50;
+                }
+                // Совпадает только бренд
+                elseif ($detected_brand && $cat_brand === $detected_brand) {
+                    $priority = 30;
+                }
+                // Общая категория без бренда (например, "Аккумуляторы")
+                elseif ($cat_brand === null && $detected_part_type && $cat_type === $detected_part_type) {
+                    $priority = 20;
+                }
+            }
+
+            // ОТЛАДКА - вывод строки таблицы
+            if (current_user_can('manage_options')) {
+                $bg = '';
+                if ($priority >= 100) {
+                    $bg = 'background:#d4edda;font-weight:bold;';
+                } elseif ($priority >= 50) {
+                    $bg = 'background:#fff3cd;';
+                } elseif ($priority > 0) {
+                    $bg = 'background:#f8f9fa;';
+                }
+                echo '<tr style="' . $bg . '"><td style="border:1px solid #ddd;padding:6px;text-align:center;">' . ($i + 1) . '</td><td style="border:1px solid #ddd;padding:6px;">' . esc_html($category['name']) . '</td><td style="border:1px solid #ddd;padding:6px;"><code style="font-size:11px;">' . esc_html($category['slug']) . '</code></td><td style="border:1px solid #ddd;padding:6px;text-align:center;font-weight:bold;' . ($priority >= 100 ? 'color:#28a745;' : '') . '">' . $priority . '</td></tr>';
+            }
+
+            if ($priority > $best_priority) {
+                $best_priority = $priority;
+                $best_category = $category['slug'];
             }
         }
 
-        $this->render_search_categories($categories, $search_term, $active_category);
+        if (current_user_can('manage_options')) {
+            echo '</table>';
+            echo '<hr style="margin:15px 0;border:none;border-top:2px solid #ff9800;">';
+            echo '<strong style="color:#28a745;font-size:14px;">✅ ВЫБРАНА КАТЕГОРИЯ:</strong> ';
+            if ($best_category) {
+                echo '<code style="background:#28a745;color:white;padding:4px 10px;border-radius:3px;font-size:13px;">' . esc_html($best_category) . '</code> <span style="color:#666;">(приоритет: ' . $best_priority . ')</span>';
+            } else {
+                echo '<span style="color:#dc3545;font-weight:bold;">НЕ НАЙДЕНА!</span>';
+            }
+            echo '<br><strong>Будет редирект:</strong> ' . (!isset($_GET['product_cat']) ? '<span style="color:#28a745;">ДА ✓</span>' : '<span style="color:#666;">НЕТ (уже есть product_cat)</span>');
+            echo '</div>';
+        }
+
+        if ($best_category !== null && !isset($_GET['product_cat'])) {
+            $active_category = $best_category;
+            
+            $redirect_url = add_query_arg(
+                array(
+                    's' => $search_term,
+                    'post_type' => 'product',
+                    'product_cat' => $active_category,
+                ),
+                home_url('/')
+            );
+            
+            wp_safe_redirect($redirect_url);
+            exit;
+        }
+    } else {
+        if (current_user_can('manage_options')) {
+            echo '</table>';
+            echo '<hr style="margin:15px 0;border:none;border-top:2px solid #ff9800;">';
+            echo '<strong style="color:#007bff;">ℹ️ Категория уже выбрана:</strong> <code>' . esc_html($active_category) . '</code>';
+            echo '</div>';
+        }
     }
+
+    $this->render_search_categories($categories, $search_term, $active_category);
+}
+
+
 
 
     private function render_search_categories($categories, $search_term, $active_category) {
