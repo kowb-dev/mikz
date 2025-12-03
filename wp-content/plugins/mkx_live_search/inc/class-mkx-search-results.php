@@ -3,7 +3,7 @@
  * Search Results Handler with Enhanced Search
  *
  * @package MKX_Live_Search
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 if (!defined('ABSPATH')) {
@@ -36,30 +36,98 @@ class MKX_Search_Results {
     private function init_search_combinations() {
         $this->search_combinations = array(
             'brands' => array(
-                'apple' => array('apple', 'аппле', 'апл', 'эпл', 'эппл', 'апель', 'фззду'),
-                'iphone' => array('iphone', 'айфон', 'ифон', 'іфон', 'b`jyt', 'b`jy', 'айфoн'),
-                'ipad' => array('ipad', 'айпад', 'айпэд', 'ипад', 'іпад', 'b`fl'),
-                'samsung' => array('samsung', 'самсунг', 'самсунк', 'сансунг', 'самсун', 'самс', 'cfvceyu', 'cfvcey'),
-                'xiaomi' => array('xiaomi', 'сяоми', 'ксяоми', 'шаоми', 'ксиаоми', '[bfjvb', '[bfv'),
-                'redmi' => array('redmi', 'редми', 'htlvb'),
-                'huawei' => array('huawei', 'хуавей', 'хуавэй', 'хавей', 'хуавай', 'uefdtb', 'uefdt'),
-                'honor' => array('honor', 'хонор', 'хоннор', 'ujyjh'),
-                'nokia' => array('nokia', 'нокиа', 'нокия', 'yjrbf'),
-                'oppo' => array('oppo', 'оппо', 'опо', 'jggj'),
-                'vivo' => array('vivo', 'виво', 'віво', 'dbdj'),
-                'realme' => array('realme', 'реалме', 'риалми', 'риалме', 'реалми', 'htfkvt'),
-                'infinix' => array('infinix', 'инфиникс', 'инфініх', 'byabyb['),
-                'tecno' => array('tecno', 'текно', 'тэкно', 'ntryj'),
+                'apple' => array('apple', 'аппле', 'апл', 'епл', 'еппл', 'апель', 'фззду', 'эпл', 'эппл'),
+                'iphone' => array('iphone', 'айфон', 'ифон', 'іфон', 'b`jyt', 'b`jy', 'айфoн', 'айфoны', 'айфоны'),
+                'ipad' => array('ipad', 'айпад', 'айпед', 'ипад', 'іпад', 'b`fl'),
+                'samsung' => array('samsung', 'самсунг', 'самсунк', 'сансунг', 'самсун', 'самс', 'cfvceyu', 'cfvcey', 'самса'),
+                'xiaomi' => array('xiaomi', 'сяоми', 'ксяоми', 'шаоми', 'ксиаоми', '[bfjvb', '[bfv', 'сяоми', 'ксиоми', 'сяо'),
+                'redmi' => array('redmi', 'редми', 'htlvb', 'редми', 'реадми'),
+                'huawei' => array('huawei', 'хуавей', 'хуавэй', 'хавей', 'хуавай', 'uefdtb', 'uefdt', 'хуавеи', 'хуаве'),
+                'honor' => array('honor', 'хонор', 'хоннор', 'ujyjh', 'хонор', 'хоннор', 'хонр'),
+                'nokia' => array('nokia', 'нокиа', 'нокия', 'yjrbf', 'нокія'),
+                'oppo' => array('oppo', 'оппо', 'опо', 'jggj', 'опп'),
+                'vivo' => array('vivo', 'виво', 'віво', 'dbdj', 'vivo'),
+                'realme' => array('realme', 'реалме', 'риалми', 'риалме', 'реалми', 'htfkvt', 'риалм'),
+                'infinix' => array('infinix', 'инфиникс', 'інфініх', 'byabyb[', 'инфиникс', 'инфиних'),
+                'tecno' => array('tecno', 'текно', 'тскно', 'ntryj', 'текно'),
             ),
             'parts' => array(
-                'display' => array('дисплей', 'диспей', 'дисплэй', 'диспл', 'дисп', 'lbcgktq', 'lbcgk', 'экран', 'єкран', '\'rhfy', 'lcd', 'лсд', 'лцд', 'ktl', 'модуль', 'vjlekm'),
-                'battery' => array('акб', 'fr,', 'аккумулятор', 'аккум', 'батарея', 'батарейка', 'акум', 'frrevekznjh', 'frreve', ',fnfhtz'),
-                'back_cover' => array('задняя крышка', 'крышка', 'задняя', 'зад крышка', 'pflyzz rhsirn', 'rhsirn', 'pflyzz', 'корпус', 'корп', 'rjhgec', 'rjhg', 'рамка', 'рама', 'hfvrf', 'hfvf'),
-                'flex' => array('шлейф', 'шлеф', 'iktqa', 'ikta', 'межплатный', 'межплат', 'vt;gkfnysq', 'vt;gkfn', 'флекс', 'aktrc'),
-                'charging' => array('шлейф зарядки', 'зарядка', 'порт зарядки', 'iktqa pfhzlrb', 'pfhzlrf', 'плата зарядки', 'charging port', 'gkfnf pfhzlrb', 'разъем', 'разьем', 'hfp]tv'),
-                'glass' => array('стекло', 'стекл', 'cntrkj', 'тачскрин', 'тачскрін', 'тач', 'nfxcrhby', 'nfx', 'переклейка', 'gthtrktrrf'),
-                'speaker' => array('динамик', 'динамік', 'дин', 'lbyfvbr', 'lby', 'динамики', 'спикер', 'speaker', 'lbyfvbrb', 'cgbrhh'),
+                'display' => array('дисплей', 'диспей', 'дисплюй', 'диспл', 'дисп', 'lbcgktq', 'lbcgk', 'экран', 'єкран', '\'rhfy', 'lcd', 'лсд', 'лцд', 'ktl', 'модуль', 'vjlekm', 'дисплеи', 'экраны'),
+                'battery' => array('акб', 'fr,', 'аккумулятор', 'аккум', 'батарея', 'батарейка', 'акум', 'frrevekznjh', 'frreve', ',fnfhtz', 'аккумуляторы', 'батареи'),
+                'back_cover' => array('задняя крышка', 'крышка', 'задняя', 'зад крышка', 'pflyzz rhsirn', 'rhsirn', 'pflyzz', 'корпус', 'корп', 'rjhgec', 'rjhg', 'рамка', 'рама', 'hfvrf', 'hfvf', 'крышки', 'корпуса', 'рамки'),
+                'flex' => array('шлейф', 'шлеф', 'iktqa', 'ikta', 'межплатный', 'межплат', 'vt;gkfnysq', 'vt;gkfn', 'флекс', 'aktrc', 'шлейфы', 'межплатные'),
+                'charging' => array('шлейф зарядки', 'зарядка', 'порт зарядки', 'iktqa pfhzlrb', 'pfhzlrf', 'плата зарядки', 'charging port', 'gkfnf pfhzlrb', 'разъем', 'разьем', 'hfp]tv', 'платы', 'разъемы', 'порты'),
+                'glass' => array('стекло', 'стекл', 'cntrkj', 'тачскрин', 'тачскрін', 'тач', 'nfxcrhby', 'nfx', 'переклейка', 'gthtrktrrf', 'стекла', 'тачскрины'),
+                'speaker' => array('динамик', 'динамік', 'дин', 'lbyfvbr', 'lby', 'динамики', 'спикер', 'speaker', 'lbyfvbrb', 'cgbrhh', 'спикеры'),
             ),
+        );
+    }
+
+    /**
+     * Detect search intent (brand only vs brand + part)
+     */
+    private function detect_search_intent($search_term) {
+        $search_term = mb_strtolower(trim($search_term), 'UTF-8');
+        $words = preg_split('/\s+/', $search_term);
+        
+        $detected_brand = null;
+        $detected_part = null;
+        
+        // Detect brand - проверяем каждое слово
+        foreach ($words as $word) {
+            if (empty($word) || mb_strlen($word, 'UTF-8') < 2) continue;
+            
+            foreach ($this->search_combinations['brands'] as $canonical_brand => $variants) {
+                if (in_array($word, $variants)) {
+                    $detected_brand = $canonical_brand;
+                    break 2;
+                }
+                
+                // Проверка начала слова для коротких запросов (2-4 символа)
+                if (mb_strlen($word, 'UTF-8') >= 2 && mb_strlen($word, 'UTF-8') <= 4) {
+                    foreach ($variants as $variant) {
+                        if (mb_strlen($variant, 'UTF-8') >= mb_strlen($word, 'UTF-8')) {
+                            $variant_prefix = mb_substr($variant, 0, mb_strlen($word, 'UTF-8'), 'UTF-8');
+                            if ($variant_prefix === $word) {
+                                $detected_brand = $canonical_brand;
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Detect part type - проверяем каждое слово
+        foreach ($words as $word) {
+            if (empty($word) || mb_strlen($word, 'UTF-8') < 2) continue;
+            
+            foreach ($this->search_combinations['parts'] as $part_type => $variants) {
+                if (in_array($word, $variants)) {
+                    $detected_part = $part_type;
+                    break 2;
+                }
+                
+                // Проверка начала слова для коротких запросов (3-5 символов)
+                if (mb_strlen($word, 'UTF-8') >= 3 && mb_strlen($word, 'UTF-8') <= 5) {
+                    foreach ($variants as $variant) {
+                        if (mb_strlen($variant, 'UTF-8') >= mb_strlen($word, 'UTF-8')) {
+                            $variant_prefix = mb_substr($variant, 0, mb_strlen($word, 'UTF-8'), 'UTF-8');
+                            if ($variant_prefix === $word) {
+                                $detected_part = $part_type;
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return array(
+            'brand' => $detected_brand,
+            'part' => $detected_part,
+            'is_brand_only' => !empty($detected_brand) && empty($detected_part),
+            'is_brand_and_part' => !empty($detected_brand) && !empty($detected_part),
         );
     }
 
@@ -77,7 +145,6 @@ class MKX_Search_Results {
             $word_length = mb_strlen($word, 'UTF-8');
             $found = false;
             
-            // Check exact match first
             foreach ($this->search_combinations as $category => $subcategories) {
                 foreach ($subcategories as $canonical => $variants) {
                     if (in_array($word, $variants)) {
@@ -88,12 +155,10 @@ class MKX_Search_Results {
                 }
             }
             
-            // If no exact match and word is 2-4 characters, check partial matches
-            if (!$found && $word_length >= 2 && $word_length <= 4) {
+            if (!$found && $word_length >= 2 && $word_length <= 5) {
                 foreach ($this->search_combinations as $category => $subcategories) {
                     foreach ($subcategories as $canonical => $variants) {
                         foreach ($variants as $variant) {
-                            // Check if variant starts with the word (first 2-4 chars)
                             if (mb_strlen($variant, 'UTF-8') >= $word_length) {
                                 $variant_prefix = mb_substr($variant, 0, $word_length, 'UTF-8');
                                 if ($variant_prefix === $word) {
@@ -125,185 +190,30 @@ class MKX_Search_Results {
         $query_handler->clear_search_cache();
     }
 
-
-public function display_search_categories() {
-    if (!is_search() || !isset($_GET['s'])) {
-        return;
-    }
-
-    $search_term = sanitize_text_field(wp_unslash($_GET['s']));
-
-    if (empty($search_term)) {
-        return;
-    }
-
-    $query_handler = MKX_Search_Query::instance();
-    $categories = $query_handler->get_search_categories($search_term);
-
-    if (empty($categories)) {
-        return;
-    }
-
-    $search_lower = mb_strtolower($search_term, 'UTF-8');
-    
-    // Определяем ТИП детали
-    $part_type_keywords = array(
-        'battery' => array('акб', 'fr,', 'аккум', 'батарея', 'battery', 'аккумулятор'),
-        'display' => array('дисплей', 'диспл', 'дисп', 'экран', 'lcd', 'модуль', 'display', 'screen'),
-        'back_cover' => array('крышка', 'корпус', 'рамка', 'задняя', 'back', 'cover'),
-        'glass' => array('стекло', 'тачскрин', 'тач', 'glass', 'touch'),
-        'flex' => array('шлейф', 'флекс', 'flex'),
-        'charging' => array('зарядка', 'порт', 'разъем', 'charging', 'port'),
-        'speaker' => array('динамик', 'спикер', 'speaker'),
-    );
-
-    $detected_part_type = null;
-    foreach ($part_type_keywords as $type => $keywords) {
-        foreach ($keywords as $keyword) {
-            if (mb_strpos($search_lower, $keyword) !== false) {
-                $detected_part_type = $type;
-                break 2;
-            }
-        }
-    }
-
-    // Определяем БРЕНД
-    $brand_keywords = array(
-        'iphone' => array('iphone', 'айфон', 'ифон', 'іфон', 'айфoн', 'apple', 'аппле'),
-        'samsung' => array('samsung', 'самсунг', 'самсунк', 'сансунг', 'самс'),
-        'xiaomi' => array('xiaomi', 'сяоми', 'ксяоми', 'шаоми', 'redmi', 'редми'),
-        'huawei' => array('huawei', 'хуавей', 'хуавэй', 'honor', 'хонор'),
-        'nokia' => array('nokia', 'нокиа', 'нокия'),
-        'oppo' => array('oppo', 'оппо'),
-        'vivo' => array('vivo', 'виво'),
-        'realme' => array('realme', 'реалме', 'риалми'),
-        'infinix' => array('infinix', 'инфиникс'),
-        'tecno' => array('tecno', 'текно'),
-    );
-
-    $detected_brand = null;
-    foreach ($brand_keywords as $brand => $keywords) {
-        foreach ($keywords as $keyword) {
-            if (mb_strpos($search_lower, $keyword) !== false) {
-                $detected_brand = $brand;
-                break 2;
-            }
-        }
-    }
-
-    // Соответствие категорий брендам и типам деталей
-    $category_mapping = array(
-        // Дисплеи
-        'displei-iphone' => array('brand' => 'iphone', 'type' => 'display'),
-        'displei-huawei-honor' => array('brand' => 'huawei', 'type' => 'display'),
-        'displei-dlya-infinix' => array('brand' => 'infinix', 'type' => 'display'),
-        'displei-oppo' => array('brand' => 'oppo', 'type' => 'display'),
-        'displei-realme' => array('brand' => 'realme', 'type' => 'display'),
-        'displei-dlya-samsung' => array('brand' => 'samsung', 'type' => 'display'),
-        'displei-tecno' => array('brand' => 'tecno', 'type' => 'display'),
-        'displei-vivo' => array('brand' => 'vivo', 'type' => 'display'),
-        'displei-xiaomi-redmi' => array('brand' => 'xiaomi', 'type' => 'display'),
-        'displei-ekrany-lcd' => array('brand' => null, 'type' => 'display'),
-        
-        // АКБ
-        'akb-iphone' => array('brand' => 'iphone', 'type' => 'battery'),
-        'akb-huawei-honor' => array('brand' => 'huawei', 'type' => 'battery'),
-        'akb-dlya-nokia' => array('brand' => 'nokia', 'type' => 'battery'),
-        'akb-dlya-samsung' => array('brand' => 'samsung', 'type' => 'battery'),
-        'akb-dlya-xiaomi-redmi' => array('brand' => 'xiaomi', 'type' => 'battery'),
-        
-        // Задние крышки
-        'zadnyaya-kryshka-ramka-korpus-dlya-iphone' => array('brand' => 'iphone', 'type' => 'back_cover'),
-        'zadnyaya-kryshka-ramka-korpus' => array('brand' => null, 'type' => 'back_cover'),
-        
-        // Стекла
-        'steklo' => array('brand' => null, 'type' => 'glass'),
-        'tachskrin' => array('brand' => null, 'type' => 'glass'),
-        
-        // Аккумуляторы (общая категория)
-        'akkumulyatory' => array('brand' => null, 'type' => 'battery'),
-    );
-
-    $active_category = isset($_GET['product_cat']) ? sanitize_text_field(wp_unslash($_GET['product_cat'])) : '';
-
-    // ОТЛАДКА
-    if (current_user_can('manage_options')) {
-        echo '<div style="background:#fff3cd;border:3px solid #ff9800;padding:20px;margin:20px 0;font-family:monospace;font-size:13px;">';
-        echo '<h3 style="margin:0 0 15px 0;color:#ff9800;">🐛 ОТЛАДКА ПОИСКА</h3>';
-        echo '<strong>Запрос:</strong> ' . esc_html($search_term) . '<br>';
-        echo '<strong>Обнаружен бренд:</strong> ' . ($detected_brand ? '<code style="background:#007bff;color:white;padding:2px 8px;border-radius:3px;">' . $detected_brand . '</code>' : '<em>не определен</em>') . '<br>';
-        echo '<strong>Обнаружен тип детали:</strong> ' . ($detected_part_type ? '<code style="background:#28a745;color:white;padding:2px 8px;border-radius:3px;">' . $detected_part_type . '</code>' : '<em>не определен</em>') . '<br>';
-        echo '<strong>Всего категорий:</strong> ' . count($categories) . '<br>';
-        echo '<strong>Активная категория из GET:</strong> ' . ($active_category ? esc_html($active_category) : '<em>не выбрана</em>') . '<br><br>';
-        
-        echo '<table style="border-collapse:collapse;width:100%;margin:10px 0;font-size:12px;">';
-        echo '<tr style="background:#f0f0f0;"><th style="border:1px solid #ddd;padding:6px;">№</th><th style="border:1px solid #ddd;padding:6px;">Название</th><th style="border:1px solid #ddd;padding:6px;">Slug</th><th style="border:1px solid #ddd;padding:6px;">Приоритет</th></tr>';
-    }
-
-    if (empty($active_category)) {
-        $best_category = null;
-        $best_priority = -1;
-
-        foreach ($categories as $i => $category) {
-            $priority = 0;
-            
-            if (isset($category_mapping[$category['slug']])) {
-                $cat_brand = $category_mapping[$category['slug']]['brand'];
-                $cat_type = $category_mapping[$category['slug']]['type'];
-                
-                // Полное совпадение: и бренд, и тип детали
-                if ($detected_brand && $detected_part_type && 
-                    $cat_brand === $detected_brand && $cat_type === $detected_part_type) {
-                    $priority = 100;
-                }
-                // Совпадает только тип детали
-                elseif ($detected_part_type && $cat_type === $detected_part_type) {
-                    $priority = 50;
-                }
-                // Совпадает только бренд
-                elseif ($detected_brand && $cat_brand === $detected_brand) {
-                    $priority = 30;
-                }
-                // Общая категория без бренда (например, "Аккумуляторы")
-                elseif ($cat_brand === null && $detected_part_type && $cat_type === $detected_part_type) {
-                    $priority = 20;
-                }
-            }
-
-            // ОТЛАДКА - вывод строки таблицы
-            if (current_user_can('manage_options')) {
-                $bg = '';
-                if ($priority >= 100) {
-                    $bg = 'background:#d4edda;font-weight:bold;';
-                } elseif ($priority >= 50) {
-                    $bg = 'background:#fff3cd;';
-                } elseif ($priority > 0) {
-                    $bg = 'background:#f8f9fa;';
-                }
-                echo '<tr style="' . $bg . '"><td style="border:1px solid #ddd;padding:6px;text-align:center;">' . ($i + 1) . '</td><td style="border:1px solid #ddd;padding:6px;">' . esc_html($category['name']) . '</td><td style="border:1px solid #ddd;padding:6px;"><code style="font-size:11px;">' . esc_html($category['slug']) . '</code></td><td style="border:1px solid #ddd;padding:6px;text-align:center;font-weight:bold;' . ($priority >= 100 ? 'color:#28a745;' : '') . '">' . $priority . '</td></tr>';
-            }
-
-            if ($priority > $best_priority) {
-                $best_priority = $priority;
-                $best_category = $category['slug'];
-            }
+    public function display_search_categories() {
+        if (!is_search() || !isset($_GET['s'])) {
+            return;
         }
 
-        if (current_user_can('manage_options')) {
-            echo '</table>';
-            echo '<hr style="margin:15px 0;border:none;border-top:2px solid #ff9800;">';
-            echo '<strong style="color:#28a745;font-size:14px;">✅ ВЫБРАНА КАТЕГОРИЯ:</strong> ';
-            if ($best_category) {
-                echo '<code style="background:#28a745;color:white;padding:4px 10px;border-radius:3px;font-size:13px;">' . esc_html($best_category) . '</code> <span style="color:#666;">(приоритет: ' . $best_priority . ')</span>';
-            } else {
-                echo '<span style="color:#dc3545;font-weight:bold;">НЕ НАЙДЕНА!</span>';
-            }
-            echo '<br><strong>Будет редирект:</strong> ' . (!isset($_GET['product_cat']) ? '<span style="color:#28a745;">ДА ✓</span>' : '<span style="color:#666;">НЕТ (уже есть product_cat)</span>');
-            echo '</div>';
+        $search_term = sanitize_text_field(wp_unslash($_GET['s']));
+
+        if (empty($search_term)) {
+            return;
         }
 
-        if ($best_category !== null && !isset($_GET['product_cat'])) {
-            $active_category = $best_category;
+        $query_handler = MKX_Search_Query::instance();
+        $categories = $query_handler->get_search_categories($search_term);
+
+        if (empty($categories)) {
+            return;
+        }
+
+        $active_category = isset($_GET['product_cat']) ? sanitize_text_field(wp_unslash($_GET['product_cat'])) : '';
+
+        // Если категория не выбрана, автоматически выбираем первую из списка
+        if (empty($active_category) && !empty($categories)) {
+            $first_category = $categories[0]['slug'];
+            $active_category = $first_category;
             
             $redirect_url = add_query_arg(
                 array(
@@ -314,23 +224,14 @@ public function display_search_categories() {
                 home_url('/')
             );
             
-            wp_safe_redirect($redirect_url);
-            exit;
+            if (!isset($_GET['product_cat'])) {
+                wp_safe_redirect($redirect_url);
+                exit;
+            }
         }
-    } else {
-        if (current_user_can('manage_options')) {
-            echo '</table>';
-            echo '<hr style="margin:15px 0;border:none;border-top:2px solid #ff9800;">';
-            echo '<strong style="color:#007bff;">ℹ️ Категория уже выбрана:</strong> <code>' . esc_html($active_category) . '</code>';
-            echo '</div>';
-        }
+
+        $this->render_search_categories($categories, $search_term, $active_category);
     }
-
-    $this->render_search_categories($categories, $search_term, $active_category);
-}
-
-
-
 
     private function render_search_categories($categories, $search_term, $active_category) {
         ?>
@@ -432,7 +333,6 @@ public function display_search_categories() {
 
         $conditions_sql = implode(' OR ', $search_conditions);
 
-        // Add original search for SKU, categories, and attributes
         $original_like = '%' . $wpdb->esc_like($search_term) . '%';
 
         $search = " AND (

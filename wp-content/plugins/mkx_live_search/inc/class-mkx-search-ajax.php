@@ -3,7 +3,7 @@
  * AJAX Handler
  *
  * @package MKX_Live_Search
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 if (!defined('ABSPATH')) {
@@ -62,11 +62,21 @@ public function live_search() {
 
     $query_handler = MKX_Search_Query::instance();
     
-    $products = $query_handler->search_products($search_term, array(
-        'limit' => 10,
-    ));
-
+    // First, get the sorted categories for the search term
     $categories = $query_handler->get_search_categories($search_term);
+
+    $product_args = array(
+        'limit' => 10,
+    );
+
+    // If categories are found, use the top category to filter products
+    if (!empty($categories)) {
+        $top_category_slug = $categories[0]['slug'];
+        $product_args['category'] = $top_category_slug;
+    }
+    
+    // Search for products, potentially filtered by the top category
+    $products = $query_handler->search_products($search_term, $product_args);
 
     $formatted_products = array();
     foreach ($products as $product) {

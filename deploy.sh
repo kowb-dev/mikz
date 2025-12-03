@@ -5,7 +5,7 @@
 
 # --- КОНФИГУРАЦИЯ ---
 LOCAL_WP_PATH="/var/www/mix.dev.loc"            # Путь к локальной WordPress
-REMOTE_SSH_ALIAS="mix-hst"                       # SSH алиас для подключения к хостингу
+REMOTE_SSH_ALIAS="mxu-hst"                       # SSH алиас для подключения к хостингу
 REMOTE_WP_PATH="/home/c/ca27120/MIKZ/public_html"  # Путь к WordPress на хостинге
 
 LOCAL_URL="http://mix.dev.loc"                   # URL локального сайта

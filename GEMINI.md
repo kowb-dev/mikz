@@ -203,7 +203,10 @@ Before providing any code solutions, give explanations how you are going to impl
 Avoid using comments (“FIXED”, “ADDED” etc.) that do not comply with the principles of production-ready code. 
 Any explanatory or inline comments are strictly FORBIDDEN and PROHIBITED.
 Only non-descriptive block labels may be used
-ALWAYS REFER TO VARIABLES.CSS BEFORE RATHER THAN USING STYLES IN PIXELS!
+ALWAYS USE VARIABLES.CSS RATHER THAN APPLY PIXELS!
+
+Never commit and push to the repository without asking for permission.
+
 Avoid adding excessive code to the functions.php file; provide files for “inc” folder instead.
 For variable values, use the root located in the child theme's style.css file.
 Note: Avoid applying dark theme mode unless specifically requested. It is strictly forbidden to roll back changes unless you are asked to do so. Write comments in code in English. Frontend and admin panel should be in Russian. Theme author: KB, url: https://kowb.ru

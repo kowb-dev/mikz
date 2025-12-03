@@ -3,7 +3,7 @@
  * Search Query Handler with Enhanced Search Combinations
  *
  * @package MKX_Live_Search
- * @version 1.0.6
+ * @version 1.0.4
  */
 
 if (!defined('ABSPATH')) {
@@ -18,6 +18,11 @@ class MKX_Search_Query {
      * Search combinations mapping
      */
     private $search_combinations = array();
+    
+    /**
+     * Category priority mapping
+     */
+    private $category_priority = array();
 
     public static function instance() {
         if (is_null(self::$instance)) {
@@ -28,6 +33,98 @@ class MKX_Search_Query {
 
     private function __construct() {
         $this->init_search_combinations();
+        $this->init_category_priority();
+    }
+
+    /**
+     * Initialize category priority based on part type
+     */
+    private function init_category_priority() {
+        // Приоритет категорий по типам запчастей для каждого бренда
+        $this->category_priority = array(
+            'iphone' => array(
+                'display' => array('displei-iphone'),
+                'battery' => array('akb-iphone'),
+                'back_cover' => array('zadnyaya-kryshka-ramka-korpus-iphone'),
+                'charging' => array('shleif-zaryadki-iphone'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-iphone'),
+                'speaker' => array('dinamiki-iphone'),
+                'flex' => array('shleif-zaryadki-iphone'), // межплатные шлейфы для iPhone
+            ),
+            'samsung' => array(
+                'display' => array('displei-dlya-samsung'),
+                'battery' => array('akb-dlya-samsung'),
+                'back_cover' => array('zadnyaya-kryshka-ramka-korpus-samsung'),
+                'flex' => array('mezhplatnyi-shleif-dlya-samsung'),
+                'charging' => array('plata-zaryadki-samsung'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-samsung'),
+            ),
+            'xiaomi' => array(
+                'display' => array('displei-xiaomi-redmi'),
+                'battery' => array('akb-dlya-xiaomi-redmi'),
+                'back_cover' => array('zadnyaya-kryshka-ramka-korpus-xiaomi-redmi'),
+                'flex' => array('mezhplatnyi-shleif-xiaomi-redmi'),
+                'charging' => array('plata-zaryadki-xiaomi-redmi'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-xiaomi'),
+            ),
+            'redmi' => array(
+                'display' => array('displei-xiaomi-redmi'),
+                'battery' => array('akb-dlya-xiaomi-redmi'),
+                'back_cover' => array('zadnyaya-kryshka-ramka-korpus-xiaomi-redmi'),
+                'flex' => array('mezhplatnyi-shleif-xiaomi-redmi'),
+                'charging' => array('plata-zaryadki-xiaomi-redmi'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-xiaomi'),
+            ),
+            'huawei' => array(
+                'display' => array('displei-huawei-honor'),
+                'battery' => array('akb-huawei-honor'),
+                'back_cover' => array('zadnyaya-kryshka-ramka-korpus-huawei-honor'),
+                'flex' => array('mezhplatnyi-shleif-huawei-honor'),
+                'charging' => array('plata-zaryadki-huawei-honor'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-huawei-honor'),
+            ),
+            'honor' => array(
+                'display' => array('displei-huawei-honor'),
+                'battery' => array('akb-huawei-honor'),
+                'back_cover' => array('zadnyaya-kryshka-ramka-korpus-huawei-honor'),
+                'flex' => array('mezhplatnyi-shleif-huawei-honor'),
+                'charging' => array('plata-zaryadki-huawei-honor'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-huawei-honor'),
+            ),
+            'infinix' => array(
+                'display' => array('displei-dlya-infinix'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-infinix'),
+            ),
+            'oppo' => array(
+                'display' => array('displei-oppo'),
+                'battery' => array('oppo-akkumulyatory'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-oppo'),
+            ),
+            'realme' => array(
+                'display' => array('displei-realme'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-realme'),
+            ),
+            'tecno' => array(
+                'display' => array('displei-tecno'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-tecno'),
+            ),
+            'vivo' => array(
+                'display' => array('displei-vivo'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-vivo'),
+            ),
+            'nokia' => array(
+                'battery' => array('akb-dlya-nokia'),
+            ),
+            'apple' => array(
+                'display' => array('displei-iphone'),
+                'battery' => array('akb-iphone', 'akb-ipad'),
+                'back_cover' => array('zadnyaya-kryshka-ramka-korpus-iphone'),
+                'charging' => array('shleif-zaryadki-iphone'),
+                'glass' => array('steklo-tachskrin-dlya-perekleiki-iphone'),
+                'speaker' => array('dinamiki-iphone'),
+                'flex' => array('shleif-zaryadki-iphone'),
+            ),
+        );
     }
 
     /**
@@ -35,86 +132,121 @@ class MKX_Search_Query {
      */
     private function init_search_combinations() {
         $this->search_combinations = array(
-            // БРЕНДЫ
             'brands' => array(
-                'apple' => array('apple', 'аппле', 'апл', 'эпл', 'эппл', 'апель', 'фззду'),
-                'iphone' => array('iphone', 'айфон', 'ифон', 'іфон', 'b`jyt', 'b`jy', 'айфoн'),
-                'ipad' => array('ipad', 'айпад', 'айпэд', 'ипад', 'іпад', 'b`fl'),
-                'samsung' => array('samsung', 'самсунг', 'самсунк', 'сансунг', 'самсун', 'самс', 'cfvceyu', 'cfvcey'),
-                'xiaomi' => array('xiaomi', 'сяоми', 'ксяоми', 'шаоми', 'ксиаоми', '[bfjvb', '[bfv'),
-                'redmi' => array('redmi', 'редми', 'htlvb'),
-                'huawei' => array('huawei', 'хуавей', 'хуавэй', 'хавей', 'хуавай', 'uefdtb', 'uefdt'),
-                'honor' => array('honor', 'хонор', 'хоннор', 'ujyjh'),
-                'nokia' => array('nokia', 'нокиа', 'нокия'),
-                'oppo' => array('oppo', 'оппо'),
-                'vivo' => array('vivo', 'виво'),
-                'realme' => array('realme', 'реалме', 'риалми'),
-                'infinix' => array('infinix', 'инфиникс'),
-                'tecno' => array('tecno', 'текно'),
+                'apple' => array('apple', 'аппле', 'апл', 'епл', 'еппл', 'апель', 'фззду', 'эпл', 'эппл'),
+                'iphone' => array('iphone', 'айфон', 'ифон', 'іфон', 'b`jyt', 'b`jy', 'айфoн', 'айфoны', 'айфоны'),
+                'ipad' => array('ipad', 'айпад', 'айпед', 'ипад', 'іпад', 'b`fl'),
+                'samsung' => array('samsung', 'самсунг', 'самсунк', 'сансунг', 'самсун', 'самс', 'cfvceyu', 'cfvcey', 'самса'),
+                'xiaomi' => array('xiaomi', 'сяоми', 'ксяоми', 'шаоми', 'ксиаоми', '[bfjvb', '[bfv', 'сяоми', 'ксиоми', 'сяо'),
+                'redmi' => array('redmi', 'редми', 'htlvb', 'редми', 'реадми'),
+                'huawei' => array('huawei', 'хуавей', 'хуавэй', 'хавей', 'хуавай', 'uefdtb', 'uefdt', 'хуавеи', 'хуаве'),
+                'honor' => array('honor', 'хонор', 'хоннор', 'ujyjh', 'хонор', 'хоннор', 'хонр'),
+                'nokia' => array('nokia', 'нокиа', 'нокия', 'yjrbf', 'нокія'),
+                'oppo' => array('oppo', 'оппо', 'опо', 'jggj', 'опп'),
+                'vivo' => array('vivo', 'виво', 'віво', 'dbdj', 'vivo'),
+                'realme' => array('realme', 'реалме', 'риалми', 'риалме', 'реалми', 'htfkvt', 'риалм'),
+                'infinix' => array('infinix', 'инфиникс', 'інфініх', 'byabyb[', 'инфиникс', 'инфиних'),
+                'tecno' => array('tecno', 'текно', 'тскно', 'ntryj', 'текно'),
             ),
-            // ТИПЫ ЗАПЧАСТЕЙ
             'parts' => array(
-                'display' => array('дисплей', 'диспей', 'дисплэй', 'диспл', 'дисп', 'lbcgktq', 'lbcgk', 'экран', 'єкран', '\'rhfy', 'lcd', 'лсд', 'лцд', 'ktl', 'dis', 'disp', 'displ', 'displa', 'display', 'модуль', 'vjlekm'),
-                'battery' => array('акб', 'fr,', 'аккумулятор', 'аккум', 'батарея', 'батарейка', 'акум', 'frrevekznjh', 'frreve', ',fnfhtz'),
-                'back_cover' => array('задняя крышка', 'крышка', 'задняя', 'зад крышка', 'pflyzz rhsirn', 'rhsirn', 'pflyzz', 'корпус', 'корп', 'rjhgec', 'rjhg', 'рамка', 'рама', 'hfvrf', 'hfvf'),
-                'flex' => array('шлейф', 'шлеф', 'iktqa', 'ikta', 'межплатный', 'межплат', 'vt;gkfnysq', 'vt;gkfn', 'флекс', 'aktrc'),
-                'charging' => array('шлейф зарядки', 'зарядка', 'порт зарядки', 'iktqa pfhzlrb', 'pfhzlrf', 'плата зарядки', 'charging port', 'gkfnf pfhzlrb', 'разъем', 'разьем', 'hfp]tv'),
-                'glass' => array('стекло', 'стекл', 'cntrkj', 'тачскрин', 'тачскрін', 'тач', 'nfxcrhby', 'nfx', 'переклейка', 'gthtrktrrf'),
-                'speaker' => array('динамик', 'динамік', 'дин', 'lbyfvbr', 'lby', 'динамики', 'спикер', 'speaker', 'lbyfvbrb', 'cgbrhh'),
+                'display' => array('дисплей', 'диспей', 'дисплюй', 'диспл', 'дисп', 'lbcgktq', 'lbcgk', 'экран', 'єкран', '\'rhfy', 'lcd', 'лсд', 'лцд', 'ktl', 'dis', 'disp', 'displ', 'displa', 'display', 'модуль', 'vjlekm', 'дисплеи', 'экраны'),
+                'battery' => array('акб', 'fr,', 'аккумулятор', 'аккум', 'батарея', 'батарейка', 'акум', 'frrevekznjh', 'frreve', ',fnfhtz', 'аккумуляторы', 'батареи'),
+                'back_cover' => array('задняя крышка', 'крышка', 'задняя', 'зад крышка', 'pflyzz rhsirn', 'rhsirn', 'pflyzz', 'корпус', 'корп', 'rjhgec', 'rjhg', 'рамка', 'рама', 'hfvrf', 'hfvf', 'крышки', 'корпуса', 'рамки'),
+                'flex' => array('шлейф', 'шлеф', 'iktqa', 'ikta', 'межплатный', 'межплат', 'vt;gkfnysq', 'vt;gkfn', 'флекс', 'aktrc', 'шлейфы', 'межплатные'),
+                'charging' => array('шлейф зарядки', 'зарядка', 'порт зарядки', 'iktqa pfhzlrb', 'pfhzlrf', 'плата зарядки', 'charging port', 'gkfnf pfhzlrb', 'разъем', 'разьем', 'hfp]tv', 'платы', 'разъемы', 'порты'),
+                'glass' => array('стекло', 'стекл', 'cntrkj', 'тачскрин', 'тачскрін', 'тач', 'nfxcrhby', 'nfx', 'переклейка', 'gthtrktrrf', 'стекла', 'тачскрины'),
+                'speaker' => array('динамик', 'динамік', 'дин', 'lbyfvbr', 'lby', 'динамики', 'спикер', 'speaker', 'lbyfvbrb', 'cgbrhh', 'спикеры'),
             ),
         );
-    }
-    
-    private function detect_brand($search_term) {
-        $search_lower = mb_strtolower($search_term, 'UTF-8');
-        $brand_keywords = array(
-            'iphone' => array('iphone', 'айфон', 'ифон', 'іфон', 'айфoн', 'apple', 'аппле'),
-            'samsung' => array('samsung', 'самсунг', 'самсунк', 'сансунг', 'самс'),
-            'xiaomi' => array('xiaomi', 'сяоми', 'ксяоми', 'шаоми', 'redmi', 'редми'),
-            'huawei' => array('huawei', 'хуавей', 'хуавэй', 'honor', 'хонор'),
-            'nokia' => array('nokia', 'нокиа', 'нокия'),
-            'oppo' => array('oppo', 'оппо'),
-            'vivo' => array('vivo', 'виво'),
-            'realme' => array('realme', 'реалме', 'риалми'),
-            'infinix' => array('infinix', 'инфиникс'),
-            'tecno' => array('tecno', 'текно'),
-        );
-
-        foreach ($brand_keywords as $brand => $keywords) {
-            foreach ($keywords as $keyword) {
-                if (mb_strpos($search_lower, $keyword) !== false) {
-                    return $brand;
-                }
-            }
-        }
-
-        return null;
     }
 
     /**
-     * Detect part type from search term
+     * Detect search intent (brand only vs brand + part)
      */
-    private function detect_part_type($search_term) {
-        $search_lower = mb_strtolower($search_term, 'UTF-8');
-        $part_type_keywords = array(
-            'battery' => array('акб', 'fr,', 'аккум', 'батарея', 'battery', 'аккумулятор'),
-            'display' => array('дисплей', 'диспл', 'дисп', 'экран', 'lcd', 'модуль', 'display', 'screen'),
-            'back_cover' => array('крышка', 'корпус', 'рамка', 'задняя', 'back', 'cover'),
-            'glass' => array('стекло', 'тачскрин', 'тач', 'glass', 'touch'),
-            'flex' => array('шлейф', 'флекс', 'flex'),
-            'charging' => array('зарядка', 'порт', 'разъем', 'charging', 'port'),
-            'speaker' => array('динамик', 'спикер', 'speaker'),
-        );
-
-        foreach ($part_type_keywords as $type => $keywords) {
-            foreach ($keywords as $keyword) {
-                if (mb_strpos($search_lower, $keyword) !== false) {
-                    return $type;
+    private function detect_search_intent($search_term) {
+        $search_term = mb_strtolower(trim($search_term), 'UTF-8');
+        $words = preg_split('/\s+/', $search_term);
+        
+        $detected_brand = null;
+        $detected_part = null;
+        
+        // Detect brand - проверяем каждое слово
+        foreach ($words as $word) {
+            if (empty($word) || mb_strlen($word, 'UTF-8') < 2) continue;
+            
+            foreach ($this->search_combinations['brands'] as $canonical_brand => $variants) {
+                if (in_array($word, $variants)) {
+                    $detected_brand = $canonical_brand;
+                    break 2;
+                }
+                
+                // Проверка начала слова для коротких запросов (2-4 символа)
+                if (mb_strlen($word, 'UTF-8') >= 2 && mb_strlen($word, 'UTF-8') <= 4) {
+                    foreach ($variants as $variant) {
+                        if (mb_strlen($variant, 'UTF-8') >= mb_strlen($word, 'UTF-8')) {
+                            $variant_prefix = mb_substr($variant, 0, mb_strlen($word, 'UTF-8'), 'UTF-8');
+                            if ($variant_prefix === $word) {
+                                $detected_brand = $canonical_brand;
+                                break 3;
+                            }
+                        }
+                    }
                 }
             }
         }
+        
+        // Detect part type - проверяем каждое слово
+        foreach ($words as $word) {
+            if (empty($word) || mb_strlen($word, 'UTF-8') < 2) continue;
+            
+            foreach ($this->search_combinations['parts'] as $part_type => $variants) {
+                if (in_array($word, $variants)) {
+                    $detected_part = $part_type;
+                    break 2;
+                }
+                
+                // Проверка начала слова для коротких запросов (3-5 символов)
+                if (mb_strlen($word, 'UTF-8') >= 3 && mb_strlen($word, 'UTF-8') <= 5) {
+                    foreach ($variants as $variant) {
+                        if (mb_strlen($variant, 'UTF-8') >= mb_strlen($word, 'UTF-8')) {
+                            $variant_prefix = mb_substr($variant, 0, mb_strlen($word, 'UTF-8'), 'UTF-8');
+                            if ($variant_prefix === $word) {
+                                $detected_part = $part_type;
+                                break 3;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return array(
+            'brand' => $detected_brand,
+            'part' => $detected_part,
+            'is_brand_only' => !empty($detected_brand) && empty($detected_part),
+            'is_brand_and_part' => !empty($detected_brand) && !empty($detected_part),
+        );
+    }
 
-        return null;
+    /**
+     * Get priority category slugs based on search intent
+     */
+    private function get_priority_category_slugs($intent) {
+        $priority_slugs = array();
+        
+        if ($intent['is_brand_only'] && !empty($intent['brand'])) {
+            // Только бренд → показываем дисплеи
+            if (isset($this->category_priority[$intent['brand']]['display'])) {
+                $priority_slugs = $this->category_priority[$intent['brand']]['display'];
+            }
+        } elseif ($intent['is_brand_and_part'] && !empty($intent['brand']) && !empty($intent['part'])) {
+            // Бренд + запчасть → показываем конкретную запчасть
+            if (isset($this->category_priority[$intent['brand']][$intent['part']])) {
+                $priority_slugs = $this->category_priority[$intent['brand']][$intent['part']];
+            }
+        }
+        
+        return $priority_slugs;
     }
 
     /**
@@ -123,7 +255,7 @@ class MKX_Search_Query {
     private function expand_search_term($search_term) {
         $search_term = mb_strtolower(trim($search_term), 'UTF-8');
         $words = preg_split('/\s+/', $search_term);
-        $expanded_terms = array($search_term); // Always include original
+        $expanded_terms = array($search_term);
         
         foreach ($words as $word) {
             if (empty($word)) continue;
@@ -131,13 +263,10 @@ class MKX_Search_Query {
             $word_length = mb_strlen($word, 'UTF-8');
             $found_exact = false;
             
-            // Check exact match first
             foreach ($this->search_combinations as $category => $subcategories) {
                 foreach ($subcategories as $canonical => $variants) {
                     if (in_array($word, $variants)) {
-                        // Add canonical term
                         $expanded_terms[] = $canonical;
-                        // Add all variants
                         $expanded_terms = array_merge($expanded_terms, $variants);
                         $found_exact = true;
                         break 2;
@@ -145,12 +274,10 @@ class MKX_Search_Query {
                 }
             }
             
-            // If no exact match and word is 2-4 characters, check partial matches
-            if (!$found_exact && $word_length >= 2 && $word_length <= 4) {
+            if (!$found_exact && $word_length >= 2 && $word_length <= 5) {
                 foreach ($this->search_combinations as $category => $subcategories) {
                     foreach ($subcategories as $canonical => $variants) {
                         foreach ($variants as $variant) {
-                            // Check if variant starts with the word (first 2-4 chars)
                             if (mb_strlen($variant, 'UTF-8') >= $word_length) {
                                 $variant_prefix = mb_substr($variant, 0, $word_length, 'UTF-8');
                                 if ($variant_prefix === $word) {
@@ -185,11 +312,10 @@ class MKX_Search_Query {
 
         $args = wp_parse_args($args, $defaults);
         
-        // Expand search term
         $expanded_terms = $this->expand_search_term($search_term);
+        $intent = $this->detect_search_intent($search_term);
         
-        // Pass original search term to get_product_ids_by_search
-        $product_ids = $this->get_product_ids_by_search($expanded_terms, $args, $search_term);
+        $product_ids = $this->get_product_ids_by_search($expanded_terms, $args, $intent);
 
         if (empty($product_ids)) {
             return array();
@@ -222,9 +348,9 @@ class MKX_Search_Query {
     }
 
     /**
-     * Get product IDs by expanded search terms
+     * Get product IDs by expanded search terms with intent-based priority
      */
-    private function get_product_ids_by_search($search_terms, $args, $original_search_term = '') {
+    private function get_product_ids_by_search($search_terms, $args, $intent) {
         global $wpdb;
 
         if (!is_array($search_terms)) {
@@ -245,7 +371,6 @@ class MKX_Search_Query {
                 OR p.post_content LIKE %s)
             ";
             
-            // Add 5 placeholders for each term
             $prepare_values[] = $like;
             $prepare_values[] = $like;
             $prepare_values[] = $like;
@@ -254,41 +379,14 @@ class MKX_Search_Query {
         }
 
         $conditions_sql = implode(' OR ', $like_conditions);
+
+        // Получаем приоритетные категории на основе intent
+        $priority_slugs = $this->get_priority_category_slugs($intent);
         
-        // Detect brand and part type from the original search term
-        $detected_brand = $this->detect_brand($original_search_term);
-        $detected_part_type = $this->detect_part_type($original_search_term);
-
-        $brand_condition_sql = "";
-        if ($detected_brand) {
-            // Get term_id for the brand
-            $brand_term = get_term_by('slug', $detected_brand, 'product_brand');
-            if ($brand_term) {
-                $brand_condition_sql = " AND p.ID IN (
-                    SELECT object_id FROM {$wpdb->term_relationships} WHERE term_taxonomy_id = {$brand_term->term_taxonomy_id}
-                )";
-            }
-        }
-
-        // Prioritize display categories only if no other part type is specified
-        $prioritize_displays = (null === $detected_part_type || 'display' === $detected_part_type);
-
-        $category_priority_sql = "1"; // Default priority
-        if ($prioritize_displays) {
-            $display_slugs = array(
-                'displei-iphone',
-                'displei-huawei-honor',
-                'displei-dlya-infinix',
-                'displei-oppo',
-                'displei-realme',
-                'displei-dlya-samsung',
-                'displei-tecno',
-                'displei-vivo',
-                'displei-xiaomi-redmi',
-                'displei-ekrany-lcd',
-            );
-            $display_slugs_str = "'" . implode("', '", array_map('esc_sql', $display_slugs)) . "'";
-            $category_priority_sql = "CASE WHEN t_cat.slug IN ({$display_slugs_str}) THEN 0 ELSE 1 END";
+        $category_priority_sql = 'ELSE 1';
+        if (!empty($priority_slugs)) {
+            $priority_slugs_str = "'" . implode("','", array_map('esc_sql', $priority_slugs)) . "'";
+            $category_priority_sql = "WHEN t_cat.slug IN ({$priority_slugs_str}) THEN 0 ELSE 1";
         }
 
         $sql = "
@@ -300,7 +398,9 @@ class MKX_Search_Query {
                        WHEN pm_attr.meta_value LIKE %s THEN 4
                        ELSE 5
                    END as relevance,
-                   {$category_priority_sql} as category_priority
+                   CASE 
+                       {$category_priority_sql}
+                   END as category_priority
             FROM {$wpdb->posts} p
             LEFT JOIN {$wpdb->postmeta} pm_sku ON (p.ID = pm_sku.post_id AND pm_sku.meta_key = '_sku')
             LEFT JOIN {$wpdb->term_relationships} tr ON (p.ID = tr.object_id)
@@ -318,12 +418,10 @@ class MKX_Search_Query {
                 WHERE tt_misc.taxonomy = 'product_cat' AND tt_misc.term_id = 253 AND tr_misc.object_id = p.ID
             )
             AND ({$conditions_sql})
-            {$brand_condition_sql}
             ORDER BY category_priority ASC, relevance ASC, p.post_title ASC
             LIMIT %d
         ";
 
-        // Prepare values for relevance calculation (first term only)
         $first_term_like = '%' . $wpdb->esc_like($search_terms[0]) . '%';
         $relevance_values = array(
             $first_term_like,
@@ -332,9 +430,8 @@ class MKX_Search_Query {
             $first_term_like,
         );
 
-        // Combine all prepare values
         $all_values = array_merge($relevance_values, $prepare_values);
-        $all_values[] = absint($args['limit']) * 3; // Limit
+        $all_values[] = absint($args['limit']) * 3;
 
         $results = $wpdb->get_col(
             $wpdb->prepare($sql, $all_values)
@@ -344,18 +441,27 @@ class MKX_Search_Query {
     }
 
     /**
-     * Get categories from search results with smart sorting
+     * Get categories from search results with intent-based priority
      */
     public function get_search_categories($search_term) {
         if (empty($search_term) || strlen($search_term) < 2) {
             return array();
         }
 
+        $cache_key = 'mkx_search_cats_' . md5($search_term);
+        $cached = get_transient($cache_key);
+
+        if (false !== $cached && is_array($cached)) {
+            return $cached;
+        }
+
         $expanded_terms = $this->expand_search_term($search_term);
-        // Pass the original search term to get_product_ids_by_search
-        $product_ids = $this->get_product_ids_by_search($expanded_terms, array('limit' => 100), $search_term);
+        $intent = $this->detect_search_intent($search_term);
+        
+        $product_ids = $this->get_product_ids_by_search($expanded_terms, array('limit' => 100), $intent);
 
         if (empty($product_ids)) {
+            set_transient($cache_key, array(), HOUR_IN_SECONDS);
             return array();
         }
 
@@ -366,7 +472,11 @@ class MKX_Search_Query {
 
         if (!is_wp_error($category_terms) && !empty($category_terms)) {
             foreach ($category_terms as $cat) {
-                if (in_array($cat->term_id, $seen_cats) || 253 === (int) $cat->term_id) {
+                if (in_array($cat->term_id, $seen_cats)) {
+                    continue;
+                }
+                
+                if (253 === (int) $cat->term_id) {
                     continue;
                 }
 
@@ -379,134 +489,31 @@ class MKX_Search_Query {
                 $seen_cats[] = $cat->term_id;
             }
         }
-
-        return $this->get_sorted_search_categories($categories, $search_term);
-    }
-
-    /**
-     * Sorts categories based on search term relevance, brand, and part type.
-     *
-     * @param array $categories The unsorted categories.
-     * @param string $search_term The original search term.
-     * @return array The sorted categories.
-     */
-    public function get_sorted_search_categories($categories, $search_term) {
-        if (empty($categories)) {
-            return $categories;
-        }
         
-        $search_lower = mb_strtolower($search_term, 'UTF-8');
+        // Сортировка на основе intent
+        $priority_slugs = $this->get_priority_category_slugs($intent);
         
-        // Определяем что ищут
-        $is_battery = (mb_strpos($search_lower, 'акб') !== false || 
-                       mb_strpos($search_lower, 'аккум') !== false || 
-                       mb_strpos($search_lower, 'батарея') !== false ||
-                       mb_strpos($search_lower, 'battery') !== false);
-                       
-        $is_display = (mb_strpos($search_lower, 'дисплей') !== false || 
-                       mb_strpos($search_lower, 'диспл') !== false ||
-                       mb_strpos($search_lower, 'экран') !== false ||
-                       mb_strpos($search_lower, 'lcd') !== false ||
-                       mb_strpos($search_lower, 'display') !== false);
-                       
-        $is_glass = (mb_strpos($search_lower, 'стекло') !== false || 
-                     mb_strpos($search_lower, 'тачскрин') !== false ||
-                     mb_strpos($search_lower, 'glass') !== false);
-                     
-        $is_back_cover = (mb_strpos($search_lower, 'крышка') !== false || 
-                          mb_strpos($search_lower, 'корпус') !== false ||
-                          mb_strpos($search_lower, 'рамка') !== false);
-        
-        // Определяем бренд
-        $is_iphone = (mb_strpos($search_lower, 'айфон') !== false || 
-                      mb_strpos($search_lower, 'iphone') !== false ||
-                      mb_strpos($search_lower, 'apple') !== false);
-                      
-        $is_samsung = (mb_strpos($search_lower, 'самсунг') !== false || 
-                       mb_strpos($search_lower, 'samsung') !== false);
-                       
-        $is_xiaomi = (mb_strpos($search_lower, 'сяоми') !== false || 
-                      mb_strpos($search_lower, 'xiaomi') !== false ||
-                      mb_strpos($search_lower, 'редми') !== false ||
-                      mb_strpos($search_lower, 'redmi') !== false);
-                      
-        $is_huawei = (mb_strpos($search_lower, 'хуавей') !== false || 
-                      mb_strpos($search_lower, 'huawei') !== false ||
-                      mb_strpos($search_lower, 'хонор') !== false ||
-                      mb_strpos($search_lower, 'honor') !== false);
+        usort($categories, function($a, $b) use ($priority_slugs) {
+            $a_is_priority = in_array($a['slug'], $priority_slugs);
+            $b_is_priority = in_array($b['slug'], $priority_slugs);
 
-        // Сортировка с приоритетами
-        usort($categories, function($a, $b) use ($is_battery, $is_display, $is_glass, $is_back_cover, 
-                                                  $is_iphone, $is_samsung, $is_xiaomi, $is_huawei) {
-            $a_priority = 0;
-            $b_priority = 0;
-            
-            // Приоритет для категории A
-            if ($is_battery && mb_strpos($a['slug'], 'akb') !== false) {
-                $a_priority += 50;
-                if ($is_iphone && mb_strpos($a['slug'], 'iphone') !== false) $a_priority += 50;
-                elseif ($is_samsung && mb_strpos($a['slug'], 'samsung') !== false) $a_priority += 50;
-                elseif ($is_xiaomi && mb_strpos($a['slug'], 'xiaomi') !== false) $a_priority += 50;
-                elseif ($is_huawei && mb_strpos($a['slug'], 'huawei') !== false) $a_priority += 50;
+            if ($a_is_priority && $b_is_priority) {
+                $a_priority = array_search($a['slug'], $priority_slugs);
+                $b_priority = array_search($b['slug'], $priority_slugs);
+                return $a_priority - $b_priority;
             }
-            
-            if ($is_display && mb_strpos($a['slug'], 'displei') !== false) {
-                $a_priority += 50;
-                if ($is_iphone && mb_strpos($a['slug'], 'iphone') !== false) $a_priority += 50;
-                elseif ($is_samsung && mb_strpos($a['slug'], 'samsung') !== false) $a_priority += 50;
-                elseif ($is_xiaomi && mb_strpos($a['slug'], 'xiaomi') !== false) $a_priority += 50;
-                elseif ($is_huawei && mb_strpos($a['slug'], 'huawei') !== false) $a_priority += 50;
+
+            if ($a_is_priority && !$b_is_priority) {
+                return -1;
+            } elseif (!$a_is_priority && $b_is_priority) {
+                return 1;
             }
-            
-            if ($is_glass && (mb_strpos($a['slug'], 'steklo') !== false || mb_strpos($a['slug'], 'tachskrin') !== false)) {
-                $a_priority += 50;
-            }
-            
-            if ($is_back_cover && mb_strpos($a['slug'], 'kryshka') !== false) {
-                $a_priority += 50;
-                if ($is_iphone && mb_strpos($a['slug'], 'iphone') !== false) $a_priority += 50;
-            }
-            
-            // Приоритет для категории B
-            if ($is_battery && mb_strpos($b['slug'], 'akb') !== false) {
-                $b_priority += 50;
-                if ($is_iphone && mb_strpos($b['slug'], 'iphone') !== false) $b_priority += 50;
-                elseif ($is_samsung && mb_strpos($b['slug'], 'samsung') !== false) $b_priority += 50;
-                elseif ($is_xiaomi && mb_strpos($b['slug'], 'xiaomi') !== false) $b_priority += 50;
-                elseif ($is_huawei && mb_strpos($b['slug'], 'huawei') !== false) $b_priority += 50;
-            }
-            
-            if ($is_display && mb_strpos($b['slug'], 'displei') !== false) {
-                $b_priority += 50;
-                if ($is_iphone && mb_strpos($b['slug'], 'iphone') !== false) $b_priority += 50;
-                elseif ($is_samsung && mb_strpos($b['slug'], 'samsung') !== false) $b_priority += 50;
-                elseif ($is_xiaomi && mb_strpos($b['slug'], 'xiaomi') !== false) $b_priority += 50;
-                elseif ($is_huawei && mb_strpos($b['slug'], 'huawei') !== false) $b_priority += 50;
-            }
-            
-            if ($is_glass && (mb_strpos($b['slug'], 'steklo') !== false || mb_strpos($b['slug'], 'tachskrin') !== false)) {
-                $b_priority += 50;
-            }
-            
-            if ($is_back_cover && mb_strpos($b['slug'], 'kryshka') !== false) {
-                $b_priority += 50;
-                if ($is_iphone && mb_strpos($b['slug'], 'iphone') !== false) $b_priority += 50;
-            }
-            
-            // Сортируем по приоритету
-            if ($a_priority !== $b_priority) {
-                return $b_priority - $a_priority; // От большего к меньшему
-            }
-            
-            // Если приоритеты равны - по алфавиту
+
             return strcmp($a['name'], $b['name']);
         });
 
-        // Убираем поле priority из ответа (не нужно на фронте)
-        foreach ($categories as &$category) {
-            unset($category['priority']);
-        }
-        
+        set_transient($cache_key, $categories, HOUR_IN_SECONDS);
+
         return $categories;
     }
 

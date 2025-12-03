@@ -37,6 +37,10 @@ define( 'DB_CHARSET', 'utf8mb4' );
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', '' );
 
+// отключить WP-Cron и вместо него сделать системный cron
+define( 'DISABLE_WP_CRON', true );
+
+
 /**#@+
  * Authentication unique keys and salts.
  *
@@ -95,13 +99,15 @@ define( 'WP_DEBUG_DISPLAY', true );
 define('WP_MEMORY_LIMIT', '256M');
 ini_set('max_execution_time', 300); // 300 секунд = 5 минут
 
-define( 'DUPLICATOR_AUTH_KEY', 'Qn!x6):%%=9&n7rm,:u!Jt>wf@;d5Ktw)]+B&-.f$/2^-[%j,F;Kf }ojp3f^/W>' );
-/* That's all, stop editing! Happy publishing. */
-
-/** Absolute path to the WordPress directory. */
-if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', __DIR__ . '/' );
+define( 'DUPLICATOR_AUTH_KEY', 'Qn!x6):%%=9&n7rm,:u!Jt>wf@;d5Ktw)]+B&-.f$/2^-[%j,F;Kf }ojp3f^/W>' );                                        
+                                                                      
+define( 'FS_METHOD', 'direct' );                                      
+                                                                      
+/* That's all, stop editing! Happy publishing. */                     
+                                                                      
+/** Absolute path to the WordPress directory. */                      
+if ( ! defined( 'ABSPATH' ) ) {                                       
+        define( 'ABSPATH', __DIR__ . '/' );                           
 }
-
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
