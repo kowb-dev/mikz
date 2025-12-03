@@ -3,7 +3,7 @@
  * The template for displaying product content in list view.
  *
  * @package Shoptimizer_Child
- * @version 1.5.0
+ * @version 1.6.0
  * @author  KB
  * @link    https://kowb.ru
  */
@@ -14,7 +14,7 @@ global $product;
 
 // Ensure visibility.
 if ( empty( $product ) || ! $product->is_visible() ) {
-	return;
+    return;
 }
 ?>
 <li <?php wc_product_class( 'mkz-product-list-item', $product ); ?>>
@@ -47,6 +47,28 @@ if ( empty( $product ) || ! $product->is_visible() ) {
 
             <div class="mkz-product-list-item__actions">
                 <?php woocommerce_template_loop_add_to_cart(); ?>
+            </div>
+        </div>
+        
+        <div class="mkz-product-list-item__mobile-actions">
+            <div class="mkz-product-list-item__mobile-price">
+                <?php shoptimizer_child_template_loop_price(); ?>
+            </div>
+            <div class="mkz-product-list-item__mobile-quantity-cart">
+                <div class="quantity">
+                    <button type="button" class="minus button">-</button>
+                    <input type="number" class="input-text qty text" step="1" min="1" max="<?php echo $product->get_max_purchase_quantity(); ?>" name="quantity" value="1" title="<?php esc_attr_e( 'Количество', 'shoptimizer-child' ); ?>" size="4" inputmode="numeric">
+                    <button type="button" class="plus button">+</button>
+                </div>
+                <a href="<?php echo esc_url( $product->add_to_cart_url() ); ?>" 
+                   data-quantity="1" 
+                   class="button product_type_simple add_to_cart_button ajax_add_to_cart mkz-mobile-cart-btn" 
+                   data-product_id="<?php echo esc_attr( $product->get_id() ); ?>" 
+                   data-product_sku="<?php echo esc_attr( $product->get_sku() ); ?>" 
+                   aria-label="<?php esc_attr_e( 'В корзину', 'shoptimizer-child' ); ?>" 
+                   title="<?php esc_attr_e( 'В корзину', 'shoptimizer-child' ); ?>">
+                    <i class="ph ph-shopping-cart-simple"></i>
+                </a>
             </div>
         </div>
 

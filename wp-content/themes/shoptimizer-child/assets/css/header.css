@@ -2,7 +2,7 @@
 * Header Styles for Shoptimizer Child Theme
 * Author: KB
 * URL: https://kowb.ru
-* Version: 1.0.8
+* Version: 1.0.9
 */
 
 /* =============================================================================
@@ -836,21 +836,43 @@
     font-size: 2em;
 }
 
-.mkx-cart-count {
+.mkx-badge-count {
     position: absolute;
     top: -0.5rem;
     right: -0.5rem;
     background: var(--mkx-primary);
     color: var(--mkx-white);
-    font-size: var(--fs-md);
-    padding: 0.3rem;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    min-width: 1.9rem;
-    text-align: center;
-    line-height: 1.1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    min-height: auto;
+    font-size: var(--fs-xs);
+    font-weight: var(--mkx-font-semibold);
+    padding: var(--space-xs);
+    min-width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    line-height: 1;
+    box-shadow: var(--shadow-md);
+    opacity: 0;
+    transform: scale(0);
+    transition: var(--mkx-transition);
+}
+
+.mkx-badge-count.mkx-badge-visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.mkx-cart-count {
+    background: var(--mkx-primary);
+}
+
+.mkx-wishlist-count {
+    background: var(--mkx-error);
+}
+
+.mkx-compare-count {
+    background: var(--mkx-info);
 }
 
 /* =============================================================================

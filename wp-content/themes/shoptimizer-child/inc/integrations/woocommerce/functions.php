@@ -3,7 +3,7 @@
  * WooCommerce Integration Functions
  *
  * @package Shoptimizer Child
- * @version 1.0.3
+ * @version 1.0.4
  * @author KW
  * @link https://kowb.ru
  */
@@ -23,19 +23,17 @@ add_action( 'after_setup_theme', 'shoptimizer_child_remove_parent_theme_related_
  */
 add_filter( 'woocommerce_add_to_cart_fragments', 'shoptimizer_child_cart_fragments' );
 function shoptimizer_child_cart_fragments( $fragments ) {
-    // Фрагмент для основного счетчика корзины
     ob_start();
     if ( WC()->cart->get_cart_contents_count() > 0 ) {
-        echo '<span class="mkx-cart-count" aria-label="' . esc_attr( sprintf( _n( '%s товар в корзине', '%s товаров в корзине', WC()->cart->get_cart_contents_count(), 'shoptimizer-child' ), WC()->cart->get_cart_contents_count() ) ) . '">';
+        echo '<span class="mkx-badge-count mkx-cart-count mkx-badge-visible" aria-label="' . esc_attr( sprintf( _n( '%s товар в корзине', '%s товаров в корзине', WC()->cart->get_cart_contents_count(), 'shoptimizer-child' ), WC()->cart->get_cart_contents_count() ) ) . '">';
         echo WC()->cart->get_cart_contents_count();
         echo '</span>';
     }
     $fragments['.mkx-cart-count'] = ob_get_clean();
 
-    // Фрагмент для мобильного счетчика корзины
     ob_start();
     if ( WC()->cart->get_cart_contents_count() > 0 ) {
-        echo '<span class="mkx-mobile-nav-cart-count" aria-label="' . esc_attr( sprintf( _n( '%s товар в корзине', '%s товаров в корзине', WC()->cart->get_cart_contents_count(), 'shoptimizer-child' ), WC()->cart->get_cart_contents_count() ) ) . '">';
+        echo '<span class="mkx-mobile-nav-cart-count mkx-badge-visible" aria-label="' . esc_attr( sprintf( _n( '%s товар в корзине', '%s товаров в корзине', WC()->cart->get_cart_contents_count(), 'shoptimizer-child' ), WC()->cart->get_cart_contents_count() ) ) . '">';
         echo WC()->cart->get_cart_contents_count();
         echo '</span>';
     }
