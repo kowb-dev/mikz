@@ -4,14 +4,14 @@
  * Обновленная версия с исправленными модулями email
  *
  * @package Shoptimizer Child
- * @version 1.0.8
+ * @version 1.0.9
  * @author KB
  * @link https://kowb.ru
  */
 
 // Защита от прямого доступа
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 
 /**
@@ -48,11 +48,12 @@ require_once get_stylesheet_directory() . '/inc/customizer-footer-add-settings.p
 // Функциональные возможности
 require_once get_stylesheet_directory() . '/inc/features/mobile-optimization.php';
 require_once get_stylesheet_directory() . '/inc/features/body-classes.php';
-// require_once get_stylesheet_directory() . '/inc/features/contacts-page.php';
 require_once get_stylesheet_directory() . '/inc/features/page-specific-styles.php';
 require_once get_stylesheet_directory() . '/inc/features/blog-enhancements.php';
 require_once get_stylesheet_directory() . '/inc/features/query-modifications.php';
 require_once get_stylesheet_directory() . '/inc/features/wholesale-prices.php';
+require_once get_stylesheet_directory() . '/inc/features/notifications.php';
+require_once get_stylesheet_directory() . '/inc/features/action-badges.php';
 require_once get_stylesheet_directory() . '/inc/mobile-nav.php';
 require_once get_stylesheet_directory() . '/inc/template-tags.php';
 require_once get_stylesheet_directory() . '/inc/widget-clear-filters.php';
@@ -61,14 +62,14 @@ require_once get_stylesheet_directory() . '/inc/widget-custom-price-filter.php';
 
 // Интеграции с плагинами (только если плагины активны)
 if ( class_exists( 'WooCommerce' ) ) {
-	require_once get_stylesheet_directory() . '/inc/integrations/woocommerce/functions.php';
+    require_once get_stylesheet_directory() . '/inc/integrations/woocommerce/functions.php';
     require_once get_stylesheet_directory() . '/inc/product-summary.php';
     require_once get_stylesheet_directory() . '/inc/yith-compare-fixes.php';
 }
 
 // Административные функции (только в админке)
 if ( is_admin() ) {
-	require_once get_stylesheet_directory() . '/inc/admin/notices.php';
+    require_once get_stylesheet_directory() . '/inc/admin/notices.php';
 }
 
 /**
@@ -76,34 +77,34 @@ if ( is_admin() ) {
  * (если они существуют и не конфликтуют)
  */
 $additional_files = array(
-	'inc/enqueue-scripts.php',
-	'inc/customizer.php',
-	'inc/security.php',
+    'inc/enqueue-scripts.php',
+    'inc/customizer.php',
+    'inc/security.php',
 );
 
 // Осторожно подключаем header-functions.php только если в нем нет дублирующихся функций
 $header_functions_file = get_stylesheet_directory() . '/inc/header-functions.php';
 if ( file_exists( $header_functions_file ) ) {
-	$header_content = file_get_contents( $header_functions_file );
-	// Проверяем что файл не содержит дублирующуюся функцию
-	if ( strpos( $header_content, 'function mkx_get_catalog_megamenu_data' ) === false ) {
-		require_once $header_functions_file;
-	}
+    $header_content = file_get_contents( $header_functions_file );
+    // Проверяем что файл не содержит дублирующуюся функцию
+    if ( strpos( $header_content, 'function mkx_get_catalog_megamenu_data' ) === false ) {
+        require_once $header_functions_file;
+    }
 }
 
 foreach ( $additional_files as $file ) {
-	$filepath = get_stylesheet_directory() . '/' . $file;
-	        if ( file_exists( $filepath ) ) {
-	    		require_once $filepath;
-	    	}
-	    }
+    $filepath = get_stylesheet_directory() . '/' . $file;
+            if ( file_exists( $filepath ) ) {
+                require_once $filepath;
+            }
+        }
 
 /**
  * Register custom widgets.
  */
 function mkx_register_custom_widgets() {
-	register_widget( 'MKX_Widget_Clear_Filters' );
-	register_widget( 'MKX_Widget_Custom_Price_Filter' );
+    register_widget( 'MKX_Widget_Clear_Filters' );
+    register_widget( 'MKX_Widget_Custom_Price_Filter' );
 }
 add_action( 'widgets_init', 'mkx_register_custom_widgets' );
 

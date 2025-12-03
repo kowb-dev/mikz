@@ -3,13 +3,13 @@
  * Custom Query Modifications
  *
  * @package Shoptimizer Child
- * @version 1.0.0
+ * @version 1.0.1
  * @author KB
  * @link https://kowb.ru
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
+    exit;
 }
 
 /**
@@ -26,15 +26,10 @@ function kb_modify_archive_queries( $query ) {
 }
 add_action( 'pre_get_posts', 'kb_modify_archive_queries' );
 
-/**
- * Exclude products from 'Misc' category from search results (strict version)
- */
 function exclude_misc_category_from_search_strict( $query ) {
     if ( ! is_admin() && $query->is_search() && $query->is_main_query() ) {
-        
         $misc_category_id = 253;
         
-        // Получаем все ID товаров из категории Misc
         $misc_products = get_posts( array(
             'post_type'      => 'product',
             'posts_per_page' => -1,
@@ -48,10 +43,28 @@ function exclude_misc_category_from_search_strict( $query ) {
             ),
         ) );
         
-        // Исключаем эти товары из поиска
         if ( ! empty( $misc_products ) ) {
             $query->set( 'post__not_in', $misc_products );
         }
     }
 }
 add_action( 'pre_get_posts', 'exclude_misc_category_from_search_strict' );
+
+function mkx_exclude_misc_from_woocommerce_blocks( $query_args, $attributes, $type ) {
+    $misc_category_id = 253;
+    
+    if ( ! isset( $query_args['tax_query'] ) ) {
+        $query_args['tax_query'] = array();
+    }
+    
+    $query_args['tax_query'][] = array(
+        'taxonomy' => 'product_cat',
+        'field'    => 'term_id',
+        'terms'    => array( $misc_category_id ),
+        'operator' => 'NOT IN',
+    );
+    
+    return $query_args;
+}
+add_filter( 'woocommerce_shortcode_products_query', 'mkx_exclude_misc_from_woocommerce_blocks', 10, 3 );
+add_filter( 'woocommerce_blocks_product_grid_query', 'mkx_exclude_misc_from_woocommerce_blocks', 10, 3 );

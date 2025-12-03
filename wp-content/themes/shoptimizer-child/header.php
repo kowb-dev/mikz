@@ -7,7 +7,7 @@
  * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
  *
  * @package Shoptimizer Child
- * @version 1.0.7
+ * @version 1.0.8
  * @author KB
  * @link https://kowb.ru
  */
@@ -21,7 +21,7 @@
     <link rel="profile" href="https://gmpg.org/xfn/11">
     <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 
-	<?php wp_head(); ?>
+    <?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
@@ -54,14 +54,14 @@
 
                     <!-- Top Phone -->
                     <div class="mkx-top-header-phone">
-						<?php
-						$phone = get_theme_mod( 'mkx_phone', '+7 (999) 123-45-67' );
-						if ( $phone ) : ?>
+                        <?php
+                        $phone = get_theme_mod( 'mkx_phone', '+7 (999) 123-45-67' );
+                        if ( $phone ) : ?>
                             <a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone ) ); ?>"
                                class="mkx-top-phone-link">
-								<?php echo esc_html( $phone ); ?>
+                                <?php echo esc_html( $phone ); ?>
                             </a>
-						<?php endif; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -73,11 +73,11 @@
                 <div class="mkx-top-bar-content">
                     <!-- Logo + Brand Text -->
                     <div class="mkx-site-branding">
-						<?php if ( ! is_front_page() ) : ?>
+                        <?php if ( ! is_front_page() ) : ?>
                         <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" aria-label="<?php esc_attr_e( 'На главную страницу', 'shoptimizer-child' ); ?>" class="mkx-logo-container">
-							<?php else : ?>
+                            <?php else : ?>
                             <div class="mkx-logo-container">
-								<?php endif; ?>
+                                <?php endif; ?>
                                 <!-- Основной контейнер для всего бренда -->
                                 <div class="mkx-brand-text-container">
                                     <!-- Верхняя часть: логотип + название МИКЗ -->
@@ -103,11 +103,11 @@
                                         <span class="mkx-tagline-line2"><?php esc_html_e( 'ТЕЛЕФОНОВ И КОМПЬЮТЕРОВ', 'shoptimizer-child' ); ?></span>
                                     </div>
                                 </div>
-								<?php if ( ! is_front_page() ) : ?>
+                                <?php if ( ! is_front_page() ) : ?>
                         </a>
-						<?php else : ?>
+                        <?php else : ?>
                     </div>
-					<?php endif; ?>
+                    <?php endif; ?>
                 </div>
 
                 <!-- Catalog Button -->
@@ -161,10 +161,10 @@
 
                 <!-- Search Bar -->
                 <div class="mkx-header-search">
-					<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+                    <?php if ( class_exists( 'WooCommerce' ) ) : ?>
                         <form role="search" method="get" class="mkx-woocommerce-product-search mkx-search-clear-wrapper" action="<?php echo esc_url( home_url( '/' ) ); ?>">
                             <label for="woocommerce-product-search-field" class="mkx-screen-reader-text">
-								<?php esc_html_e( 'Поиск товаров:', 'shoptimizer-child' ); ?>
+                                <?php esc_html_e( 'Поиск товаров:', 'shoptimizer-child' ); ?>
                             </label>
                             <input type="search"
                                    id="woocommerce-product-search-field"
@@ -181,7 +181,7 @@
                             </button>
                             <input type="hidden" name="post_type" value="product" />
                         </form>
-					<?php endif; ?>
+                    <?php endif; ?>
                 </div>
 
                 <!-- User Actions -->
@@ -204,21 +204,21 @@
                     </div>
 
                     <!-- Cart -->
-					<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+                    <?php if ( class_exists( 'WooCommerce' ) ) : ?>
                         <div class="mkx-header-cart">
                             <a class="mkx-cart-contents"
                                href="<?php echo esc_url( wc_get_cart_url() ); ?>"
                                title="<?php esc_attr_e( 'Посмотреть корзину', 'shoptimizer-child' ); ?>">
                                 <i class="ph ph-shopping-cart" aria-hidden="true"></i>
                                 <span class="mkx-cart-text"><?php esc_html_e( 'Корзина', 'shoptimizer-child' ); ?></span>
-								<?php if ( WC()->cart->get_cart_contents_count() > 0 ) : ?>
-                                    <span class="mkx-cart-count" aria-label="<?php echo esc_attr( sprintf( _n( '%s товар в корзине', '%s товаров в корзине', WC()->cart->get_cart_contents_count(), 'shoptimizer-child' ), WC()->cart->get_cart_contents_count() ) ); ?>">
-											<?php echo WC()->cart->get_cart_contents_count(); ?>
-										</span>
-								<?php endif; ?>
+                                <?php if ( WC()->cart->get_cart_contents_count() > 0 ) : ?>
+                                    <span class="mkx-badge-count mkx-cart-count mkx-badge-visible" aria-label="<?php echo esc_attr( sprintf( _n( '%s товар в корзине', '%s товаров в корзине', WC()->cart->get_cart_contents_count(), 'shoptimizer-child' ), WC()->cart->get_cart_contents_count() ) ); ?>">
+                                            <?php echo WC()->cart->get_cart_contents_count(); ?>
+                                        </span>
+                                <?php endif; ?>
                             </a>
                         </div>
-					<?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -229,19 +229,19 @@
     <div class="mkx-container">
         <div class="mkx-mobile-top-content">
             <!-- Phone Link -->
-			<?php if ( $phone ) : ?>
+            <?php if ( $phone ) : ?>
                 <a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone ) ); ?>" class="mkx-mobile-contact-link" aria-label="<?php esc_attr_e( 'Позвонить', 'shoptimizer-child' ); ?>">
                     <i class="ph ph-phone" aria-hidden="true"></i>
                 </a>
-			<?php endif; ?>
+            <?php endif; ?>
 
             <!-- Mobile Logo + Brand -->
             <div class="mkx-mobile-branding">
-				<?php if ( ! is_front_page() ) : ?>
+                <?php if ( ! is_front_page() ) : ?>
                 <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" aria-label="<?php esc_attr_e( 'На главную страницу', 'shoptimizer-child' ); ?>" class="mkx-mobile-logo-container">
-					<?php else : ?>
+                    <?php else : ?>
                     <div class="mkx-mobile-logo-container">
-						<?php endif; ?>
+                        <?php endif; ?>
 
                         <!-- 1-й ряд: Логотип + Название (2 колонки) -->
                         <div class="mkx-mobile-brand-top">
@@ -265,22 +265,22 @@
                             <span class="mkx-mobile-tagline-line1"><?php esc_html_e( 'ЗАПЧАСТИ ДЛЯ МОБИЛЬНЫХ ТЕЛЕФОНОВ И КОМПЬЮТЕРОВ', 'shoptimizer-child' ); ?></span>
                         </div>
 
-						<?php if ( ! is_front_page() ) : ?>
+                        <?php if ( ! is_front_page() ) : ?>
                 </a>
-				<?php else : ?>
+                <?php else : ?>
             </div>
-		<?php endif; ?>
+        <?php endif; ?>
         </div>
 
 
         <!-- WhatsApp Link -->
-		<?php
-		$whatsapp = get_theme_mod( 'mkx_social_whatsapp', 'https://wa.me/1234567890' );
-		if ( $whatsapp ) : ?>
+        <?php
+        $whatsapp = get_theme_mod( 'mkx_social_whatsapp', 'https://wa.me/1234567890' );
+        if ( $whatsapp ) : ?>
             <a href="<?php echo esc_url( $whatsapp ); ?>" class="whatsapp-link mkx-mobile-contact-link" aria-label="<?php esc_attr_e( 'Написать в WhatsApp', 'shoptimizer-child' ); ?>" target="_blank" rel="noopener">
                 <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
             </a>
-		<?php endif; ?>
+        <?php endif; ?>
     </div>
 </div>
 </div>
@@ -299,10 +299,10 @@
 
             <!-- Mobile Search -->
             <div class="mkx-mobile-search">
-				<?php if ( class_exists( 'WooCommerce' ) ) : ?>
+                <?php if ( class_exists( 'WooCommerce' ) ) : ?>
                     <form role="search" method="get" class="mkx-woocommerce-product-search mkx-search-clear-wrapper" action="<?php echo esc_url( home_url( '/' ) ); ?>">
                         <label for="mobile-product-search-field" class="mkx-screen-reader-text">
-							<?php esc_html_e( 'Поиск товаров:', 'shoptimizer-child' ); ?>
+                            <?php esc_html_e( 'Поиск товаров:', 'shoptimizer-child' ); ?>
                         </label>
                         <input type="search"
                                id="mobile-product-search-field"
@@ -319,7 +319,7 @@
                         </button>
                         <input type="hidden" name="post_type" value="product" />
                     </form>
-				<?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -405,13 +405,13 @@
 
                     <!-- Mobile Menu Phone -->
                     <div class="mkx-mobile-menu__phone">
-						<?php if ( $phone ) : ?>
+                        <?php if ( $phone ) : ?>
                             <a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone ) ); ?>"
                                class="mkx-mobile-menu-phone-link">
                                 <i class="ph ph-phone" aria-hidden="true"></i>
                                 <span><?php echo esc_html( $phone ); ?></span>
                             </a>
-						<?php endif; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
