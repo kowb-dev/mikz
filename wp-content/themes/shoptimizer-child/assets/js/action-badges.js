@@ -3,7 +3,7 @@
 
     const MKXBadges = {
         init: function() {
-            this.version = '1.2.0';
+            this.version = '1.3.0';
             this.bindEvents();
             this.updateBadges();
             this.observePageChanges();
@@ -48,16 +48,21 @@
                 setTimeout(() => self.updateBadges(), 500);
             });
 
-            $(document.body).on('click', '.woocommerce-cart .remove, .cart_item .remove', function(e) {
-                setTimeout(() => self.updateBadges(), 500);
+            $(document.body).on('click', '.woocommerce-cart .remove, .cart_item .remove, a.remove', function(e) {
+                setTimeout(() => self.updateBadges(), 300);
+                setTimeout(() => self.updateBadges(), 800);
             });
 
             $(document.body).on('click', '#yith-woocompare .remove, table.compare-list .remove', function() {
                 setTimeout(() => self.updateBadges(), 500);
             });
 
-            $(document).on('wc_fragments_refreshed wc_fragments_loaded', function() {
+            $(document).on('wc_fragments_refreshed wc_fragments_loaded', function(e, data) {
                 self.updateBadges();
+            });
+
+            $(document.body).on('wc_fragment_refresh', function() {
+                setTimeout(() => self.updateBadges(), 100);
             });
 
             $(document.body).on('updated_wc_div', function() {

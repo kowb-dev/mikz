@@ -8,7 +8,7 @@
         notificationDebounce: {},
 
         init: function() {
-            this.version = '1.2.0';
+            this.version = '1.3.0';
             this.container = $('#mkx-notification-container');
             this.bindEvents();
             this.observeActionButtons();
@@ -39,11 +39,11 @@
             const self = this;
 
             $(document.body).on('added_to_cart', function(e, fragments, cart_hash, $button) {
-                if (!$button || $button.closest('.single_add_to_cart_button').length) {
+                if (!$button) {
                     return;
                 }
                 
-                const productId = $button.data('product_id');
+                const productId = $button.data('product_id') || $button.val();
                 const key = 'cart_' + productId;
                 
                 if (self.notificationDebounce[key]) {
@@ -58,23 +58,18 @@
                 });
             });
 
-            $('form.cart').on('submit', function(e) {
-                const $form = $(this);
-                const $button = $form.find('.single_add_to_cart_button');
-                const productId = $button.val() || $form.find('input[name="product_id"]').val() || $form.find('input[name="add-to-cart"]').val();
-                
-                if (productId && $button.length) {
-                    setTimeout(function() {
-                        self.getProductName(productId, function(productName) {
-                            self.show('cart', mkxNotifications.addedToCart, productName);
-                        });
-                    }, 500);
-                }
-            });
-
             $(document.body).on('added_to_wishlist', function(e, el) {
                 const $button = $(el);
                 const productId = $button.data('product-id') || $button.data('product_id');
+                
+                const key = 'wishlist_' + productId;
+                if (self.notificationDebounce[key]) {
+                    return;
+                }
+                
+                self.notificationDebounce[key] = true;
+                setTimeout(() => delete self.notificationDebounce[key], 1000);
+                
                 self.getProductName(productId, function(productName) {
                     self.show('wishlist', mkxNotifications.addedToWishlist, productName);
                 });
@@ -87,6 +82,15 @@
             $(document.body).on('yith_woocompare_product_added', function(e, el) {
                 const $button = $(el);
                 const productId = $button.data('product_id') || $button.attr('data-product_id');
+                
+                const key = 'compare_' + productId;
+                if (self.notificationDebounce[key]) {
+                    return;
+                }
+                
+                self.notificationDebounce[key] = true;
+                setTimeout(() => delete self.notificationDebounce[key], 1000);
+                
                 self.getProductName(productId, function(productName) {
                     self.show('compare', mkxNotifications.addedToCompare, productName);
                 });
@@ -94,6 +98,48 @@
 
             $(document.body).on('yith_woocompare_product_removed', function() {
                 self.show('compare', 'Удалено из сравнения', 'Товар');
+            });
+
+            $(document.body).on('click', '.yith-wcwl-add-button a, a.add_to_wishlist', function() {
+                const $button = $(this);
+                const productId = $button.data('product-id') || $button.data('product_id');
+                
+                if (productId && !$button.hasClass('loading')) {
+                    setTimeout(function() {
+                        const key = 'wishlist_click_' + productId;
+                        if (self.notificationDebounce[key]) {
+                            return;
+                        }
+                        
+                        self.notificationDebounce[key] = true;
+                        setTimeout(() => delete self.notificationDebounce[key], 2000);
+                        
+                        self.getProductName(productId, function(productName) {
+                            self.show('wishlist', mkxNotifications.addedToWishlist, productName);
+                        });
+                    }, 800);
+                }
+            });
+
+            $(document.body).on('click', 'a.compare:not(.added)', function() {
+                const $button = $(this);
+                const productId = $button.data('product_id') || $button.attr('data-product_id');
+                
+                if (productId) {
+                    setTimeout(function() {
+                        const key = 'compare_click_' + productId;
+                        if (self.notificationDebounce[key]) {
+                            return;
+                        }
+                        
+                        self.notificationDebounce[key] = true;
+                        setTimeout(() => delete self.notificationDebounce[key], 2000);
+                        
+                        self.getProductName(productId, function(productName) {
+                            self.show('compare', mkxNotifications.addedToCompare, productName);
+                        });
+                    }, 800);
+                }
             });
 
             $(document).on('click', '.mkx-notification-close', function() {
