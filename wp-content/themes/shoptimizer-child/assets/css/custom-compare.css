@@ -5,7 +5,7 @@
     width: var(--mkx-action-btn-size, 40px);
     height: var(--mkx-action-btn-size, 40px);
     border: 1px solid var(--mkx-border-color, #e0e0e0);
-    border-radius: var(--mkx-border-radius-sm, 4px);
+    border-radius: var(--radius-full, 9999px);
     background: var(--mkx-bg-white, #fff);
     color: var(--mkx-text-color, #333);
     font-size: 1.2rem;

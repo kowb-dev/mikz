@@ -293,7 +293,7 @@ table.wc-product-table tbody td,
     justify-content: center;
     align-items: flex-end;
     flex: 0 0 350px;
-    margin-right: 1rem;
+    margin-right: 2rem;
 }
 
 .mkz-product-list-item__price-and-actions {
