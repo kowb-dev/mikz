@@ -3,7 +3,7 @@
  * Action Links Badges
  *
  * @package Shoptimizer Child
- * @version 1.1.0
+ * @version 1.2.0
  * @author KB
  * @link https://kowb.ru
  */
@@ -35,7 +35,7 @@ function mkx_enqueue_badge_assets() {
         'mkx-action-badges',
         get_stylesheet_directory_uri() . '/assets/js/action-badges.js',
         array( 'jquery' ),
-        '1.1.0',
+        '1.2.0',
         true
     );
     

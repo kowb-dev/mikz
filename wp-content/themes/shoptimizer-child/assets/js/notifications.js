@@ -5,9 +5,10 @@
         container: null,
         duration: 5000,
         productNameCache: {},
+        notificationDebounce: {},
 
         init: function() {
-            this.version = '1.1.0';
+            this.version = '1.2.0';
             this.container = $('#mkx-notification-container');
             this.bindEvents();
             this.observeActionButtons();
@@ -38,10 +39,37 @@
             const self = this;
 
             $(document.body).on('added_to_cart', function(e, fragments, cart_hash, $button) {
+                if (!$button || $button.closest('.single_add_to_cart_button').length) {
+                    return;
+                }
+                
                 const productId = $button.data('product_id');
+                const key = 'cart_' + productId;
+                
+                if (self.notificationDebounce[key]) {
+                    return;
+                }
+                
+                self.notificationDebounce[key] = true;
+                setTimeout(() => delete self.notificationDebounce[key], 1000);
+                
                 self.getProductName(productId, function(productName) {
                     self.show('cart', mkxNotifications.addedToCart, productName);
                 });
+            });
+
+            $('form.cart').on('submit', function(e) {
+                const $form = $(this);
+                const $button = $form.find('.single_add_to_cart_button');
+                const productId = $button.val() || $form.find('input[name="product_id"]').val() || $form.find('input[name="add-to-cart"]').val();
+                
+                if (productId && $button.length) {
+                    setTimeout(function() {
+                        self.getProductName(productId, function(productName) {
+                            self.show('cart', mkxNotifications.addedToCart, productName);
+                        });
+                    }, 500);
+                }
             });
 
             $(document.body).on('added_to_wishlist', function(e, el) {
@@ -66,43 +94,6 @@
 
             $(document.body).on('yith_woocompare_product_removed', function() {
                 self.show('compare', 'Удалено из сравнения', 'Товар');
-            });
-
-            $(document.body).on('click', '.add_to_cart_button', function(e) {
-                const $button = $(this);
-                const productId = $button.data('product_id');
-                
-                if (!$button.hasClass('loading')) {
-                    setTimeout(function() {
-                        if ($button.hasClass('added')) {
-                            self.getProductName(productId, function(productName) {
-                                self.show('cart', mkxNotifications.addedToCart, productName);
-                            });
-                        }
-                    }, 300);
-                }
-            });
-
-            $(document.body).on('click', 'a.compare:not(.added)', function(e) {
-                const $button = $(this);
-                const productId = $button.data('product_id') || $button.attr('data-product_id');
-                
-                setTimeout(function() {
-                    self.getProductName(productId, function(productName) {
-                        self.show('compare', mkxNotifications.addedToCompare, productName);
-                    });
-                }, 300);
-            });
-
-            $(document.body).on('click', '.yith-wcwl-add-button a:not(.added)', function(e) {
-                const $button = $(this);
-                const productId = $button.data('product-id') || $button.data('product_id');
-                
-                setTimeout(function() {
-                    self.getProductName(productId, function(productName) {
-                        self.show('wishlist', mkxNotifications.addedToWishlist, productName);
-                    });
-                }, 300);
             });
 
             $(document).on('click', '.mkx-notification-close', function() {
