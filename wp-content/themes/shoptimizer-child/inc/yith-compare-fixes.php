@@ -3,45 +3,20 @@
  * YITH WooCommerce Compare fixes.
  *
  * @package shoptimizer-child
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-function kb_disable_yith_compare_button_on_product_page() {
-    if ( class_exists( 'YITH_Woocompare' ) ) {
-        update_option( 'yith_woocompare_compare_button_in_product_page', 'no' );
-    }
+/**
+ * Disables the "Product added" notification for YITH Compare by filtering the label.
+ *
+ * @param string $label The original label text.
+ * @return string An empty string to hide the notification.
+ */
+function mkx_yith_compare_remove_added_notice( $label ) {
+    return '';
 }
-add_action( 'init', 'kb_disable_yith_compare_button_on_product_page' );
-
-function mkx_hide_yith_compare_added_notice() {
-    echo '<style>
-        .compare.added,
-        a.compare.added {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-            position: absolute !important;
-            left: -9999px !important;
-        }
-    </style>';
-    
-    echo '<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const removeCompareNotices = () => {
-                document.querySelectorAll(".compare.added, a.compare.added").forEach(el => {
-                    el.remove();
-                });
-            };
-            removeCompareNotices();
-            
-            const observer = new MutationObserver(removeCompareNotices);
-            observer.observe(document.body, { childList: true, subtree: true });
-        });
-    </script>';
-}
-add_action( 'wp_head', 'mkx_hide_yith_compare_added_notice', 999 );
-add_action( 'wp_footer', 'mkx_hide_yith_compare_added_notice', 999 );
+add_filter( 'yith_woocompare_compare_added_label', 'mkx_yith_compare_remove_added_notice' );

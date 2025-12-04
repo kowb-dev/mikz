@@ -3,7 +3,7 @@
  * Action Links Badges
  *
  * @package Shoptimizer Child
- * @version 1.0.0
+ * @version 1.0.2
  * @author KB
  * @link https://kowb.ru
  */
@@ -13,19 +13,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function mkx_get_wishlist_count() {
-	if ( function_exists( 'YITH_WCWL' ) ) {
-		$wishlist = YITH_WCWL()->get_products( array(
-			'user_id' => get_current_user_id(),
-			'is_default' => true
-		) );
-		return is_array( $wishlist ) ? count( $wishlist ) : 0;
+	if ( class_exists( 'YITH_WCWL_Wishlist_Factory' ) ) {
+		$wishlist = YITH_WCWL_Wishlist_Factory::get_default_wishlist();
+		if ( $wishlist ) {
+			return count( $wishlist->get_items() );
+		}
 	}
 	return 0;
 }
 
 function mkx_get_compare_count() {
 	if ( class_exists( 'YITH_Woocompare' ) && isset( $_COOKIE['yith_woocompare_list'] ) ) {
-		$products = json_decode( $_COOKIE['yith_woocompare_list'] );
+		$products = json_decode( stripslashes( $_COOKIE['yith_woocompare_list'] ) );
 		return is_array( $products ) ? count( $products ) : 0;
 	}
 	return 0;
@@ -36,7 +35,7 @@ function mkx_enqueue_badge_assets() {
 		'mkx-action-badges',
 		get_stylesheet_directory_uri() . '/assets/js/action-badges.js',
 		array( 'jquery' ),
-		'1.0.0',
+		'1.0.2',
 		true
 	);
 	

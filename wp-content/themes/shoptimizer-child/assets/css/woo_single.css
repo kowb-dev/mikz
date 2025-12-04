@@ -459,7 +459,12 @@
 .product-actions .action-item a.added,
 .product-actions .action-item .exists a.add_to_wishlist {
     border-width: 2px !important;
-    border-color: var(--mkx-dark) !important;
+    border-color: var(--mkx-primary) !important;
+}
+
+.product-actions .action-item a.added i {
+    display: inline-block !important;
+    color: var(--mkx-primary) !important;
 }
 section.related.products .woocommerce-card__header {
     clear: both;

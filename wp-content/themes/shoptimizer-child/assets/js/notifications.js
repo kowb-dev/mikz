@@ -4,49 +4,110 @@
     const MKXNotifications = {
         container: null,
         duration: 5000,
+        productNameCache: {},
 
         init: function() {
+            this.version = '1.0.5';
             this.container = $('#mkx-notification-container');
             this.bindEvents();
+            this.observeActionButtons();
+        },
+
+        observeActionButtons: function() {
+            const self = this;
+            
+            const observerCallback = function(mutations, button, iconClass) {
+                const $button = $(button);
+                if ($button.hasClass('added') && $button.find('i').length === 0) {
+                    $button.html(`<i class="${iconClass}"></i>`);
+                }
+            };
+
+            // Observer for Compare buttons
+            document.querySelectorAll('a.compare').forEach(button => {
+                const observer = new MutationObserver(mutations => observerCallback(mutations, button, 'ph ph-chart-bar'));
+                observer.observe(button, { childList: true });
+            });
+
+            // Observer for Wishlist buttons
+            document.querySelectorAll('.yith-wcwl-add-to-wishlist-btn').forEach(button => {
+                const observer = new MutationObserver(mutations => observerCallback(mutations, button, 'ph ph-heart'));
+                observer.observe(button, { childList: true });
+            });
         },
 
         bindEvents: function() {
             const self = this;
 
             $(document.body).on('added_to_cart', function(e, fragments, cart_hash, $button) {
-                const $productItem = $button ? $button.closest('.product, li.product, .mkz-product-list-item') : null;
-                let productName = 'Товар';
-                
-                if ($productItem && $productItem.length) {
-                    const $title = $productItem.find('.woocommerce-loop-product__title, .product_title, .mkz-product-list-item__title-link');
-                    if ($title.length) {
-                        productName = $title.text().trim();
-                    }
-                }
-                
-                if ($button && $button.data('product_name')) {
-                    productName = $button.data('product_name');
-                }
-                
-                self.show('cart', mkxNotifications.addedToCart, productName);
+                const productId = $button.data('product_id');
+                self.getProductName(productId, function(productName) {
+                    self.show('cart', mkxNotifications.addedToCart, productName);
+                });
             });
 
-            $(document).on('added_to_wishlist', function(e) {
-                const $target = $(e.target).closest('.product, li.product, .mkz-product-list-item');
-                const productName = $target.find('.woocommerce-loop-product__title, .product_title, .mkz-product-list-item__title-link').text().trim() || 'Товар';
-                self.show('wishlist', mkxNotifications.addedToWishlist, productName);
+            $(document.body).on('added_to_wishlist', function(e, el) {
+                const $button = $(el);
+                const productId = $button.data('product-id');
+                self.getProductName(productId, function(productName) {
+                    self.show('wishlist', mkxNotifications.addedToWishlist, productName);
+                });
             });
 
-            $(document).on('removed_from_wishlist', function(e) {
+            $(document.body).on('removed_from_wishlist', function() {
                 self.show('wishlist', mkxNotifications.removedFromWishlist, 'Товар');
             });
 
-            $(document).on('yith_woocompare_product_added', function(e) {
-                self.show('compare', mkxNotifications.addedToCompare, 'Товар');
+            $(document.body).on('yith_woocompare_product_added', function(e, el) {
+                const $button = $(el);
+                const productId = $button.data('product_id');
+                self.getProductName(productId, function(productName) {
+                    self.show('compare', mkxNotifications.addedToCompare, productName);
+                });
             });
 
             $(document).on('click', '.mkx-notification-close', function() {
                 self.close($(this).closest('.mkx-notification'));
+            });
+
+            // Re-observe buttons after AJAX content is loaded (e.g., pagination)
+            $(document.body).on('post-load', function() {
+                self.observeActionButtons();
+            });
+        },
+
+        getProductName: function(productId, callback) {
+            const self = this;
+
+            if (!productId) {
+                callback('Товар');
+                return;
+            }
+
+            if (self.productNameCache[productId]) {
+                callback(self.productNameCache[productId]);
+                return;
+            }
+
+            $.ajax({
+                url: mkxNotifications.ajaxUrl,
+                type: 'POST',
+                data: {
+                    action: mkxNotifications.getProductNameAction,
+                    nonce: mkxNotifications.nonce,
+                    product_id: productId
+                },
+                success: function(response) {
+                    if (response.success) {
+                        self.productNameCache[productId] = response.data.product_name;
+                        callback(response.data.product_name);
+                    } else {
+                        callback('Товар');
+                    }
+                },
+                error: function() {
+                    callback('Товар');
+                }
             });
         },
 

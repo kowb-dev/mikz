@@ -3,6 +3,7 @@
 
     const MKXBadges = {
         init: function() {
+            this.version = '1.0.8';
             this.bindEvents();
             this.updateBadges();
         },
@@ -10,16 +11,27 @@
         bindEvents: function() {
             const self = this;
 
+            // WooCommerce Cart Events
             $(document.body).on('updated_cart_totals added_to_cart removed_from_cart', function() {
                 self.updateBadges();
             });
 
-            $(document).on('added_to_wishlist removed_from_wishlist', function() {
-                self.updateBadges();
+            // --- Wishlist Click Handlers ---
+            $(document.body).on('click', '.yith-wcwl-add-to-wishlist a, a.add_to_wishlist', function() {
+                setTimeout(() => self.updateBadges(), 1200);
+            });
+            $(document.body).on('click', 'a.remove_from_wishlist', function() {
+                setTimeout(() => self.updateBadges(), 1200);
             });
 
-            $(document).on('yith_woocompare_product_added yith_woocompare_product_removed', function() {
-                self.updateBadges();
+            // --- Compare Click Handlers ---
+            $(document.body).on('click', 'a.compare', function() {
+                setTimeout(() => self.updateBadges(), 1200);
+            });
+            $(document.body).on('click', 'a.remove', function() {
+                if ($(this).closest('#yith-woocompare').length) {
+                    setTimeout(() => self.updateBadges(), 1200);
+                }
             });
         },
 
@@ -34,8 +46,8 @@
                 success: function(response) {
                     if (response.success) {
                         MKXBadges.updateBadge('.mkx-cart-contents', response.data.cart, 'mkx-cart-count');
-                        MKXBadges.updateBadge('a[href*="wishlist"]', response.data.wishlist, 'mkx-wishlist-count');
-                        MKXBadges.updateBadge('a[href*="compare"]', response.data.compare, 'mkx-compare-count');
+                        MKXBadges.updateBadge('.mkx-action-links a[href*="wishlist"]', response.data.wishlist, 'mkx-wishlist-count');
+                        MKXBadges.updateBadge('.mkx-action-links a[href*="compare"]', response.data.compare, 'mkx-compare-count');
                     }
                 }
             });

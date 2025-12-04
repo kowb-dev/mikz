@@ -786,6 +786,7 @@
     border-radius: var(--radius-sm);
     flex-direction: column;
     font-weight: var(--mkx-font-light);
+    position: relative; /* ADDED FOR BADGE POSITIONING */
 }
 
 .mkx-action-link:hover {
