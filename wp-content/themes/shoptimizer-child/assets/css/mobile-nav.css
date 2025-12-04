@@ -95,7 +95,8 @@ button.mkx-mobile-nav-item {
     position: relative;
 }
 
-.mkx-mobile-nav-cart-count {
+.mkx-mobile-nav-cart-count,
+.mkx-mobile-nav-wishlist-count {
     position: absolute;
     top: 0.2rem;
     right: 0.8rem;
