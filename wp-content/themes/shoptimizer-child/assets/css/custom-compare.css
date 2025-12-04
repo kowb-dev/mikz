@@ -16,8 +16,7 @@
 
 .mkx-compare-btn:hover {
     border-color: var(--mkx-secondary-color, #2196f3);
-    color: var(--mkx-secondary-color, #2196f3);
-    background: var(--mkx-secondary-light, rgba(33, 150, 243, 0.05));
+    background: var(--mkx-secondary-color, #2196f3);
 }
 
 .mkx-compare-btn.added {
@@ -26,7 +25,9 @@
     background: var(--mkx-secondary-light, rgba(33, 150, 243, 0.05));
 }
 
-.mkx-compare-btn.added i {
+.mkx-compare-btn.added i,
+.mkx-compare-btn:hover i  {
+    color: var(--mkx-white, #fff);
     animation: bounceIn 0.5s ease;
 }
 

@@ -16,14 +16,18 @@
 
 .mkx-wishlist-btn:hover {
     border-color: var(--mkx-primary-color, #e91e63);
-    color: var(--mkx-primary-color, #e91e63);
-    background: var(--mkx-primary-light, rgba(233, 30, 99, 0.05));
+    background: var(--mkx-primary-color, #e91e63);
 }
 
 .mkx-wishlist-btn.added {
     border-color: var(--mkx-primary-color, #e91e63);
-    color: var(--mkx-primary-color, #e91e63);
-    background: var(--mkx-primary-light, rgba(233, 30, 99, 0.05));
+    background: var(--mkx-primary-color, #e91e63);
+}
+
+.mkx-wishlist-btn:hover i,
+.mkx-wishlist-btn.added i {
+    color: var(--mkx-white, #fff);
+    animation: bounceIn 0.5s ease;
 }
 
 .mkx-wishlist-btn.added i {
@@ -110,6 +114,7 @@
 
 .mkx-wishlist-table tbody tr:hover {
     background: var(--mkx-bg-hover, #f9f9f9);
+     
 }
 
 .mkx-wishlist-table .product-remove {

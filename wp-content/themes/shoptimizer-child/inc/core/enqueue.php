@@ -61,6 +61,7 @@ function shoptimizer_child_enqueue_styles_scripts() {
         'woo_base' => ['main'],
         'woo_category' => ['woo_base'],
         'woo_products' => ['woo_base'],
+        'product-card-actions' => ['woo_products'],
         'woo_single' => ['woo_base'],
         'woo_widgets' => ['woo_base'],
         'woo_wishlist' => ['woo_base'],

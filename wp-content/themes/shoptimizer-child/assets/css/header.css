@@ -860,7 +860,7 @@
 }
 
 .mkx-badge-count.mkx-badge-visible {
-    opacity: 1;
+    opacity: .8;
     transform: scale(1);
 }
 
