@@ -80,17 +80,15 @@ if ( empty( $product ) || ! $product->is_visible() ) {
         </div>
     </div>
 
-    <div class="mkz-product-list-item__yith-buttons">
-        <div class="mkz-product-list-item__wishlist">
-            <?php
-            if ( class_exists( 'YITH_WCWL_Shortcode' ) ) {
-                echo do_shortcode( '[yith_wcwl_add_to_wishlist]' );
-            }
-            ?>
-        </div>
-        <div class="mkz-product-list-item__compare">
-            <?php echo do_shortcode('[yith_compare_button]'); ?>
-        </div>
+    <div class="mkz-product-list-item__action-buttons">
+        <?php
+        if ( class_exists( 'MKX_Wishlist' ) ) {
+            MKX_Wishlist()->add_button_loop();
+        }
+        if ( class_exists( 'MKX_Compare' ) ) {
+            MKX_Compare()->add_button_loop();
+        }
+        ?>
     </div>
 
 </li>

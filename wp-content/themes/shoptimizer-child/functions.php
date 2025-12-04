@@ -4,7 +4,7 @@
  * Обновленная версия с кастомными системами wishlist и compare
  *
  * @package Shoptimizer Child
- * @version 1.5.0
+ * @version 1.6.0
  * @author KB
  * @link https://kowb.ru
  */
@@ -56,6 +56,7 @@ require_once get_stylesheet_directory() . '/inc/features/notifications.php';
 require_once get_stylesheet_directory() . '/inc/features/action-badges.php';
 require_once get_stylesheet_directory() . '/inc/features/custom-wishlist.php';
 require_once get_stylesheet_directory() . '/inc/features/custom-compare.php';
+require_once get_stylesheet_directory() . '/inc/features/custom-account.php';
 require_once get_stylesheet_directory() . '/inc/mobile-nav.php';
 require_once get_stylesheet_directory() . '/inc/template-tags.php';
 require_once get_stylesheet_directory() . '/inc/widget-clear-filters.php';

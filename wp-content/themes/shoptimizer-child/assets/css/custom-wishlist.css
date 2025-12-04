@@ -212,6 +212,10 @@
 }
 
 @media (max-width: 768px) {
+    .mkx-wishlist-page {
+        margin: var(--mkx-spacing-md, 1rem) 0;
+    }
+
     .mkx-wishlist-table {
         border: none;
     }
@@ -220,56 +224,75 @@
         display: none;
     }
     
-    .mkx-wishlist-table tbody,
-    .mkx-wishlist-table tr,
-    .mkx-wishlist-table td {
-        display: block;
-        width: 100%;
+    .mkx-wishlist-table tbody {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--mkx-spacing-md, 1rem);
     }
     
     .mkx-wishlist-table tr {
+        display: flex;
+        flex-direction: column;
         border: 1px solid var(--mkx-border-color, #e0e0e0);
         border-radius: var(--mkx-border-radius, 8px);
-        margin-bottom: 1rem;
-        padding: 1rem;
+        padding: var(--mkx-spacing-md, 1rem);
         background: var(--mkx-bg-white, #fff);
+        position: relative;
     }
     
     .mkx-wishlist-table td {
-        padding: 0.5rem 0;
+        display: block;
+        width: 100%;
+        padding: var(--mkx-spacing-xs, 0.25rem) 0;
         border: none;
-        text-align: left !important;
+        text-align: center;
     }
     
     .mkx-wishlist-table .product-remove {
-        text-align: right;
-        margin-bottom: 0.5rem;
+        position: absolute;
+        top: var(--mkx-spacing-xs, 0.5rem);
+        right: var(--mkx-spacing-xs, 0.5rem);
     }
     
     .mkx-wishlist-table .product-thumbnail {
-        text-align: center;
-        margin-bottom: 1rem;
+        margin-bottom: var(--mkx-spacing-sm, 0.75rem);
     }
     
     .mkx-wishlist-table .product-thumbnail img {
-        max-width: 120px;
+        max-width: 100%;
+        height: auto;
     }
     
-    .mkx-wishlist-table .product-name,
-    .mkx-wishlist-table .product-price,
-    .mkx-wishlist-table .product-stock,
+    .mkx-wishlist-table .product-name {
+        margin-bottom: var(--mkx-spacing-xs, 0.5rem);
+        font-size: 0.875rem;
+        line-height: 1.3;
+    }
+
+    .mkx-wishlist-table .product-name a {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .mkx-wishlist-table .product-price {
+        margin-bottom: var(--mkx-spacing-xs, 0.5rem);
+        font-size: 1rem;
+    }
+    
+    .mkx-wishlist-table .product-stock {
+        margin-bottom: var(--mkx-spacing-sm, 0.75rem);
+        font-size: 0.875rem;
+    }
+    
     .mkx-wishlist-table .product-add-to-cart {
         width: 100%;
     }
-    
-    .mkx-wishlist-table td:before {
-        content: attr(data-label);
-        font-weight: 600;
-        margin-right: 0.5rem;
-    }
-    
-    .mkx-wishlist-table .product-thumbnail:before,
-    .mkx-wishlist-table .product-remove:before {
-        content: none;
+
+    .mkx-wishlist-table .product-add-to-cart .button {
+        width: 100%;
+        padding: var(--mkx-spacing-xs, 0.5rem);
+        font-size: 0.875rem;
     }
 }

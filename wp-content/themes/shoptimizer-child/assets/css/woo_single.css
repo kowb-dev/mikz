@@ -251,6 +251,58 @@
     transform: translateY(0) !important;
 }
 
+.product-actions {
+    display: flex !important;
+    gap: var(--mkx-spacing-sm, 0.75rem) !important;
+    margin: var(--mkx-spacing-md, 1rem) 0 !important;
+}
+
+.product-actions .mkx-wishlist-wrapper,
+.product-actions .mkx-compare-wrapper {
+    margin: 0 !important;
+}
+
+.product-actions .mkx-wishlist-btn-single,
+.product-actions .mkx-compare-btn-single {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: var(--mkx-spacing-xs, 0.5rem) !important;
+    padding: var(--mkx-spacing-sm, 0.75rem) var(--mkx-spacing-md, 1rem) !important;
+    font-size: 0.9375rem !important;
+    border: 1px solid var(--mkx-border-color, #e0e0e0) !important;
+    border-radius: var(--mkx-border-radius-sm, 4px) !important;
+    background: var(--mkx-bg-white, #fff) !important;
+    color: var(--mkx-text-color, #333) !important;
+    text-decoration: none !important;
+    transition: all 0.3s var(--mkx-ease, ease) !important;
+    cursor: pointer !important;
+}
+
+.product-actions .mkx-wishlist-btn-single:hover {
+    border-color: var(--mkx-primary-color, #e91e63) !important;
+    background: var(--mkx-primary-color, #e91e63) !important;
+    color: var(--mkx-white, #fff) !important;
+}
+
+.product-actions .mkx-compare-btn-single:hover {
+    border-color: var(--mkx-secondary-color, #2196f3) !important;
+    background: var(--mkx-secondary-color, #2196f3) !important;
+    color: var(--mkx-white, #fff) !important;
+}
+
+.product-actions .mkx-wishlist-btn-single.added {
+    border-color: var(--mkx-primary-color, #e91e63) !important;
+    background: var(--mkx-primary-color, #e91e63) !important;
+    color: var(--mkx-white, #fff) !important;
+}
+
+.product-actions .mkx-compare-btn-single.added {
+    border-color: var(--mkx-secondary-color, #2196f3) !important;
+    background: var(--mkx-secondary-color, #2196f3) !important;
+    color: var(--mkx-white, #fff) !important;
+}
+
 /* Product meta */
 .summary.entry-summary .product_meta,
 .product_meta {

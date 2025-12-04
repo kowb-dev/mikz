@@ -41,10 +41,27 @@
         height: 100% !important;
     }
 
-    /* Hide list-specific wrappers on mobile */
-    .mkz-product-list-item__price-actions-wrapper,
-    .mkz-product-list-item__yith-buttons {
+    .mkz-product-list-item__price-actions-wrapper {
         display: none !important;
+    }
+
+    .mkz-product-list-item__action-buttons {
+        position: absolute;
+        top: var(--mkx-spacing-sm, 0.75rem);
+        right: var(--mkx-spacing-sm, 0.75rem);
+        flex-direction: row;
+        gap: var(--mkx-spacing-xs, 0.5rem);
+        margin: 0;
+        z-index: 1;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .mkz-product-list-item__action-buttons .mkx-wishlist-btn,
+    .mkz-product-list-item__action-buttons .mkx-compare-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
     }
 
 
@@ -315,6 +332,55 @@
     .wc-product-table-above,
     .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
         font-size: 11px;
+    }
+}
+
+/* =============================================================================
+   BLOG CATEGORY & ARCHIVE MOBILE
+   ============================================================================= */
+
+@media (max-width: 768px) {
+    .blog .site-main.grid.grid-3,
+    .archive .site-main.grid.grid-3 {
+        grid-template-columns: 1fr !important;
+        gap: var(--mkx-spacing-lg, 2rem) !important;
+    }
+
+    .blog .page-header,
+    .archive .page-header {
+        margin-bottom: var(--mkx-spacing-lg, 2rem);
+    }
+
+    .blog article,
+    .archive article {
+        padding: var(--mkx-spacing-md, 1.5rem);
+        border: 1px solid var(--mkx-border-color, #e0e0e0);
+        border-radius: var(--mkx-border-radius, 8px);
+        background: var(--mkx-bg-white, #fff);
+    }
+
+    .blog .entry-thumbnail,
+    .archive .entry-thumbnail {
+        margin-bottom: var(--mkx-spacing-md, 1rem);
+    }
+
+    .blog .entry-thumbnail img,
+    .archive .entry-thumbnail img {
+        width: 100%;
+        height: auto;
+        border-radius: var(--mkx-border-radius-sm, 4px);
+    }
+
+    .blog .entry-title,
+    .archive .entry-title {
+        font-size: var(--mkx-fs-lg, 1.25rem);
+        margin-bottom: var(--mkx-spacing-sm, 0.75rem);
+    }
+
+    .blog .entry-content,
+    .archive .entry-content {
+        font-size: var(--mkx-fs-base, 1rem);
+        line-height: 1.6;
     }
 }
 
