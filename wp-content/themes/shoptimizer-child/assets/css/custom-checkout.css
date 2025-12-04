@@ -4,8 +4,8 @@
 
 .woocommerce-checkout .col2-set {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--mkx-spacing-xl, 3rem);
+    grid-template-columns: 1fr;
+    gap: 0;
     margin-bottom: var(--mkx-spacing-xl, 3rem);
 }
 
@@ -195,13 +195,6 @@
     margin: var(--mkx-spacing-sm, 0.75rem) 0;
     font-size: 0.875rem;
     color: var(--mkx-text-secondary, #666);
-}
-
-@media (max-width: 1024px) {
-    .woocommerce-checkout .col2-set {
-        grid-template-columns: 1fr;
-        gap: var(--mkx-spacing-lg, 2rem);
-    }
 }
 
 @media (max-width: 768px) {
