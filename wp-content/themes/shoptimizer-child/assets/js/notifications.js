@@ -7,7 +7,7 @@
         productNameCache: {},
 
         init: function() {
-            this.version = '1.0.5';
+            this.version = '1.1.0';
             this.container = $('#mkx-notification-container');
             this.bindEvents();
             this.observeActionButtons();
@@ -23,13 +23,11 @@
                 }
             };
 
-            // Observer for Compare buttons
             document.querySelectorAll('a.compare').forEach(button => {
                 const observer = new MutationObserver(mutations => observerCallback(mutations, button, 'ph ph-chart-bar'));
                 observer.observe(button, { childList: true });
             });
 
-            // Observer for Wishlist buttons
             document.querySelectorAll('.yith-wcwl-add-to-wishlist-btn').forEach(button => {
                 const observer = new MutationObserver(mutations => observerCallback(mutations, button, 'ph ph-heart'));
                 observer.observe(button, { childList: true });
@@ -48,7 +46,7 @@
 
             $(document.body).on('added_to_wishlist', function(e, el) {
                 const $button = $(el);
-                const productId = $button.data('product-id');
+                const productId = $button.data('product-id') || $button.data('product_id');
                 self.getProductName(productId, function(productName) {
                     self.show('wishlist', mkxNotifications.addedToWishlist, productName);
                 });
@@ -60,17 +58,57 @@
 
             $(document.body).on('yith_woocompare_product_added', function(e, el) {
                 const $button = $(el);
-                const productId = $button.data('product_id');
+                const productId = $button.data('product_id') || $button.attr('data-product_id');
                 self.getProductName(productId, function(productName) {
                     self.show('compare', mkxNotifications.addedToCompare, productName);
                 });
+            });
+
+            $(document.body).on('yith_woocompare_product_removed', function() {
+                self.show('compare', 'Удалено из сравнения', 'Товар');
+            });
+
+            $(document.body).on('click', '.add_to_cart_button', function(e) {
+                const $button = $(this);
+                const productId = $button.data('product_id');
+                
+                if (!$button.hasClass('loading')) {
+                    setTimeout(function() {
+                        if ($button.hasClass('added')) {
+                            self.getProductName(productId, function(productName) {
+                                self.show('cart', mkxNotifications.addedToCart, productName);
+                            });
+                        }
+                    }, 300);
+                }
+            });
+
+            $(document.body).on('click', 'a.compare:not(.added)', function(e) {
+                const $button = $(this);
+                const productId = $button.data('product_id') || $button.attr('data-product_id');
+                
+                setTimeout(function() {
+                    self.getProductName(productId, function(productName) {
+                        self.show('compare', mkxNotifications.addedToCompare, productName);
+                    });
+                }, 300);
+            });
+
+            $(document.body).on('click', '.yith-wcwl-add-button a:not(.added)', function(e) {
+                const $button = $(this);
+                const productId = $button.data('product-id') || $button.data('product_id');
+                
+                setTimeout(function() {
+                    self.getProductName(productId, function(productName) {
+                        self.show('wishlist', mkxNotifications.addedToWishlist, productName);
+                    });
+                }, 300);
             });
 
             $(document).on('click', '.mkx-notification-close', function() {
                 self.close($(this).closest('.mkx-notification'));
             });
 
-            // Re-observe buttons after AJAX content is loaded (e.g., pagination)
             $(document.body).on('post-load', function() {
                 self.observeActionButtons();
             });
@@ -87,6 +125,16 @@
             if (self.productNameCache[productId]) {
                 callback(self.productNameCache[productId]);
                 return;
+            }
+
+            const $productItem = $(`[data-product_id="${productId}"], [data-product-id="${productId}"]`).closest('.product, li.type-product');
+            if ($productItem.length) {
+                const productName = $productItem.find('.woocommerce-loop-product__title, h2.woocommerce-loop-product__title, .product_title').first().text().trim();
+                if (productName) {
+                    self.productNameCache[productId] = productName;
+                    callback(productName);
+                    return;
+                }
             }
 
             $.ajax({
