@@ -79,12 +79,6 @@ input[type="search"] {
     justify-content: center !important;
 }
 
-@media (max-width: 768px) {
-    .content-area  {
-        flex-direction: column;
-    }
-}
-
 /* UTILITY CLASSES */
 .mkx-screen-reader-text {
     position: absolute !important;

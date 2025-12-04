@@ -82,18 +82,18 @@ function shoptimizer_child_enqueue_styles_scripts() {
 
     if ( is_cart() ) {
         wp_enqueue_style(
-            'mkx-custom-cart',
+            'mkx-cart',
             get_stylesheet_directory_uri() . '/assets/css/custom-cart.css',
-            array('mkx-woo_base'),
+            array(),
             $version
         );
     }
 
     if ( is_checkout() ) {
         wp_enqueue_style(
-            'mkx-custom-checkout',
+            'mkx-checkout',
             get_stylesheet_directory_uri() . '/assets/css/custom-checkout.css',
-            array('mkx-woo_base'),
+            array(),
             $version
         );
     }
