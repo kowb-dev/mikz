@@ -3,7 +3,7 @@
  * Custom Notification System
  *
  * @package Shoptimizer Child
- * @version 1.3.0
+ * @version 1.4.0
  * @author KB
  * @link https://kowb.ru
  */
@@ -17,14 +17,14 @@ function mkx_enqueue_notification_assets() {
         'mkx-notifications',
         get_stylesheet_directory_uri() . '/assets/css/notifications.css',
         array(),
-        '1.3.0'
+        '1.4.0'
     );
 
     wp_enqueue_script(
         'mkx-notifications',
         get_stylesheet_directory_uri() . '/assets/js/notifications.js',
         array( 'jquery' ),
-        '1.3.0',
+        '1.4.0',
         true
     );
 

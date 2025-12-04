@@ -1,0 +1,176 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║                    СПИСОК ИЗМЕНЕННЫХ ФАЙЛОВ v1.4.0                    ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+ИЗМЕНЕННЫЕ ФАЙЛЫ:
+═════════════════
+
+JavaScript:
+───────────
+1. wp-content/themes/shoptimizer-child/assets/js/notifications.js
+   Версия: 1.3.0 → 1.4.0
+   Строки: 245 → 210 (-35 строк)
+   Изменения:
+   - Удалены дублирующиеся обработчики клика wishlist (строки 103-122)
+   - Увеличен debounce: 1000ms → 1500ms
+   - Улучшена обработка события added_to_wishlist
+
+2. wp-content/themes/shoptimizer-child/assets/js/action-badges.js
+   Версия: 1.3.0 → 1.4.0
+   Изменения:
+   - Добавлены множественные проверки обновления счетчиков
+   - Wishlist: 100ms + 500ms
+   - Compare: 100ms + 500ms
+   - Cart remove: 100ms + 500ms + 1000ms
+   - Добавлен обработчик wc_cart_button_updated
+
+PHP:
+────
+3. wp-content/themes/shoptimizer-child/inc/features/notifications.php
+   Версия: 1.3.0 → 1.4.0
+   Изменения:
+   - Обновлена версия CSS (строка 20)
+   - Обновлена версия JS (строка 27)
+   - Обновлен docblock @version (строка 6)
+
+4. wp-content/themes/shoptimizer-child/inc/features/action-badges.php
+   Версия: 1.3.0 → 1.4.0
+   Изменения:
+   - Обновлена версия JS (строка 38)
+   - Обновлен docblock @version (строка 6)
+
+5. wp-content/themes/shoptimizer-child/functions.php
+   Версия: 1.0.9 → 1.1.0
+   Изменения:
+   - Подключен новый файл yith-wishlist-fixes.php (строка 68)
+   - Обновлен docblock @version (строка 7)
+
+───────────────────────────────────────────────────────────────────────
+
+НОВЫЕ ФАЙЛЫ:
+════════════
+
+6. wp-content/themes/shoptimizer-child/inc/yith-wishlist-fixes.php
+   Версия: 1.0.0 (новый)
+   Размер: 2.8KB
+   Назначение:
+   - AJAX интеграция с YITH Wishlist
+   - Локализация YITH скриптов
+   - Принудительное включение AJAX режима
+   - Подавление стандартных уведомлений YITH
+   
+   Функции:
+   - mkx_yith_wishlist_ajax_update_count()
+   - mkx_yith_wishlist_localize_scripts()
+   - mkx_yith_wishlist_suppress_default_message()
+   - mkx_yith_wishlist_enable_ajax()
+
+───────────────────────────────────────────────────────────────────────
+
+ФАЙЛЫ ДОКУМЕНТАЦИИ:
+═══════════════════
+
+7. CHANGELOG_v1.4.0.md (6.3KB)
+   - Полное описание всех изменений
+   - Технические детали
+   - Результаты тестирования
+
+8. FIXES_WISHLIST_CART.md (2.8KB)
+   - Краткое описание исправленных проблем
+   - Внесенные изменения
+   - Результаты
+
+9. SUMMARY_FIXES.txt (3.0KB)
+   - Краткая сводка изменений
+   - Список файлов
+   - Действия после обновления
+
+10. README_FIXES_v1.4.0.txt (4.8KB)
+    - Подробная инструкция
+    - Что было исправлено
+    - Проверка после обновления
+
+11. CHECKLIST_v1.4.0.txt (5.2KB)
+    - Чеклист тестирования
+    - Возможные проблемы и решения
+    - Откат изменений
+
+12. FILES_MODIFIED_v1.4.0.txt
+    - Этот файл
+    - Полный список измененных файлов
+
+───────────────────────────────────────────────────────────────────────
+
+ИТОГО:
+══════
+
+Измененных файлов:   5
+Новых файлов:        1
+Документации:        6
+Всего:              12
+
+───────────────────────────────────────────────────────────────────────
+
+СТРУКТУРА ИЗМЕНЕНИЙ:
+════════════════════
+
+wp-content/themes/shoptimizer-child/
+├── assets/js/
+│   ├── notifications.js         [ИЗМЕНЕН] v1.4.0
+│   └── action-badges.js         [ИЗМЕНЕН] v1.4.0
+│
+├── inc/
+│   ├── features/
+│   │   ├── notifications.php    [ИЗМЕНЕН] v1.4.0
+│   │   └── action-badges.php    [ИЗМЕНЕН] v1.4.0
+│   │
+│   └── yith-wishlist-fixes.php  [НОВЫЙ]   v1.0.0
+│
+└── functions.php                [ИЗМЕНЕН] v1.1.0
+
+Корень проекта:
+├── CHANGELOG_v1.4.0.md
+├── FIXES_WISHLIST_CART.md
+├── SUMMARY_FIXES.txt
+├── README_FIXES_v1.4.0.txt
+├── CHECKLIST_v1.4.0.txt
+└── FILES_MODIFIED_v1.4.0.txt
+
+───────────────────────────────────────────────────────────────────────
+
+КОНТРОЛЬНЫЕ СУММЫ (для проверки):
+═════════════════════════════════
+
+notifications.js:     210 строк, v1.4.0
+action-badges.js:     225 строк, v1.4.0
+notifications.php:     65 строк, v1.4.0
+action-badges.php:     78 строк, v1.4.0
+yith-wishlist-fixes.php: 75 строк, v1.0.0
+functions.php:        124 строки, v1.1.0
+
+───────────────────────────────────────────────────────────────────────
+
+ПРОВЕРКА ВЕРСИЙ (команды для терминала):
+═════════════════════════════════════════
+
+# JavaScript версии:
+grep "version.*1.4.0" wp-content/themes/shoptimizer-child/assets/js/notifications.js
+grep "version.*1.4.0" wp-content/themes/shoptimizer-child/assets/js/action-badges.js
+
+# PHP версии:
+grep "@version 1.4.0" wp-content/themes/shoptimizer-child/inc/features/notifications.php
+grep "@version 1.4.0" wp-content/themes/shoptimizer-child/inc/features/action-badges.php
+grep "@version 1.1.0" wp-content/themes/shoptimizer-child/functions.php
+
+# Новый файл:
+ls -lh wp-content/themes/shoptimizer-child/inc/yith-wishlist-fixes.php
+
+───────────────────────────────────────────────────────────────────────
+
+ДАТА ИЗМЕНЕНИЙ: 04 декабря 2024
+АВТОР: KB
+САЙТ: https://kowb.ru
+
+╔═══════════════════════════════════════════════════════════════════════╗
+║                           КОНЕЦ ДОКУМЕНТА                             ║
+╚═══════════════════════════════════════════════════════════════════════╝

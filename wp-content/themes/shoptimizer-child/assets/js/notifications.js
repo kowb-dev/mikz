@@ -8,7 +8,7 @@
         notificationDebounce: {},
 
         init: function() {
-            this.version = '1.3.0';
+            this.version = '1.4.0';
             this.container = $('#mkx-notification-container');
             this.bindEvents();
             this.observeActionButtons();
@@ -58,9 +58,13 @@
                 });
             });
 
-            $(document.body).on('added_to_wishlist', function(e, el) {
+            $(document.body).on('added_to_wishlist', function(e, el, data) {
                 const $button = $(el);
-                const productId = $button.data('product-id') || $button.data('product_id');
+                const productId = $button.data('product-id') || $button.data('product_id') || (data && data.product_id);
+                
+                if (!productId) {
+                    return;
+                }
                 
                 const key = 'wishlist_' + productId;
                 if (self.notificationDebounce[key]) {
@@ -68,7 +72,7 @@
                 }
                 
                 self.notificationDebounce[key] = true;
-                setTimeout(() => delete self.notificationDebounce[key], 1000);
+                setTimeout(() => delete self.notificationDebounce[key], 1500);
                 
                 self.getProductName(productId, function(productName) {
                     self.show('wishlist', mkxNotifications.addedToWishlist, productName);
@@ -83,13 +87,17 @@
                 const $button = $(el);
                 const productId = $button.data('product_id') || $button.attr('data-product_id');
                 
+                if (!productId) {
+                    return;
+                }
+                
                 const key = 'compare_' + productId;
                 if (self.notificationDebounce[key]) {
                     return;
                 }
                 
                 self.notificationDebounce[key] = true;
-                setTimeout(() => delete self.notificationDebounce[key], 1000);
+                setTimeout(() => delete self.notificationDebounce[key], 1500);
                 
                 self.getProductName(productId, function(productName) {
                     self.show('compare', mkxNotifications.addedToCompare, productName);
@@ -98,48 +106,6 @@
 
             $(document.body).on('yith_woocompare_product_removed', function() {
                 self.show('compare', 'Удалено из сравнения', 'Товар');
-            });
-
-            $(document.body).on('click', '.yith-wcwl-add-button a, a.add_to_wishlist', function() {
-                const $button = $(this);
-                const productId = $button.data('product-id') || $button.data('product_id');
-                
-                if (productId && !$button.hasClass('loading')) {
-                    setTimeout(function() {
-                        const key = 'wishlist_click_' + productId;
-                        if (self.notificationDebounce[key]) {
-                            return;
-                        }
-                        
-                        self.notificationDebounce[key] = true;
-                        setTimeout(() => delete self.notificationDebounce[key], 2000);
-                        
-                        self.getProductName(productId, function(productName) {
-                            self.show('wishlist', mkxNotifications.addedToWishlist, productName);
-                        });
-                    }, 800);
-                }
-            });
-
-            $(document.body).on('click', 'a.compare:not(.added)', function() {
-                const $button = $(this);
-                const productId = $button.data('product_id') || $button.attr('data-product_id');
-                
-                if (productId) {
-                    setTimeout(function() {
-                        const key = 'compare_click_' + productId;
-                        if (self.notificationDebounce[key]) {
-                            return;
-                        }
-                        
-                        self.notificationDebounce[key] = true;
-                        setTimeout(() => delete self.notificationDebounce[key], 2000);
-                        
-                        self.getProductName(productId, function(productName) {
-                            self.show('compare', mkxNotifications.addedToCompare, productName);
-                        });
-                    }, 800);
-                }
             });
 
             $(document).on('click', '.mkx-notification-close', function() {

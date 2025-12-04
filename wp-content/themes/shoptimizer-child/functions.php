@@ -4,7 +4,7 @@
  * Обновленная версия с исправленными модулями email
  *
  * @package Shoptimizer Child
- * @version 1.0.9
+ * @version 1.1.0
  * @author KB
  * @link https://kowb.ru
  */
@@ -65,6 +65,7 @@ if ( class_exists( 'WooCommerce' ) ) {
     require_once get_stylesheet_directory() . '/inc/integrations/woocommerce/functions.php';
     require_once get_stylesheet_directory() . '/inc/product-summary.php';
     require_once get_stylesheet_directory() . '/inc/yith-compare-fixes.php';
+    require_once get_stylesheet_directory() . '/inc/yith-wishlist-fixes.php';
 }
 
 // Административные функции (только в админке)
