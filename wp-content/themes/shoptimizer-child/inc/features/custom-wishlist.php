@@ -228,12 +228,13 @@ class MKX_Wishlist {
         echo '<th class="product-name">Товар</th>';
         echo '<th class="product-price">Цена</th>';
         echo '<th class="product-stock">Наличие</th>';
-        echo '<th class="product-add-to-cart">Действия</th>';
+        echo '<th class="product-add-to-cart">В корзину</th>';
         echo '</tr>';
         echo '</thead>';
         echo '<tbody>';
         
         foreach ( $wishlist as $product_id ) {
+            global $product;
             $product = wc_get_product( $product_id );
             if ( ! $product ) {
                 continue;
