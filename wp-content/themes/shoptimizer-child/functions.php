@@ -57,6 +57,7 @@ require_once get_stylesheet_directory() . '/inc/features/action-badges.php';
 require_once get_stylesheet_directory() . '/inc/features/custom-wishlist.php';
 require_once get_stylesheet_directory() . '/inc/features/custom-compare.php';
 require_once get_stylesheet_directory() . '/inc/features/custom-account.php';
+require_once get_stylesheet_directory() . '/inc/product-actions-custom.php';
 require_once get_stylesheet_directory() . '/inc/mobile-nav.php';
 require_once get_stylesheet_directory() . '/inc/template-tags.php';
 require_once get_stylesheet_directory() . '/inc/widget-clear-filters.php';
