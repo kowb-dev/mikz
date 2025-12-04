@@ -4,7 +4,7 @@
  * Modular CSS architecture for better maintainability
  *
  * @package Shoptimizer Child
- * @version 1.2.1
+ * @version 1.6.0
  * @author KB
  * @link https://kowb.ru
  */
@@ -77,6 +77,24 @@ function shoptimizer_child_enqueue_styles_scripts() {
             get_stylesheet_directory_uri() . '/assets/css/' . $file . '.css',
             array_map(function($dep) { return 'mkx-' . $dep; }, $deps),
             $file_version
+        );
+    }
+
+    if ( is_cart() ) {
+        wp_enqueue_style(
+            'mkx-cart',
+            get_stylesheet_directory_uri() . '/assets/css/custom-cart.css',
+            array(),
+            $version
+        );
+    }
+
+    if ( is_checkout() ) {
+        wp_enqueue_style(
+            'mkx-checkout',
+            get_stylesheet_directory_uri() . '/assets/css/custom-checkout.css',
+            array(),
+            $version
         );
     }
 

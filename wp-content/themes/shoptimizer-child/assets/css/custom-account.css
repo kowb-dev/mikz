@@ -1,0 +1,188 @@
+.mkx-auth-container {
+    max-width: var(--mkx-form-max-width, 500px);
+    margin: var(--mkx-spacing-xl, 3rem) auto;
+    padding: var(--mkx-spacing-lg, 2rem);
+    background: var(--mkx-bg-white, #fff);
+    border: 1px solid var(--mkx-border-color, #e0e0e0);
+    border-radius: var(--mkx-border-radius, 8px);
+    box-shadow: var(--mkx-shadow-sm, 0 2px 8px rgba(0,0,0,0.05));
+}
+
+.mkx-auth-toggle {
+    display: flex;
+    gap: var(--mkx-spacing-xs, 0.5rem);
+    margin-bottom: var(--mkx-spacing-lg, 2rem);
+    padding: var(--mkx-spacing-xs, 0.5rem);
+    background: var(--mkx-bg-light, #f8f8f8);
+    border-radius: var(--mkx-border-radius, 8px);
+}
+
+.mkx-auth-tab {
+    flex: 1;
+    padding: var(--mkx-spacing-sm, 0.75rem) var(--mkx-spacing-md, 1rem);
+    background: transparent;
+    border: none;
+    border-radius: var(--mkx-border-radius-sm, 4px);
+    color: var(--mkx-text-secondary, #666);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s var(--mkx-ease, ease);
+}
+
+.mkx-auth-tab:hover {
+    color: var(--mkx-text-color, #333);
+    background: rgba(0,0,0,0.05);
+}
+
+.mkx-auth-tab.active {
+    background: var(--mkx-bg-white, #fff);
+    color: var(--mkx-primary-color, #e91e63);
+    box-shadow: var(--mkx-shadow-sm, 0 2px 4px rgba(0,0,0,0.1));
+}
+
+.mkx-auth-message {
+    display: flex;
+    align-items: center;
+    gap: var(--mkx-spacing-sm, 0.75rem);
+    padding: var(--mkx-spacing-md, 1rem);
+    margin-bottom: var(--mkx-spacing-lg, 2rem);
+    border-radius: var(--mkx-border-radius-sm, 4px);
+}
+
+.mkx-auth-message.success {
+    background: var(--mkx-success-light, rgba(76, 175, 80, 0.1));
+    border: 1px solid var(--mkx-success-color, #4caf50);
+    color: var(--mkx-success-dark, #2e7d32);
+}
+
+.mkx-auth-message i {
+    font-size: 1.5rem;
+}
+
+.mkx-auth-form {
+    display: none;
+}
+
+.mkx-auth-form.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.mkx-form-group {
+    margin-bottom: var(--mkx-spacing-md, 1.5rem);
+}
+
+.mkx-form-group label {
+    display: block;
+    margin-bottom: var(--mkx-spacing-xs, 0.5rem);
+    color: var(--mkx-text-color, #333);
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.mkx-form-group label .required {
+    color: var(--mkx-error-color, #f44336);
+}
+
+.mkx-form-control {
+    width: 100%;
+    padding: var(--mkx-spacing-sm, 0.75rem) var(--mkx-spacing-md, 1rem);
+    border: 1px solid var(--mkx-border-color, #e0e0e0);
+    border-radius: var(--mkx-border-radius-sm, 4px);
+    font-size: 1rem;
+    color: var(--mkx-text-color, #333);
+    background: var(--mkx-bg-white, #fff);
+    transition: all 0.3s ease;
+}
+
+.mkx-form-control:focus {
+    outline: none;
+    border-color: var(--mkx-primary-color, #e91e63);
+    box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+}
+
+.mkx-form-control:disabled {
+    background: var(--mkx-bg-light, #f8f8f8);
+    cursor: not-allowed;
+}
+
+.mkx-form-remember {
+    margin-bottom: var(--mkx-spacing-md, 1.5rem);
+}
+
+.mkx-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--mkx-spacing-xs, 0.5rem);
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.mkx-checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    cursor: pointer;
+}
+
+.mkx-auth-submit {
+    width: 100%;
+    padding: var(--mkx-spacing-md, 1rem);
+    background: var(--mkx-primary-color, #e91e63);
+    color: var(--mkx-white, #fff);
+    border: none;
+    border-radius: var(--mkx-border-radius-sm, 4px);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mkx-auth-submit:hover {
+    background: var(--mkx-primary-dark, #c2185b);
+    transform: translateY(-1px);
+    box-shadow: var(--mkx-shadow-md, 0 4px 12px rgba(233, 30, 99, 0.3));
+}
+
+.mkx-auth-submit:active {
+    transform: translateY(0);
+}
+
+.mkx-auth-footer {
+    margin-top: var(--mkx-spacing-md, 1.5rem);
+    text-align: center;
+}
+
+.mkx-auth-footer a {
+    color: var(--mkx-primary-color, #e91e63);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.3s ease;
+}
+
+.mkx-auth-footer a:hover {
+    color: var(--mkx-primary-dark, #c2185b);
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .mkx-auth-container {
+        margin: var(--mkx-spacing-md, 1.5rem) auto;
+        padding: var(--mkx-spacing-md, 1.5rem);
+    }
+
+    .mkx-auth-tab {
+        font-size: 0.875rem;
+    }
+}

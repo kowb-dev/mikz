@@ -3,7 +3,7 @@
  * Custom Wishlist System
  *
  * @package Shoptimizer Child
- * @version 1.0.0
+ * @version 1.6.0
  * @author KB
  * @link https://kowb.ru
  */

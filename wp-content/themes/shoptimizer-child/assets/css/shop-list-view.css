@@ -32,7 +32,7 @@
 
 .woocommerce ul.products li.product:hover .mkz-product-list-item__info,
 .woocommerce ul.products li.product:hover .mkz-product-list-item__price-actions-wrapper,
-.woocommerce ul.products li.product:hover .mkz-product-list-item__yith-buttons {
+.woocommerce ul.products li.product:hover .mkz-product-list-item__action-buttons {
     opacity: 1 !important;
     visibility: visible !important;
 }
@@ -128,21 +128,21 @@
     margin-right: 1rem;
 }
 
-/* YITH Buttons */
-.mkz-product-list-item__yith-buttons {
-    flex: 0 0 15px;
+.mkz-product-list-item__action-buttons {
+    flex: 0 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    margin-left: 1rem;
+    gap: var(--mkx-spacing-xs, 0.5rem);
+    margin-left: var(--mkx-spacing-md, 1rem);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s var(--mkx-ease, ease);
 }
 
-.mkz-product-list-item__yith-buttons .yith-wcwl-add-to-wishlist .yith-wcwl-add-button,
-.mkz-product-list-item__yith-buttons .yith-compare {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+.mkz-product-list-item:hover .mkz-product-list-item__action-buttons {
+    opacity: 1;
+    visibility: visible;
 }
 .mkz-product-list-item p {
     margin: -1.2rem 0 0 0!important;
@@ -442,10 +442,13 @@ table.wc-product-table tbody td,
         width: 100%;
     }
     
-    .mkz-product-list-item__yith-buttons {
+    .mkz-product-list-item__action-buttons {
         margin-left: 0;
-        margin-top: var(--space-sm);
+        margin-top: var(--mkx-spacing-sm, 0.75rem);
         flex-direction: row;
         width: 100%;
+        justify-content: flex-start;
+        opacity: 1;
+        visibility: visible;
     }
 }

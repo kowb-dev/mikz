@@ -3,7 +3,7 @@
  * Custom Compare System
  *
  * @package Shoptimizer Child
- * @version 1.0.0
+ * @version 1.6.0
  * @author KB
  * @link https://kowb.ru
  */
@@ -271,6 +271,7 @@ class MKX_Compare {
         echo '</div>';
         
         echo '<div class="mkx-compare-table-wrapper">';
+        echo '<div class="mkx-compare-table-scroll">';
         echo '<table class="mkx-compare-table">';
         
         echo '<thead>';
@@ -325,7 +326,10 @@ class MKX_Compare {
         foreach ( $products as $product ) {
             echo '<td class="mkx-compare-field-value mkx-compare-actions">';
             if ( $product->is_purchasable() && $product->is_in_stock() ) {
-                woocommerce_template_loop_add_to_cart( array( 'product' => $product ) );
+                $cart_url = $product->add_to_cart_url();
+                echo '<a href="' . esc_url( $cart_url ) . '" class="mkx-compare-add-to-cart ajax_add_to_cart" data-product_id="' . esc_attr( $product->get_id() ) . '" data-quantity="1" title="' . esc_attr__( 'В корзину', 'shoptimizer-child' ) . '">';
+                echo '<i class="ph ph-shopping-cart-simple" aria-hidden="true"></i>';
+                echo '</a>';
             }
             echo '</td>';
         }
@@ -381,6 +385,7 @@ class MKX_Compare {
         
         echo '</tbody>';
         echo '</table>';
+        echo '</div>';
         echo '</div>';
         
         echo '</div>';
