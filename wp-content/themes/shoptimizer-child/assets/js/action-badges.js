@@ -3,7 +3,7 @@
 
     const MKXBadges = {
         init: function() {
-            this.version = '1.4.0';
+            this.version = '1.5.0';
             this.bindEvents();
             this.updateBadges();
             this.observePageChanges();
@@ -16,50 +16,16 @@
                 self.updateBadges();
             });
 
-            $(document.body).on('added_to_wishlist', function() {
+            $(document.body).on('mkx_added_to_wishlist mkx_removed_from_wishlist', function() {
                 setTimeout(() => self.updateBadges(), 100);
-                setTimeout(() => self.updateBadges(), 500);
             });
 
-            $(document.body).on('removed_from_wishlist', function() {
+            $(document.body).on('mkx_added_to_compare mkx_removed_from_compare mkx_compare_cleared', function() {
                 setTimeout(() => self.updateBadges(), 100);
-                setTimeout(() => self.updateBadges(), 500);
             });
 
-            $(document.body).on('yith_woocompare_product_added', function() {
+            $(document.body).on('click', '.woocommerce-cart .remove, .cart_item .remove', function(e) {
                 setTimeout(() => self.updateBadges(), 100);
-                setTimeout(() => self.updateBadges(), 500);
-            });
-
-            $(document.body).on('yith_woocompare_product_removed', function() {
-                setTimeout(() => self.updateBadges(), 100);
-                setTimeout(() => self.updateBadges(), 500);
-            });
-
-            $(document.body).on('click', '.yith-wcwl-add-to-wishlist a, a.add_to_wishlist', function() {
-                setTimeout(() => self.updateBadges(), 600);
-                setTimeout(() => self.updateBadges(), 1200);
-            });
-
-            $(document.body).on('click', 'a.remove_from_wishlist', function() {
-                setTimeout(() => self.updateBadges(), 600);
-            });
-
-            $(document.body).on('click', 'a.compare', function() {
-                setTimeout(() => self.updateBadges(), 600);
-            });
-
-            $(document.body).on('click', 'a.clear_all, .yith-woocompare-widget a.clear-all', function() {
-                setTimeout(() => self.updateBadges(), 500);
-            });
-
-            $(document.body).on('click', '.woocommerce-cart .remove, .cart_item .remove, a.remove', function(e) {
-                setTimeout(() => self.updateBadges(), 100);
-                setTimeout(() => self.updateBadges(), 500);
-                setTimeout(() => self.updateBadges(), 1000);
-            });
-
-            $(document.body).on('click', '#yith-woocompare .remove, table.compare-list .remove', function() {
                 setTimeout(() => self.updateBadges(), 500);
             });
 
@@ -73,7 +39,6 @@
 
             $(document.body).on('updated_wc_div', function() {
                 setTimeout(() => self.updateBadges(), 100);
-                setTimeout(() => self.updateBadges(), 500);
             });
 
             $(document.body).on('wc_cart_button_updated', function() {
@@ -99,26 +64,25 @@
                 }
             }
 
-            if ($('body.woocommerce-compare, #yith-woocompare').length) {
+            if ($('.mkx-compare-page').length) {
                 const compareObserver = new MutationObserver(function(mutations) {
                     mutations.forEach(function(mutation) {
-                        if (mutation.type === 'childList' || mutation.type === 'attributes') {
+                        if (mutation.type === 'childList') {
                             setTimeout(() => self.updateBadges(), 300);
                         }
                     });
                 });
 
-                const compareTable = document.querySelector('#yith-woocompare table.compare-list, .yith-woocompare-table');
+                const compareTable = document.querySelector('.mkx-compare-table');
                 if (compareTable) {
                     compareObserver.observe(compareTable, { 
                         childList: true, 
-                        subtree: true,
-                        attributes: true
+                        subtree: true
                     });
                 }
             }
 
-            if ($('body.woocommerce-wishlist, .wishlist_table').length) {
+            if ($('.mkx-wishlist-page').length) {
                 const wishlistObserver = new MutationObserver(function(mutations) {
                     mutations.forEach(function(mutation) {
                         if (mutation.type === 'childList' && mutation.removedNodes.length > 0) {
@@ -127,19 +91,11 @@
                     });
                 });
 
-                const wishlistTable = document.querySelector('.wishlist_table, .shop_table.wishlist_table');
+                const wishlistTable = document.querySelector('.mkx-wishlist-table');
                 if (wishlistTable) {
                     wishlistObserver.observe(wishlistTable, { childList: true, subtree: true });
                 }
             }
-
-            const cookieCheck = setInterval(function() {
-                const currentCompare = document.cookie.match(/yith_woocompare_list=([^;]+)/);
-                if (self.lastCompareCookie !== (currentCompare ? currentCompare[1] : '')) {
-                    self.lastCompareCookie = currentCompare ? currentCompare[1] : '';
-                    self.updateBadges();
-                }
-            }, 1000);
         },
 
         updateBadges: function() {

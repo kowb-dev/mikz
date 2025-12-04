@@ -1,10 +1,10 @@
 <?php
 /**
  * Функции дочерней темы Shoptimizer Child
- * Обновленная версия с исправленными модулями email
+ * Обновленная версия с кастомными системами wishlist и compare
  *
  * @package Shoptimizer Child
- * @version 1.1.0
+ * @version 1.5.0
  * @author KB
  * @link https://kowb.ru
  */
@@ -54,6 +54,8 @@ require_once get_stylesheet_directory() . '/inc/features/query-modifications.php
 require_once get_stylesheet_directory() . '/inc/features/wholesale-prices.php';
 require_once get_stylesheet_directory() . '/inc/features/notifications.php';
 require_once get_stylesheet_directory() . '/inc/features/action-badges.php';
+require_once get_stylesheet_directory() . '/inc/features/custom-wishlist.php';
+require_once get_stylesheet_directory() . '/inc/features/custom-compare.php';
 require_once get_stylesheet_directory() . '/inc/mobile-nav.php';
 require_once get_stylesheet_directory() . '/inc/template-tags.php';
 require_once get_stylesheet_directory() . '/inc/widget-clear-filters.php';
@@ -64,8 +66,6 @@ require_once get_stylesheet_directory() . '/inc/widget-custom-price-filter.php';
 if ( class_exists( 'WooCommerce' ) ) {
     require_once get_stylesheet_directory() . '/inc/integrations/woocommerce/functions.php';
     require_once get_stylesheet_directory() . '/inc/product-summary.php';
-    require_once get_stylesheet_directory() . '/inc/yith-compare-fixes.php';
-    require_once get_stylesheet_directory() . '/inc/yith-wishlist-fixes.php';
 }
 
 // Административные функции (только в админке)

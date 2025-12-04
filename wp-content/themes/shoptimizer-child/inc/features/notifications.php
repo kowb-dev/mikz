@@ -3,7 +3,7 @@
  * Custom Notification System
  *
  * @package Shoptimizer Child
- * @version 1.4.0
+ * @version 1.5.0
  * @author KB
  * @link https://kowb.ru
  */
@@ -17,14 +17,14 @@ function mkx_enqueue_notification_assets() {
         'mkx-notifications',
         get_stylesheet_directory_uri() . '/assets/css/notifications.css',
         array(),
-        '1.4.0'
+        '1.5.0'
     );
 
     wp_enqueue_script(
         'mkx-notifications',
         get_stylesheet_directory_uri() . '/assets/js/notifications.js',
         array( 'jquery' ),
-        '1.4.0',
+        '1.5.0',
         true
     );
 
@@ -37,6 +37,7 @@ function mkx_enqueue_notification_assets() {
         'addedToCompare' => __( 'Товар добавлен к сравнению', 'shoptimizer-child' ),
         'removedFromWishlist' => __( 'Товар удален из избранного', 'shoptimizer-child' ),
         'removedFromCompare' => __( 'Товар удален из сравнения', 'shoptimizer-child' ),
+        'removedFromCart' => __( 'Товар удален из корзины', 'shoptimizer-child' ),
     ) );
 }
 add_action( 'wp_enqueue_scripts', 'mkx_enqueue_notification_assets' );
