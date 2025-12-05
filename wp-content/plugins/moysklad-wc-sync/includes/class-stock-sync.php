@@ -5,7 +5,7 @@
  * Optimized for incremental stock updates with minimal server load
  *
  * @package MoySklad_WC_Sync
- * @version 2.1.0
+ * @version 2.2.0
  */
 
 declare(strict_types=1);
@@ -49,7 +49,8 @@ class Stock_Sync {
             PRIMARY KEY (id),
             UNIQUE KEY moysklad_id (moysklad_id),
             KEY product_id (product_id),
-            KEY sku (sku)
+            KEY sku (sku),
+            KEY updated_at (updated_at)
         ) $charset_collate;";
         
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';

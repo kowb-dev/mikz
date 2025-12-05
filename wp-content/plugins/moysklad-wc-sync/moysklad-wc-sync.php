@@ -3,7 +3,7 @@
  * Plugin Name: MoySklad WooCommerce Sync
  * Plugin URI: https://kowb.ru
  * Description: Оптимизированная односторонняя синхронизация из МойСклад в WooCommerce с инкрементальным обновлением остатков
- * Version: 2.1.0
+ * Version: 2.2.0
  * Author: KB
  * Author URI: https://kowb.ru
  * Text Domain: moysklad-wc-sync
@@ -37,7 +37,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants
-define('MS_WC_SYNC_VERSION', '2.1.0');
+define('MS_WC_SYNC_VERSION', '2.2.0');
 define('MS_WC_SYNC_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('MS_WC_SYNC_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('MS_WC_SYNC_MIN_PHP', '8.0');
@@ -169,22 +169,47 @@ final class Plugin {
             );
         }
 
-        // Create database tables
+        $previous_version = get_option('ms_wc_sync_version', '0.0.0');
+        
         Logger::create_table();
         Stock_Sync::create_tables();
         
-        // Schedule cron events
+        if (version_compare($previous_version, '2.2.0', '<')) {
+            $this->run_upgrade_to_220();
+        }
+        
+        update_option('ms_wc_sync_version', MS_WC_SYNC_VERSION);
+        
         $cron = Cron::get_instance();
         $cron->schedule_event();
         $cron->schedule_stock_sync();
         
-        // Register REST API endpoints
         if (get_option('ms_wc_sync_use_webhooks', 'no') === 'yes') {
             $webhook_handler = new Webhook_Handler();
             $webhook_handler->register_webhook_endpoint();
         }
         
         flush_rewrite_rules();
+    }
+    
+    private function run_upgrade_to_220(): void {
+        global $wpdb;
+        
+        $stock_table = $wpdb->prefix . 'ms_wc_sync_stock_data';
+        $logs_table = $wpdb->prefix . 'ms_wc_sync_logs';
+        
+        $wpdb->query("ALTER TABLE {$stock_table} ADD INDEX IF NOT EXISTS updated_at (updated_at)");
+        $wpdb->query("ALTER TABLE {$logs_table} ADD INDEX IF NOT EXISTS log_level_time (log_level, log_time)");
+        
+        if (!get_option('ms_wc_sync_webhook_secret')) {
+            update_option('ms_wc_sync_webhook_secret', wp_generate_password(32, false));
+        }
+        
+        $logger = new Logger();
+        $logger->log('info', 'Upgraded to version 2.2.0', [
+            'previous_version' => get_option('ms_wc_sync_version', 'unknown'),
+            'new_version' => '2.2.0'
+        ]);
     }
 
     public function deactivate(): void {

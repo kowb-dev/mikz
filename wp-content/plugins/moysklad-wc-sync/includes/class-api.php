@@ -3,7 +3,7 @@
  * MoySklad API Handler with Detailed Logging
  *
  * @package MoySklad_WC_Sync
- * @version 2.0.1
+ * @version 2.2.0
  * 
  * FILE: class-api.php
  * PATH: /wp-content/plugins/moysklad-wc-sync/includes/class-api.php
