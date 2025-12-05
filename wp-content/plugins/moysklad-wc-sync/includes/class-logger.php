@@ -3,7 +3,7 @@
  * Logger Class
  *
  * @package MoySklad_WC_Sync
- * @version 2.0.0
+ * @version 2.2.0
  * 
  * FILE: class-logger.php
  * PATH: /wp-content/plugins/moysklad-wc-sync/includes/class-logger.php
@@ -45,7 +45,8 @@ class Logger {
             context longtext DEFAULT NULL,
             PRIMARY KEY (id),
             KEY log_time (log_time),
-            KEY log_level (log_level)
+            KEY log_level (log_level),
+            KEY log_level_time (log_level, log_time)
         ) {$charset_collate};";
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';

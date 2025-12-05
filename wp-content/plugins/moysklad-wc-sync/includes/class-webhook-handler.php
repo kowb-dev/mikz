@@ -5,7 +5,7 @@
  * Handles incoming webhooks from MoySklad for real-time stock updates
  *
  * @package MoySklad_WC_Sync
- * @version 2.1.0
+ * @version 2.2.0
  */
 
 declare(strict_types=1);
