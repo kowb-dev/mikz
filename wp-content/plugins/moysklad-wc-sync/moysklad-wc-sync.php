@@ -2,8 +2,8 @@
 /**
  * Plugin Name: MoySklad WooCommerce Sync
  * Plugin URI: https://kowb.ru
- * Description: Простая односторонняя синхронизация из МойСклад в WooCommerce (товары, остатки, цены)
- * Version: 2.0.1
+ * Description: Оптимизированная односторонняя синхронизация из МойСклад в WooCommerce с инкрементальным обновлением остатков
+ * Version: 2.1.0
  * Author: KB
  * Author URI: https://kowb.ru
  * Text Domain: moysklad-wc-sync
@@ -37,7 +37,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants
-define('MS_WC_SYNC_VERSION', '2.0.0');
+define('MS_WC_SYNC_VERSION', '2.1.0');
 define('MS_WC_SYNC_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('MS_WC_SYNC_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('MS_WC_SYNC_MIN_PHP', '8.0');
@@ -114,6 +114,11 @@ final class Plugin {
     private function init_components(): void {
         Admin::get_instance();
         Cron::get_instance();
+        
+        // Initialize webhook handler if webhooks are enabled
+        if (get_option('ms_wc_sync_use_webhooks', 'no') === 'yes') {
+            new Webhook_Handler();
+        }
     }
 
     public function load_textdomain(): void {
@@ -164,14 +169,29 @@ final class Plugin {
             );
         }
 
+        // Create database tables
         Logger::create_table();
-        Cron::get_instance()->schedule_event();
+        Stock_Sync::create_tables();
+        
+        // Schedule cron events
+        $cron = Cron::get_instance();
+        $cron->schedule_event();
+        $cron->schedule_stock_sync();
+        
+        // Register REST API endpoints
+        if (get_option('ms_wc_sync_use_webhooks', 'no') === 'yes') {
+            $webhook_handler = new Webhook_Handler();
+            $webhook_handler->register_webhook_endpoint();
+        }
         
         flush_rewrite_rules();
     }
 
     public function deactivate(): void {
-        Cron::get_instance()->clear_scheduled_event();
+        $cron = Cron::get_instance();
+        $cron->clear_scheduled_event();
+        $cron->clear_stock_sync_event();
+        
         flush_rewrite_rules();
     }
 

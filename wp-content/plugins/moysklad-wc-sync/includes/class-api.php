@@ -27,9 +27,11 @@ class API {
 
     private string $token;
     private bool $debug_mode = true; // Включить детальное логирование
+    private Logger $logger;
 
     public function __construct(?string $token = null) {
         $this->token = $token ?? get_option('ms_wc_sync_api_token', '');
+        $this->logger = new Logger();
         
         // Логируем инициализацию
         if ($this->debug_mode) {
@@ -105,6 +107,30 @@ class API {
 
         return true;
     }
+    
+    /**
+     * Register a webhook with MoySklad
+     *
+     * @param array $webhook_data Webhook configuration
+     * @return array|\WP_Error
+     */
+    public function register_webhook(array $webhook_data): array|\WP_Error {
+        $this->log_debug('Registering webhook', $webhook_data);
+        
+        return $this->request('/entity/webhook', [], 'POST', $webhook_data);
+    }
+    
+    /**
+     * Delete a webhook from MoySklad
+     *
+     * @param string $webhook_id Webhook ID
+     * @return array|\WP_Error
+     */
+    public function delete_webhook(string $webhook_id): array|\WP_Error {
+        $this->log_debug('Deleting webhook', ['webhook_id' => $webhook_id]);
+        
+        return $this->request("/entity/webhook/{$webhook_id}", [], 'DELETE');
+    }
 
     /**
      * Make API request with retry logic and detailed logging
@@ -114,7 +140,7 @@ class API {
      * @param int $retry Current retry attempt
      * @return array|\WP_Error
      */
-    private function request(string $endpoint, array $params = [], int $retry = 0): array|\WP_Error {
+    public function request(string $endpoint, array $params = [], string $method = 'GET', array $body = [], int $retry = 0): array|\WP_Error {
         // Проверка токена
         if (empty($this->token)) {
             $error = new \WP_Error(
@@ -154,10 +180,34 @@ class API {
 
         // Выполнение запроса
         $request_start = microtime(true);
-        $response = wp_remote_get($url, [
+        $request_args = [
             'timeout' => self::TIMEOUT,
             'headers' => $headers,
-        ]);
+        ];
+        
+        // Add body for non-GET requests
+        if ($method !== 'GET' && !empty($body)) {
+            $request_args['body'] = wp_json_encode($body);
+        }
+        
+        // Execute request based on method
+        switch ($method) {
+            case 'POST':
+                $response = wp_remote_post($url, $request_args);
+                break;
+            case 'PUT':
+                $request_args['method'] = 'PUT';
+                $response = wp_remote_request($url, $request_args);
+                break;
+            case 'DELETE':
+                $request_args['method'] = 'DELETE';
+                $response = wp_remote_request($url, $request_args);
+                break;
+            case 'GET':
+            default:
+                $response = wp_remote_get($url, $request_args);
+                break;
+        }
         $request_duration = microtime(true) - $request_start;
 
         // Проверка на ошибки WordPress
@@ -174,7 +224,7 @@ class API {
                 $sleep_time = 2 ** $retry;
                 $this->log_debug("Retrying in {$sleep_time} seconds...");
                 sleep($sleep_time);
-                return $this->request($endpoint, $params, $retry + 1);
+                return $this->request($endpoint, $params, $method, $body, $retry + 1);
             }
             
             return $response;
@@ -322,6 +372,7 @@ class API {
         );
 
         error_log($log_entry);
+        $this->logger->log('debug', $message, $context);
     }
 
     /**
@@ -338,5 +389,6 @@ class API {
         );
 
         error_log($log_entry);
+        $this->logger->log('error', $message, $context);
     }
 }

@@ -26,10 +26,39 @@
 		}
 
 		bindEvents() {
-			$('#ms-wc-sync-manual').on('click', (e) => this.handleManualSync(e));
-			$('#ms-wc-sync-test-connection').on('click', (e) => this.handleTestConnection(e));
-			$('#ms-wc-sync-reset-lock').on('click', (e) => this.handleResetLock(e));
-			$('#ms-wc-sync-reschedule').on('click', (e) => this.handleReschedule(e));
+			// Tab navigation
+			$('.ms-wc-sync-tabs .nav-tab').on('click', (e) => {
+				e.preventDefault();
+				
+				const target = $(e.currentTarget).attr('href');
+				
+				$('.ms-wc-sync-tabs .nav-tab').removeClass('nav-tab-active');
+				$(e.currentTarget).addClass('nav-tab-active');
+				
+				$('.ms-wc-sync-tabs .tab-content').removeClass('active');
+				$(target).addClass('active');
+			});
+			
+			// Toggle context data
+			$('.toggle-context').on('click', (e) => {
+				const $context = $(e.currentTarget).next('.context-data');
+				
+				if ($context.is(':visible')) {
+					$context.hide();
+					$(e.currentTarget).text('Show');
+				} else {
+					$context.show();
+					$(e.currentTarget).text('Hide');
+				}
+			});
+			
+			// Main actions
+			$('#run-sync').on('click', (e) => this.handleManualSync(e));
+			$('#run-stock-sync').on('click', (e) => this.handleStockSync(e));
+			$('#test-connection').on('click', (e) => this.handleTestConnection(e));
+			$('#register-webhooks').on('click', (e) => this.handleRegisterWebhooks(e));
+			$('#reset-lock').on('click', (e) => this.handleResetLock(e));
+			$('#reschedule-cron').on('click', (e) => this.handleReschedule(e));
 		}
 
 		createProgressBar() {
@@ -183,6 +212,10 @@
 
 		async handleManualSync(e) {
 			e.preventDefault();
+
+			if (!confirm('Are you sure you want to run a full sync? This may take several minutes.')) {
+				return;
+			}
 
 			const $button = $(e.currentTarget);
 			const originalText = $button.text();
@@ -354,6 +387,93 @@
 				this.showMessage('Failed to reschedule cron', 'error');
 			} finally {
 				$button.prop('disabled', false).text(originalText);
+			}
+		}
+		async handleStockSync(e) {
+			e.preventDefault();
+			
+			if (!confirm('Are you sure you want to run a stock sync?')) {
+				return;
+			}
+			
+			const $button = $(e.currentTarget);
+			const originalText = $button.text();
+			
+			$button.prop('disabled', true).text('Running stock sync...');
+			$button.after('<span class="spinner is-active" style="float: none; margin: 0 5px;"></span>');
+			
+			try {
+				const response = await $.ajax({
+					url: msWcSync.ajax_url,
+					type: 'POST',
+					data: {
+						action: 'ms_wc_sync_stock_manual',
+						nonce: msWcSync.nonce
+					},
+					timeout: 60000
+				});
+				
+				if (response.success) {
+					const results = response.data;
+					const message = `Stock sync completed: ${results.updated} updated, ${results.skipped} skipped (${results.duration.toFixed(2)}s)`;
+					
+					this.showMessage(message, 'success');
+					
+					setTimeout(() => {
+						location.reload();
+					}, 2000);
+				} else {
+					const errorMessage = response.data?.message || 'Unknown error';
+					this.showMessage(`Stock sync failed: ${errorMessage}`, 'error');
+				}
+			} catch (error) {
+				console.error('Stock sync error:', error);
+				this.showMessage('Stock sync failed', 'error');
+			} finally {
+				$button.prop('disabled', false).text(originalText);
+				$button.next('.spinner').remove();
+			}
+		}
+		
+		async handleRegisterWebhooks(e) {
+			e.preventDefault();
+			
+			if (!confirm('Are you sure you want to register webhooks with MoySklad?')) {
+				return;
+			}
+			
+			const $button = $(e.currentTarget);
+			const originalText = $button.text();
+			
+			$button.prop('disabled', true).text('Registering webhooks...');
+			$button.after('<span class="spinner is-active" style="float: none; margin: 0 5px;"></span>');
+			
+			try {
+				const response = await $.ajax({
+					url: msWcSync.ajax_url,
+					type: 'POST',
+					data: {
+						action: 'ms_wc_sync_register_webhooks',
+						nonce: msWcSync.nonce
+					}
+				});
+				
+				if (response.success) {
+					this.showMessage(`Webhooks registered successfully: ${response.data.count} webhooks`, 'success');
+					
+					setTimeout(() => {
+						location.reload();
+					}, 2000);
+				} else {
+					const errorMessage = response.data?.message || 'Unknown error';
+					this.showMessage(`Failed to register webhooks: ${errorMessage}`, 'error');
+				}
+			} catch (error) {
+				console.error('Register webhooks error:', error);
+				this.showMessage('Failed to register webhooks', 'error');
+			} finally {
+				$button.prop('disabled', false).text(originalText);
+				$button.next('.spinner').remove();
 			}
 		}
 	}
