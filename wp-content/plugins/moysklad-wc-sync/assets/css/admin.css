@@ -1,10 +1,21 @@
 /**
- * Admin Styles with Progress Bar
+ * Admin Styles with Progress Bar and Tabs
  *
  * @package MoySklad_WC_Sync
- * @version 2.1.0
+ * @version 2.2.1
  */
 
+/* Tab Navigation */
+.nav-tab-wrapper {
+	margin: 20px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.ms-wc-sync-tab-content {
+	margin-top: 20px;
+}
+
+/* Dashboard */
 .ms-wc-sync-dashboard {
 	max-width: 1200px;
 }
@@ -40,6 +51,20 @@
 	color: #23282d;
 }
 
+/* Actions */
+.ms-wc-sync-actions {
+	margin: 2rem 0;
+	padding: 1.5rem;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.ms-wc-sync-actions .button {
+	margin-right: 0.5rem;
+}
+
+/* Settings Form */
 .ms-wc-sync-settings-form {
 	background: #fff;
 	border: 1px solid #ddd;
@@ -48,6 +73,24 @@
 	margin: 2rem 0;
 }
 
+/* Webhooks Info */
+.ms-wc-sync-webhooks-info {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 1.5rem;
+	margin: 2rem 0;
+}
+
+.ms-wc-sync-webhooks-info code {
+	display: inline-block;
+	padding: 4px 8px;
+	background: #f0f0f1;
+	border-radius: 3px;
+	font-size: 13px;
+}
+
+/* Messages */
 #ms-wc-sync-message {
 	margin: 1rem 0;
 }
@@ -57,6 +100,7 @@
 	margin: 0;
 }
 
+/* Log Levels */
 .ms-wc-sync-log-level {
 	display: inline-block;
 	padding: 4px 8px;
@@ -86,15 +130,18 @@
 	color: #383d41;
 }
 
+/* Buttons */
 .button#ms-wc-sync-manual,
 .button#ms-wc-sync-test-connection,
-.button#ms-wc-sync-reset-lock {
-	margin-left: 0.5rem;
+.button#ms-wc-sync-reset-lock,
+.button#ms-wc-sync-stock-manual,
+.button#ms-wc-sync-register-webhooks,
+.button#ms-wc-sync-reschedule {
+	margin-left: 0;
 }
 
-.button#ms-wc-sync-manual:disabled,
-.button#ms-wc-sync-test-connection:disabled,
-.button#ms-wc-sync-reset-lock:disabled {
+.button:disabled,
+.button[disabled] {
 	opacity: 0.6;
 	cursor: not-allowed;
 }
@@ -104,7 +151,7 @@
 	border-color: #d63638;
 }
 
-.button#ms-wc-sync-reset-lock:hover {
+.button#ms-wc-sync-reset-lock:hover:not(:disabled) {
 	background: #d63638;
 	color: #fff;
 	border-color: #d63638;
@@ -182,5 +229,18 @@ details pre {
 	}
 	50% {
 		box-shadow: 0 1px 8px rgba(214, 54, 56, 0.3);
+	}
+}
+
+/* Responsive */
+@media (max-width: 782px) {
+	.ms-wc-sync-stats {
+		grid-template-columns: 1fr;
+	}
+	
+	.ms-wc-sync-actions .button {
+		display: block;
+		width: 100%;
+		margin: 0.5rem 0;
 	}
 }

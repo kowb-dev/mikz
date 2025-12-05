@@ -1,609 +1,535 @@
 <?php
 /**
- * Admin settings page template
+ * Admin Settings Page Template with Tabs and Fixed Buttons
  *
  * @package MoySklad_WC_Sync
+ * @version 2.2.1
+ * 
+ * FILE: admin-page.php
+ * PATH: /wp-content/plugins/moysklad-wc-sync/templates/admin-page.php
  */
+
+declare(strict_types=1);
 
 if (!defined('ABSPATH')) {
     exit;
 }
-?>
 
+// Import classes for use in template
+use MoySklad\WC\Sync\Admin;
+use MoySklad\WC\Sync\Cron;
+
+// Get current tab
+$current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'dashboard';
+?>
 <div class="wrap">
-    <h1><?php esc_html_e('MoySklad WooCommerce Sync', 'moysklad-wc-sync'); ?></h1>
-    
-    <div id="ms-wc-sync-message"></div>
-    
-    <?php settings_errors(); ?>
-    
-    <h2 class="nav-tab-wrapper">
-        <a href="#settings" class="nav-tab nav-tab-active"><?php esc_html_e('Settings', 'moysklad-wc-sync'); ?></a>
-        <a href="#stock-sync" class="nav-tab"><?php esc_html_e('Stock Sync', 'moysklad-wc-sync'); ?></a>
-        <a href="#webhooks" class="nav-tab"><?php esc_html_e('Webhooks', 'moysklad-wc-sync'); ?></a>
-        <a href="#logs" class="nav-tab"><?php esc_html_e('Logs', 'moysklad-wc-sync'); ?></a>
-        <a href="#status" class="nav-tab"><?php esc_html_e('Status', 'moysklad-wc-sync'); ?></a>
-    </h2>
+    <h1><?php echo esc_html__('MoySklad WooCommerce Sync', 'moysklad-wc-sync'); ?></h1>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tab-wrapper">
+        <a href="?page=ms-wc-sync&tab=dashboard" class="nav-tab <?php echo $current_tab === 'dashboard' ? 'nav-tab-active' : ''; ?>">
+            <?php echo esc_html__('Dashboard', 'moysklad-wc-sync'); ?>
+        </a>
+        <a href="?page=ms-wc-sync&tab=settings" class="nav-tab <?php echo $current_tab === 'settings' ? 'nav-tab-active' : ''; ?>">
+            <?php echo esc_html__('Settings', 'moysklad-wc-sync'); ?>
+        </a>
+        <a href="?page=ms-wc-sync&tab=stock" class="nav-tab <?php echo $current_tab === 'stock' ? 'nav-tab-active' : ''; ?>">
+            <?php echo esc_html__('Stock Sync', 'moysklad-wc-sync'); ?>
+        </a>
+        <a href="?page=ms-wc-sync&tab=logs" class="nav-tab <?php echo $current_tab === 'logs' ? 'nav-tab-active' : ''; ?>">
+            <?php echo esc_html__('Logs', 'moysklad-wc-sync'); ?>
+        </a>
+    </nav>
+
+    <div class="ms-wc-sync-dashboard">
         
-        <div id="settings" class="tab-content active">
-            <form method="post" action="options.php" class="ms-wc-sync-settings-form">
-                <?php settings_fields('ms_wc_sync_settings'); ?>
+        <?php if ($current_tab === 'dashboard') : ?>
+            <!-- Dashboard Tab -->
+            <div class="ms-wc-sync-tab-content">
+                <h2><?php echo esc_html__('Synchronization Status', 'moysklad-wc-sync'); ?></h2>
                 
-                <h2><?php esc_html_e('API Settings', 'moysklad-wc-sync'); ?></h2>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="ms_wc_sync_api_token"><?php esc_html_e('API Token', 'moysklad-wc-sync'); ?></label>
-                        </th>
-                        <td>
-                            <input type="password" id="ms_wc_sync_api_token" name="ms_wc_sync_api_token" 
-                                   value="<?php echo esc_attr(get_option('ms_wc_sync_api_token', '')); ?>" 
-                                   class="regular-text" autocomplete="off" />
-                            <p class="description">
-                                <?php esc_html_e('Enter your MoySklad API token. You can generate it in your MoySklad account.', 'moysklad-wc-sync'); ?>
-                            </p>
-                            <button type="button" id="test-connection" class="button button-secondary">
-                                <?php esc_html_e('Test Connection', 'moysklad-wc-sync'); ?>
-                            </button>
-                            <span id="connection-result"></span>
-                        </td>
-                    </tr>
-                </table>
-                
-                <h2><?php esc_html_e('Full Sync Settings', 'moysklad-wc-sync'); ?></h2>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="ms_wc_sync_batch_size"><?php esc_html_e('Batch Size', 'moysklad-wc-sync'); ?></label>
-                        </th>
-                        <td>
-                            <input type="number" id="ms_wc_sync_batch_size" name="ms_wc_sync_batch_size" 
-                                   value="<?php echo esc_attr(get_option('ms_wc_sync_batch_size', 50)); ?>" 
-                                   min="10" max="1000" step="10" />
-                            <p class="description">
-                                <?php esc_html_e('Number of products to process in each batch. Lower values use less memory but take longer.', 'moysklad-wc-sync'); ?>
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="ms_wc_sync_max_time"><?php esc_html_e('Max Execution Time', 'moysklad-wc-sync'); ?></label>
-                        </th>
-                        <td>
-                            <input type="number" id="ms_wc_sync_max_time" name="ms_wc_sync_max_time" 
-                                   value="<?php echo esc_attr(get_option('ms_wc_sync_max_time', 180)); ?>" 
-                                   min="30" max="3600" step="30" />
-                            <p class="description">
-                                <?php esc_html_e('Maximum execution time in seconds. Sync will stop after this time to prevent timeouts.', 'moysklad-wc-sync'); ?>
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-                
-                <?php submit_button(); ?>
-            </form>
-        </div>
-        
-        <div id="stock-sync" class="tab-content">
-            <form method="post" action="options.php" class="ms-wc-sync-settings-form">
-                <?php settings_fields('ms_wc_sync_settings'); ?>
-                
-                <h2><?php esc_html_e('Stock Synchronization Settings', 'moysklad-wc-sync'); ?></h2>
-                <p class="description">
-                    <?php esc_html_e('Configure how stock levels are synchronized between MoySklad and WooCommerce.', 'moysklad-wc-sync'); ?>
-                </p>
-                
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="ms_wc_sync_stock_interval"><?php esc_html_e('Stock Sync Interval', 'moysklad-wc-sync'); ?></label>
-                        </th>
-                        <td>
-                            <select id="ms_wc_sync_stock_interval" name="ms_wc_sync_stock_interval">
+                <div class="ms-wc-sync-stats">
+                    <div class="ms-wc-sync-stat-card">
+                        <h3><?php echo esc_html__('Last Full Sync', 'moysklad-wc-sync'); ?></h3>
+                        <p class="ms-wc-sync-stat-value">
+                            <?php 
+                            if ($last_run) {
+                                $dt = new DateTime($last_run, new DateTimeZone('UTC'));
+                                $dt->setTimezone(wp_timezone());
+                                echo esc_html($dt->format('Y-m-d H:i:s'));
+                            } else {
+                                echo esc_html__('Never', 'moysklad-wc-sync');
+                            }
+                            ?>
+                        </p>
+                    </div>
+
+                    <div class="ms-wc-sync-stat-card">
+                        <h3><?php echo esc_html__('Next Full Sync', 'moysklad-wc-sync'); ?></h3>
+                        <p class="ms-wc-sync-stat-value">
+                            <?php 
+                            $next_run = $schedule_info['full_sync']['next_run'] ?? null;
+                            if ($next_run) {
+                                $dt = new DateTime('@' . $next_run);
+                                $dt->setTimezone(wp_timezone());
+                                echo esc_html($dt->format('Y-m-d H:i:s'));
+                            } else {
+                                echo esc_html__('Not scheduled', 'moysklad-wc-sync');
+                            }
+                            ?>
+                        </p>
+                    </div>
+
+                    <?php if (!empty($last_results)) : ?>
+                        <div class="ms-wc-sync-stat-card">
+                            <h3><?php echo esc_html__('Last Results', 'moysklad-wc-sync'); ?></h3>
+                            <p class="ms-wc-sync-stat-value">
                                 <?php
-                                $current_interval = get_option('ms_wc_sync_stock_interval', 'ms_wc_sync_10min');
-                                foreach (Cron::get_stock_sync_intervals() as $value => $label) {
-                                    printf(
-                                        '<option value="%s" %s>%s</option>',
-                                        esc_attr($value),
-                                        selected($current_interval, $value, false),
-                                        esc_html($label)
-                                    );
-                                }
+                                printf(
+                                    esc_html__('%1$d success / %2$d failed', 'moysklad-wc-sync'),
+                                    absint($last_results['success'] ?? 0),
+                                    absint($last_results['failed'] ?? 0)
+                                );
                                 ?>
-                            </select>
-                            <p class="description">
-                                <?php esc_html_e('How often to check for stock changes. This is used as a fallback when webhooks are not available.', 'moysklad-wc-sync'); ?>
                             </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="ms_wc_sync_store_id"><?php esc_html_e('MoySklad Store ID', 'moysklad-wc-sync'); ?></label>
-                        </th>
-                        <td>
-                            <input type="text" id="ms_wc_sync_store_id" name="ms_wc_sync_store_id" 
-                                   value="<?php echo esc_attr(get_option('ms_wc_sync_store_id', '')); ?>" 
-                                   class="regular-text" />
-                            <p class="description">
-                                <?php esc_html_e('ID of the store to use for stock levels. Leave empty to use all stores (sum of all stock).', 'moysklad-wc-sync'); ?>
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="ms_wc_sync_reservation_mode"><?php esc_html_e('Reservation Handling', 'moysklad-wc-sync'); ?></label>
-                        </th>
-                        <td>
-                            <select id="ms_wc_sync_reservation_mode" name="ms_wc_sync_reservation_mode">
+                        </div>
+
+                        <div class="ms-wc-sync-stat-card">
+                            <h3><?php echo esc_html__('Duration', 'moysklad-wc-sync'); ?></h3>
+                            <p class="ms-wc-sync-stat-value">
                                 <?php
-                                $current_mode = get_option('ms_wc_sync_reservation_mode', 'ignore');
-                                foreach (Admin::get_reservation_modes() as $value => $label) {
-                                    printf(
-                                        '<option value="%s" %s>%s</option>',
-                                        esc_attr($value),
-                                        selected($current_mode, $value, false),
-                                        esc_html($label)
-                                    );
-                                }
+                                printf(
+                                    esc_html__('%d seconds', 'moysklad-wc-sync'),
+                                    absint($last_results['duration'] ?? 0)
+                                );
                                 ?>
-                            </select>
-                            <p class="description">
-                                <?php esc_html_e('How to handle reserved stock in MoySklad when updating WooCommerce.', 'moysklad-wc-sync'); ?>
                             </p>
-                        </td>
-                    </tr>
-                </table>
-                
-                <h3><?php esc_html_e('Stock Sync Status', 'moysklad-wc-sync'); ?></h3>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row"><?php esc_html_e('Last Stock Sync', 'moysklad-wc-sync'); ?></th>
-                        <td>
-                            <?php if ($stock_last_run): ?>
-                                <?php echo esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($stock_last_run))); ?>
-                            <?php else: ?>
-                                <?php esc_html_e('Never', 'moysklad-wc-sync'); ?>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?php esc_html_e('Next Stock Sync', 'moysklad-wc-sync'); ?></th>
-                        <td>
-                            <?php echo esc_html($schedule_info['stock_sync']['next_run_formatted']); ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?php esc_html_e('Last Results', 'moysklad-wc-sync'); ?></th>
-                        <td>
-                            <?php if (!empty($stock_last_results)): ?>
-                                <ul>
-                                    <li><?php printf(esc_html__('Updated: %d', 'moysklad-wc-sync'), $stock_last_results['updated'] ?? 0); ?></li>
-                                    <li><?php printf(esc_html__('Skipped: %d', 'moysklad-wc-sync'), $stock_last_results['skipped'] ?? 0); ?></li>
-                                    <li><?php printf(esc_html__('Duration: %.2f seconds', 'moysklad-wc-sync'), $stock_last_results['duration'] ?? 0); ?></li>
-                                </ul>
-                            <?php else: ?>
-                                <?php esc_html_e('No results available', 'moysklad-wc-sync'); ?>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                </table>
-                
-                <p>
-                    <button type="button" id="ms-wc-sync-stock-manual" class="button button-primary">
-                        <?php esc_html_e('Run Stock Sync Now', 'moysklad-wc-sync'); ?>
-                    </button>
-                </p>
-                
-                <?php submit_button(); ?>
-            </form>
-        </div>
-        
-        <div id="webhooks" class="tab-content">
-            <form method="post" action="options.php" class="ms-wc-sync-settings-form">
-                <?php settings_fields('ms_wc_sync_settings'); ?>
-                
-                <h2><?php esc_html_e('Webhook Settings', 'moysklad-wc-sync'); ?></h2>
-                <p class="description">
-                    <?php esc_html_e('Webhooks allow real-time updates when stock changes in MoySklad, reducing server load and providing faster updates.', 'moysklad-wc-sync'); ?>
-                </p>
-                
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="ms_wc_sync_use_webhooks"><?php esc_html_e('Use Webhooks', 'moysklad-wc-sync'); ?></label>
-                        </th>
-                        <td>
-                            <label>
-                                <input type="checkbox" id="ms_wc_sync_use_webhooks" name="ms_wc_sync_use_webhooks" 
-                                       value="yes" <?php checked(get_option('ms_wc_sync_use_webhooks', 'no'), 'yes'); ?> />
-                                <?php esc_html_e('Enable webhook integration with MoySklad', 'moysklad-wc-sync'); ?>
-                            </label>
-                            <p class="description">
-                                <?php esc_html_e('When enabled, the plugin will register webhooks with MoySklad to receive real-time stock updates.', 'moysklad-wc-sync'); ?>
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="ms_wc_sync_webhook_secret"><?php esc_html_e('Webhook Secret', 'moysklad-wc-sync'); ?></label>
-                        </th>
-                        <td>
-                            <input type="text" id="ms_wc_sync_webhook_secret" name="ms_wc_sync_webhook_secret" 
-                                   value="<?php echo esc_attr(get_option('ms_wc_sync_webhook_secret', '')); ?>" 
-                                   class="regular-text" autocomplete="off" />
-                            <p class="description">
-                                <?php esc_html_e('Secret key used to verify webhook requests. Leave empty to generate automatically.', 'moysklad-wc-sync'); ?>
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-                
-                <h3><?php esc_html_e('Webhook Status', 'moysklad-wc-sync'); ?></h3>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row"><?php esc_html_e('Webhook URL', 'moysklad-wc-sync'); ?></th>
-                        <td>
-                            <code><?php echo esc_html($webhook_url); ?></code>
-                            <p class="description">
-                                <?php esc_html_e('This is the URL that will receive webhook notifications from MoySklad.', 'moysklad-wc-sync'); ?>
-                            </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"><?php esc_html_e('Registered Webhooks', 'moysklad-wc-sync'); ?></th>
-                        <td>
-                            <?php if ($webhook_status['success']): ?>
-                                <?php if ($webhook_status['count'] > 0): ?>
-                                    <span class="dashicons dashicons-yes" style="color: green;"></span>
-                                    <?php printf(
-                                        esc_html__('%d webhooks registered', 'moysklad-wc-sync'),
-                                        $webhook_status['count']
-                                    ); ?>
-                                    <ul>
-                                        <?php foreach ($webhook_status['webhooks'] as $webhook): ?>
-                                            <li>
-                                                <?php printf(
-                                                    esc_html__('Entity: %s, Action: %s, Status: %s', 'moysklad-wc-sync'),
-                                                    esc_html($webhook['entityType']),
-                                                    esc_html($webhook['action']),
-                                                    $webhook['enabled'] ? esc_html__('Enabled', 'moysklad-wc-sync') : esc_html__('Disabled', 'moysklad-wc-sync')
-                                                ); ?>
-                                            </li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php else: ?>
-                                    <span class="dashicons dashicons-no" style="color: red;"></span>
-                                    <?php esc_html_e('No webhooks registered', 'moysklad-wc-sync'); ?>
-                                <?php endif; ?>
-                            <?php else: ?>
-                                <span class="dashicons dashicons-warning" style="color: orange;"></span>
-                                <?php esc_html_e('Could not check webhook status', 'moysklad-wc-sync'); ?>
-                                <p class="description">
-                                    <?php echo esc_html($webhook_status['message'] ?? ''); ?>
-                                </p>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-                </table>
-                
-                <p>
-                    <button type="button" id="ms-wc-sync-register-webhooks" class="button button-secondary">
-                        <?php esc_html_e('Register Webhooks', 'moysklad-wc-sync'); ?>
-                    </button>
-                </p>
-                
-                <?php submit_button(); ?>
-            </form>
-        </div>
-        
-        <div id="logs" class="tab-content">
-            <h2><?php esc_html_e('Sync Logs', 'moysklad-wc-sync'); ?></h2>
-            
-            <table class="widefat striped">
-                <thead>
-                    <tr>
-                        <th><?php esc_html_e('Time', 'moysklad-wc-sync'); ?></th>
-                        <th><?php esc_html_e('Level', 'moysklad-wc-sync'); ?></th>
-                        <th><?php esc_html_e('Message', 'moysklad-wc-sync'); ?></th>
-                        <th><?php esc_html_e('Context', 'moysklad-wc-sync'); ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($logs)): ?>
-                        <tr>
-                            <td colspan="4"><?php esc_html_e('No logs available', 'moysklad-wc-sync'); ?></td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach ($logs as $log): ?>
-                            <tr>
-                                <td><?php echo esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($log['created_at']))); ?></td>
-                                <td>
-                                    <?php
-                                    $level_class = '';
-                                    switch ($log['level']) {
-                                        case 'error':
-                                            $level_class = 'error';
-                                            break;
-                                        case 'warning':
-                                            $level_class = 'warning';
-                                            break;
-                                        case 'info':
-                                            $level_class = 'info';
-                                            break;
-                                    }
-                                    ?>
-                                    <span class="log-level <?php echo esc_attr($level_class); ?>">
-                                        <?php echo esc_html(ucfirst($log['level'])); ?>
-                                    </span>
-                                </td>
-                                <td><?php echo esc_html($log['message']); ?></td>
-                                <td>
-                                    <?php if (!empty($log['context'])): ?>
-                                        <button type="button" class="toggle-context button button-small">
-                                            <?php esc_html_e('Show', 'moysklad-wc-sync'); ?>
-                                        </button>
-                                        <div class="context-data" style="display: none;">
-                                            <pre><?php echo esc_html(json_encode(json_decode($log['context']), JSON_PRETTY_PRINT)); ?></pre>
-                                        </div>
-                                    <?php else: ?>
-                                        <?php esc_html_e('No context', 'moysklad-wc-sync'); ?>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
+                        </div>
                     <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-        
-        <div id="status" class="tab-content">
-            <h2><?php esc_html_e('Sync Status', 'moysklad-wc-sync'); ?></h2>
-            
-            <h3><?php esc_html_e('Full Sync', 'moysklad-wc-sync'); ?></h3>
-            <table class="form-table">
-                <tr>
-                    <th scope="row"><?php esc_html_e('Last Full Sync', 'moysklad-wc-sync'); ?></th>
-                    <td>
-                        <?php if ($last_run): ?>
-                            <?php echo esc_html(date_i18n(get_option('date_format') . ' ' . get_option('time_format'), strtotime($last_run))); ?>
-                        <?php else: ?>
-                            <?php esc_html_e('Never', 'moysklad-wc-sync'); ?>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row"><?php esc_html_e('Next Full Sync', 'moysklad-wc-sync'); ?></th>
-                    <td>
-                        <?php echo esc_html($schedule_info['full_sync']['next_run_formatted']); ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row"><?php esc_html_e('Last Results', 'moysklad-wc-sync'); ?></th>
-                    <td>
-                        <?php if (!empty($last_results)): ?>
-                            <ul>
-                                <li><?php printf(esc_html__('Success: %d', 'moysklad-wc-sync'), $last_results['success'] ?? 0); ?></li>
-                                <li><?php printf(esc_html__('Failed: %d', 'moysklad-wc-sync'), $last_results['failed'] ?? 0); ?></li>
-                                <li><?php printf(esc_html__('Created: %d', 'moysklad-wc-sync'), $last_results['created'] ?? 0); ?></li>
-                                <li><?php printf(esc_html__('Updated: %d', 'moysklad-wc-sync'), $last_results['updated'] ?? 0); ?></li>
-                                <li><?php printf(esc_html__('Skipped: %d', 'moysklad-wc-sync'), $last_results['skipped'] ?? 0); ?></li>
-                                <li><?php printf(esc_html__('Duration: %.2f seconds', 'moysklad-wc-sync'), $last_results['duration'] ?? 0); ?></li>
-                            </ul>
-                        <?php else: ?>
-                            <?php esc_html_e('No results available', 'moysklad-wc-sync'); ?>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row"><?php esc_html_e('Sync Status', 'moysklad-wc-sync'); ?></th>
-                    <td>
-                        <?php if ($is_locked): ?>
-                            <span class="sync-status running">
-                                <span class="dashicons dashicons-update"></span>
-                                <?php esc_html_e('Sync is currently running', 'moysklad-wc-sync'); ?>
-                            </span>
-                            <?php if ($lock_info): ?>
-                                <p class="description">
-                                    <?php printf(
-                                        esc_html__('Running for %d seconds', 'moysklad-wc-sync'),
+                    
+                    <?php if ($is_locked) : ?>
+                        <div class="ms-wc-sync-stat-card" style="border-color: #d63638;">
+                            <h3 style="color: #d63638;"><?php echo esc_html__('Sync Status', 'moysklad-wc-sync'); ?></h3>
+                            <p class="ms-wc-sync-stat-value" style="color: #d63638; font-size: 1rem;">
+                                <?php echo esc_html__('Running', 'moysklad-wc-sync'); ?>
+                            </p>
+                            <?php if ($lock_info && !$lock_info['is_expired']) : ?>
+                                <p style="font-size: 0.75rem; color: #646970; margin-top: 0.5rem;">
+                                    <?php 
+                                    printf(
+                                        esc_html__('Started %d seconds ago', 'moysklad-wc-sync'),
                                         $lock_info['elapsed']
-                                    ); ?>
+                                    );
+                                    ?>
                                 </p>
                             <?php endif; ?>
-                        <?php else: ?>
-                            <span class="sync-status idle">
-                                <span class="dashicons dashicons-yes"></span>
-                                <?php esc_html_e('Idle', 'moysklad-wc-sync'); ?>
-                            </span>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            </table>
-            
-            <div class="sync-progress" style="display: none;">
-                <h3><?php esc_html_e('Sync Progress', 'moysklad-wc-sync'); ?></h3>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" style="width: 0%;"></div>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <p class="progress-text"></p>
-            </div>
-            
-            <p>
-                <button type="button" id="run-sync" class="button button-primary" <?php disabled($is_locked); ?>>
-                    <?php esc_html_e('Run Full Sync Now', 'moysklad-wc-sync'); ?>
-                </button>
-                
-                <?php if ($is_locked): ?>
-                    <button type="button" id="reset-lock" class="button button-secondary">
-                        <?php esc_html_e('Reset Lock', 'moysklad-wc-sync'); ?>
+
+                <div class="ms-wc-sync-actions">
+                    <button type="button" class="button button-primary" id="ms-wc-sync-manual" <?php echo $is_locked ? 'disabled' : ''; ?>>
+                        <?php echo esc_html__('Run Full Sync Now', 'moysklad-wc-sync'); ?>
                     </button>
-                <?php endif; ?>
+                    
+                    <?php if ($is_locked) : ?>
+                        <button type="button" class="button button-link-delete" id="ms-wc-sync-reset-lock">
+                            <?php echo esc_html__('Stop Sync', 'moysklad-wc-sync'); ?>
+                        </button>
+                    <?php endif; ?>
+                    
+                    <button type="button" class="button button-secondary" id="ms-wc-sync-reschedule">
+                        <?php echo esc_html__('Reschedule Cron', 'moysklad-wc-sync'); ?>
+                    </button>
+                </div>
+
+                <div id="ms-wc-sync-message"></div>
+            </div>
+
+        <?php elseif ($current_tab === 'settings') : ?>
+            <!-- Settings Tab -->
+            <div class="ms-wc-sync-tab-content">
+                <form method="post" action="options.php" class="ms-wc-sync-settings-form">
+                    <?php settings_fields('ms_wc_sync_settings'); ?>
+
+                    <h2><?php echo esc_html__('API Settings', 'moysklad-wc-sync'); ?></h2>
+                    
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="ms_wc_sync_api_token">
+                                    <?php echo esc_html__('MoySklad API Token', 'moysklad-wc-sync'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input
+                                    type="password"
+                                    id="ms_wc_sync_api_token"
+                                    name="ms_wc_sync_api_token"
+                                    value="<?php echo esc_attr(get_option('ms_wc_sync_api_token')); ?>"
+                                    class="regular-text"
+                                    autocomplete="off"
+                                />
+                                <p class="description">
+                                    <?php echo esc_html__('Enter your MoySklad API token. You can generate it in your MoySklad account settings.', 'moysklad-wc-sync'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2><?php echo esc_html__('Synchronization Settings', 'moysklad-wc-sync'); ?></h2>
+                    
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="ms_wc_sync_interval">
+                                    <?php echo esc_html__('Full Sync Interval', 'moysklad-wc-sync'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <select id="ms_wc_sync_interval" name="ms_wc_sync_interval">
+                                    <?php
+                                    $current_interval = get_option('ms_wc_sync_interval', 'daily');
+                                    $intervals = Admin::get_sync_intervals();
+                                    foreach ($intervals as $value => $label) :
+                                    ?>
+                                        <option value="<?php echo esc_attr($value); ?>" <?php selected($current_interval, $value); ?>>
+                                            <?php echo esc_html($label); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <p class="description">
+                                    <?php echo esc_html__('How often should the full product sync run?', 'moysklad-wc-sync'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="ms_wc_sync_batch_size">
+                                    <?php echo esc_html__('Batch Size', 'moysklad-wc-sync'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input
+                                    type="number"
+                                    id="ms_wc_sync_batch_size"
+                                    name="ms_wc_sync_batch_size"
+                                    value="<?php echo esc_attr(get_option('ms_wc_sync_batch_size', 50)); ?>"
+                                    min="10"
+                                    max="100"
+                                    step="10"
+                                />
+                                <p class="description">
+                                    <?php echo esc_html__('Number of products to process per batch (10-100).', 'moysklad-wc-sync'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="ms_wc_sync_max_time">
+                                    <?php echo esc_html__('Max Execution Time', 'moysklad-wc-sync'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input
+                                    type="number"
+                                    id="ms_wc_sync_max_time"
+                                    name="ms_wc_sync_max_time"
+                                    value="<?php echo esc_attr(get_option('ms_wc_sync_max_time', 180)); ?>"
+                                    min="60"
+                                    max="600"
+                                    step="30"
+                                />
+                                <p class="description">
+                                    <?php echo esc_html__('Maximum time in seconds for sync execution (60-600).', 'moysklad-wc-sync'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2><?php echo esc_html__('Price Synchronization', 'moysklad-wc-sync'); ?></h2>
+                    
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <?php echo esc_html__('Price Types', 'moysklad-wc-sync'); ?>
+                            </th>
+                            <td>
+                                <p class="description">
+                                    <?php echo esc_html__('The plugin synchronizes two price types from MoySklad:', 'moysklad-wc-sync'); ?>
+                                </p>
+                                <ul style="list-style: disc; margin-left: 20px;">
+                                    <li><strong><?php echo esc_html__('Retail Price (Розница)', 'moysklad-wc-sync'); ?></strong> - <?php echo esc_html__('saved as Regular Price in WooCommerce', 'moysklad-wc-sync'); ?></li>
+                                    <li><strong><?php echo esc_html__('Wholesale Price (Опт)', 'moysklad-wc-sync'); ?></strong> - <?php echo esc_html__('saved as custom meta field _wholesale_price', 'moysklad-wc-sync'); ?></li>
+                                </ul>
+                                <p class="description">
+                                    <?php echo esc_html__('To display wholesale prices on the frontend, use a wholesale pricing plugin or custom code.', 'moysklad-wc-sync'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <p class="submit">
+                        <?php submit_button(__('Save Settings', 'moysklad-wc-sync'), 'primary', 'submit', false); ?>
+                        <button type="button" class="button button-secondary" id="ms-wc-sync-test-connection">
+                            <?php echo esc_html__('Test Connection', 'moysklad-wc-sync'); ?>
+                        </button>
+                    </p>
+                </form>
+            </div>
+
+        <?php elseif ($current_tab === 'stock') : ?>
+            <!-- Stock Sync Tab -->
+            <div class="ms-wc-sync-tab-content">
+                <h2><?php echo esc_html__('Stock Synchronization', 'moysklad-wc-sync'); ?></h2>
                 
-                <button type="button" id="reschedule-cron" class="button button-secondary">
-                    <?php esc_html_e('Reschedule Cron', 'moysklad-wc-sync'); ?>
-                </button>
-            </p>
-        </div>
+                <div class="ms-wc-sync-stats">
+                    <div class="ms-wc-sync-stat-card">
+                        <h3><?php echo esc_html__('Last Stock Sync', 'moysklad-wc-sync'); ?></h3>
+                        <p class="ms-wc-sync-stat-value">
+                            <?php 
+                            if ($stock_last_run) {
+                                $dt = new DateTime($stock_last_run, new DateTimeZone('UTC'));
+                                $dt->setTimezone(wp_timezone());
+                                echo esc_html($dt->format('Y-m-d H:i:s'));
+                            } else {
+                                echo esc_html__('Never', 'moysklad-wc-sync');
+                            }
+                            ?>
+                        </p>
+                    </div>
+
+                    <div class="ms-wc-sync-stat-card">
+                        <h3><?php echo esc_html__('Next Stock Sync', 'moysklad-wc-sync'); ?></h3>
+                        <p class="ms-wc-sync-stat-value">
+                            <?php 
+                            $next_stock = $schedule_info['stock_sync']['next_run'] ?? null;
+                            if ($next_stock) {
+                                $dt = new DateTime('@' . $next_stock);
+                                $dt->setTimezone(wp_timezone());
+                                echo esc_html($dt->format('Y-m-d H:i:s'));
+                            } else {
+                                echo esc_html__('Not scheduled', 'moysklad-wc-sync');
+                            }
+                            ?>
+                        </p>
+                    </div>
+
+                    <?php if (!empty($stock_last_results)) : ?>
+                        <div class="ms-wc-sync-stat-card">
+                            <h3><?php echo esc_html__('Last Stock Results', 'moysklad-wc-sync'); ?></h3>
+                            <p class="ms-wc-sync-stat-value">
+                                <?php
+                                printf(
+                                    esc_html__('%1$d updated / %2$d skipped', 'moysklad-wc-sync'),
+                                    absint($stock_last_results['updated'] ?? 0),
+                                    absint($stock_last_results['skipped'] ?? 0)
+                                );
+                                ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
+                <form method="post" action="options.php" class="ms-wc-sync-settings-form">
+                    <?php settings_fields('ms_wc_sync_settings'); ?>
+
+                    <h3><?php echo esc_html__('Stock Sync Settings', 'moysklad-wc-sync'); ?></h3>
+                    
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row">
+                                <label for="ms_wc_sync_use_webhooks">
+                                    <?php echo esc_html__('Use Webhooks', 'moysklad-wc-sync'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <select id="ms_wc_sync_use_webhooks" name="ms_wc_sync_use_webhooks">
+                                    <option value="no" <?php selected(get_option('ms_wc_sync_use_webhooks', 'no'), 'no'); ?>>
+                                        <?php echo esc_html__('No - Use scheduled sync', 'moysklad-wc-sync'); ?>
+                                    </option>
+                                    <option value="yes" <?php selected(get_option('ms_wc_sync_use_webhooks', 'no'), 'yes'); ?>>
+                                        <?php echo esc_html__('Yes - Real-time updates', 'moysklad-wc-sync'); ?>
+                                    </option>
+                                </select>
+                                <p class="description">
+                                    <?php echo esc_html__('Enable webhooks for real-time stock updates from MoySklad.', 'moysklad-wc-sync'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="ms_wc_sync_stock_interval">
+                                    <?php echo esc_html__('Stock Sync Interval', 'moysklad-wc-sync'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <select id="ms_wc_sync_stock_interval" name="ms_wc_sync_stock_interval">
+                                    <?php
+                                    $current_stock_interval = get_option('ms_wc_sync_stock_interval', 'ms_wc_sync_10min');
+                                    $stock_intervals = Cron::get_stock_sync_intervals();
+                                    foreach ($stock_intervals as $value => $label) :
+                                    ?>
+                                        <option value="<?php echo esc_attr($value); ?>" <?php selected($current_stock_interval, $value); ?>>
+                                            <?php echo esc_html($label); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <p class="description">
+                                    <?php echo esc_html__('How often should stock be synchronized? (Only used if webhooks are disabled)', 'moysklad-wc-sync'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="ms_wc_sync_store_id">
+                                    <?php echo esc_html__('Store ID', 'moysklad-wc-sync'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="ms_wc_sync_store_id"
+                                    name="ms_wc_sync_store_id"
+                                    value="<?php echo esc_attr(get_option('ms_wc_sync_store_id', '')); ?>"
+                                    class="regular-text"
+                                    placeholder="UUID"
+                                />
+                                <p class="description">
+                                    <?php echo esc_html__('Leave empty to sync stock from all stores, or enter specific MoySklad store ID.', 'moysklad-wc-sync'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="ms_wc_sync_reservation_mode">
+                                    <?php echo esc_html__('Reservation Mode', 'moysklad-wc-sync'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <select id="ms_wc_sync_reservation_mode" name="ms_wc_sync_reservation_mode">
+                                    <?php
+                                    $current_mode = get_option('ms_wc_sync_reservation_mode', 'ignore');
+                                    $reservation_modes = Admin::get_reservation_modes();
+                                    foreach ($reservation_modes as $value => $label) :
+                                    ?>
+                                        <option value="<?php echo esc_attr($value); ?>" <?php selected($current_mode, $value); ?>>
+                                            <?php echo esc_html($label); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <p class="description">
+                                    <?php echo esc_html__('How to handle reserved stock quantities.', 'moysklad-wc-sync'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <p class="submit">
+                        <?php submit_button(__('Save Stock Settings', 'moysklad-wc-sync'), 'primary', 'submit', false); ?>
+                        <button type="button" class="button button-secondary" id="ms-wc-sync-stock-manual">
+                            <?php echo esc_html__('Run Stock Sync Now', 'moysklad-wc-sync'); ?>
+                        </button>
+                    </p>
+                </form>
+
+                <?php if (get_option('ms_wc_sync_use_webhooks', 'no') === 'yes') : ?>
+                    <div class="ms-wc-sync-webhooks-info">
+                        <h3><?php echo esc_html__('Webhook Status', 'moysklad-wc-sync'); ?></h3>
+                        
+                        <p>
+                            <strong><?php echo esc_html__('Webhook URL:', 'moysklad-wc-sync'); ?></strong><br>
+                            <code><?php echo esc_html($webhook_url); ?></code>
+                        </p>
+                        
+                        <?php if ($webhook_status['success']) : ?>
+                            <p>
+                                <strong><?php echo esc_html__('Registered Webhooks:', 'moysklad-wc-sync'); ?></strong>
+                                <?php echo absint($webhook_status['count']); ?>
+                            </p>
+                            
+                            <?php if (!empty($webhook_status['webhooks'])) : ?>
+                                <table class="widefat">
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo esc_html__('Entity Type', 'moysklad-wc-sync'); ?></th>
+                                            <th><?php echo esc_html__('Action', 'moysklad-wc-sync'); ?></th>
+                                            <th><?php echo esc_html__('Status', 'moysklad-wc-sync'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($webhook_status['webhooks'] as $webhook) : ?>
+                                            <tr>
+                                                <td><?php echo esc_html($webhook['entityType']); ?></td>
+                                                <td><?php echo esc_html($webhook['action']); ?></td>
+                                                <td><?php echo $webhook['enabled'] ? '✓ Enabled' : '✗ Disabled'; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        
+                        <p>
+                            <button type="button" class="button button-secondary" id="ms-wc-sync-register-webhooks">
+                                <?php echo esc_html__('Register/Update Webhooks', 'moysklad-wc-sync'); ?>
+                            </button>
+                        </p>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+        <?php elseif ($current_tab === 'logs') : ?>
+            <!-- Logs Tab -->
+            <div class="ms-wc-sync-tab-content">
+                <h2><?php echo esc_html__('Recent Logs', 'moysklad-wc-sync'); ?></h2>
+                
+                <table class="wp-list-table widefat fixed striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 180px;"><?php echo esc_html__('Time', 'moysklad-wc-sync'); ?></th>
+                            <th style="width: 100px;"><?php echo esc_html__('Level', 'moysklad-wc-sync'); ?></th>
+                            <th><?php echo esc_html__('Message', 'moysklad-wc-sync'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($logs)) : ?>
+                            <tr>
+                                <td colspan="3"><?php echo esc_html__('No logs found.', 'moysklad-wc-sync'); ?></td>
+                            </tr>
+                        <?php else : ?>
+                            <?php foreach ($logs as $log) : 
+                                $dt = new DateTime($log['log_time'], new DateTimeZone('UTC'));
+                                $dt->setTimezone(wp_timezone());
+                            ?>
+                                <tr>
+                                    <td><?php echo esc_html($dt->format('Y-m-d H:i:s')); ?></td>
+                                    <td>
+                                        <span class="ms-wc-sync-log-level ms-wc-sync-log-<?php echo esc_attr($log['log_level']); ?>">
+                                            <?php echo esc_html(ucfirst($log['log_level'])); ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <?php echo esc_html($log['message']); ?>
+                                        <?php if (!empty($log['context'])) : ?>
+                                            <details style="margin-top: 5px;">
+                                                <summary style="cursor: pointer; color: #2271b1;">Show details</summary>
+                                                <pre style="background: #f6f7f7; padding: 10px; border-radius: 3px; font-size: 11px; margin-top: 5px; overflow-x: auto;"><?php echo esc_html($log['context']); ?></pre>
+                                            </details>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+
+        <?php endif; ?>
     </div>
 </div>
-
-<style>
-    .ms-wc-sync-tabs .nav-tab-wrapper {
-        margin-bottom: 1em;
-    }
-    
-    .ms-wc-sync-tabs .tab-content {
-        display: none;
-    }
-    
-    .ms-wc-sync-tabs .tab-content.active {
-        display: block;
-    }
-    
-    .sync-status {
-        display: inline-flex;
-        align-items: center;
-        padding: 5px 10px;
-        border-radius: 3px;
-    }
-    
-    .sync-status.running {
-        background-color: #f0f6fc;
-        color: #0073aa;
-    }
-    
-    .sync-status.idle {
-        background-color: #f0f6fc;
-        color: #46b450;
-    }
-    
-    .sync-status .dashicons {
-        margin-right: 5px;
-    }
-    
-    .progress-bar-container {
-        width: 100%;
-        height: 20px;
-        background-color: #f0f0f0;
-        border-radius: 3px;
-        margin-bottom: 10px;
-    }
-    
-    .progress-bar {
-        height: 100%;
-        background-color: #0073aa;
-        border-radius: 3px;
-        transition: width 0.3s ease;
-    }
-    
-    .log-level {
-        display: inline-block;
-        padding: 2px 6px;
-        border-radius: 3px;
-        font-size: 12px;
-    }
-    
-    .log-level.error {
-        background-color: #ffebe8;
-        color: #d63638;
-    }
-    
-    .log-level.warning {
-        background-color: #fff8e5;
-        color: #bd8600;
-    }
-    
-    .log-level.info {
-        background-color: #f0f6fc;
-        color: #0073aa;
-    }
-    
-    .context-data pre {
-        background-color: #f6f7f7;
-        padding: 10px;
-        border-radius: 3px;
-        overflow: auto;
-        max-height: 200px;
-    }
-</style>
-
-<script>
-jQuery(document).ready(function($) {
-    // Tab navigation
-    $('.ms-wc-sync-tabs .nav-tab').on('click', function(e) {
-        e.preventDefault();
-        
-        var target = $(this).attr('href');
-        
-        $('.ms-wc-sync-tabs .nav-tab').removeClass('nav-tab-active');
-        $(this).addClass('nav-tab-active');
-        
-        $('.ms-wc-sync-tabs .tab-content').removeClass('active');
-        $(target).addClass('active');
-    });
-    
-    // Toggle context data
-    $('.toggle-context').on('click', function() {
-        var $context = $(this).next('.context-data');
-        
-        if ($context.is(':visible')) {
-            $context.hide();
-            $(this).text('<?php echo esc_js(__('Show', 'moysklad-wc-sync')); ?>');
-        } else {
-            $context.show();
-            $(this).text('<?php echo esc_js(__('Hide', 'moysklad-wc-sync')); ?>');
-        }
-    });
-    
-    // Test connection
-    $('#test-connection').on('click', function() {
-        var $button = $(this);
-        var $result = $('#connection-result');
-        
-        $button.prop('disabled', true);
-        $result.html('<span class="spinner is-active" style="float: none; margin: 0 5px;"></span> <?php echo esc_js(__('Testing...', 'moysklad-wc-sync')); ?>');
-        
-        $.ajax({
-            url: ajaxurl,
-            type: 'POST',
-            data: {
-                action: 'ms_wc_sync_test_connection',
-                nonce: msWcSync.nonce
-            },
-            success: function(response) {
-                if (response.success) {
-                    $result.html('<span class="dashicons dashicons-yes" style="color: green;"></span> ' + response.data.message);
-                } else {
-                    $result.html('<span class="dashicons dashicons-no" style="color: red;"></span> ' + response.data.message);
-                }
-            },
-            error: function() {
-                $result.html('<span class="dashicons dashicons-no" style="color: red;"></span> <?php echo esc_js(__('Connection test failed', 'moysklad-wc-sync')); ?>');
-            },
-            complete: function() {
-                $button.prop('disabled', false);
-            }
-        });
-    });
-    
-    // Run sync
-    $('#run-sync').on('click', function() {
-        var $button = $(this);
-        
-        if (confirm('<?php echo esc_js(__('Are you sure you want to run a full sync? This may take several minutes.', 'moysklad-wc-sync')); ?>')) {
-            $button.prop('disabled', true);
-            $('.sync-progress').show();
-            $('.progress-bar').css('width', '0%');
-            $('.progress-text').text('<?php echo esc_js(__('Starting synchronization...', 'moysklad-wc-sync')); ?>');
-            
-            $.ajax({
-                url: ajaxurl,
-                type: 'POST',
-                data: {
-                    action: 'ms_wc_sync_manual',
-                    nonce: msWcSync.nonce
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('.progress-bar').css('width',
