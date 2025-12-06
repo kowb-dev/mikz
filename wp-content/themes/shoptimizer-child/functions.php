@@ -194,3 +194,49 @@ function shoptimizer_child_cart_progress(): void {
         <?php
     }
 }
+
+
+/**
+ * Debug Settings Script
+ * 
+ * Add this temporarily to your functions.php or create a separate plugin file
+ * to debug what's happening with settings
+ */
+
+// Add this to see what's being saved
+add_action('update_option_ms_wc_sync_api_token', function($old_value, $value, $option) {
+    error_log('[MoySklad Debug] API Token Updated');
+    error_log('Old value length: ' . strlen($old_value));
+    error_log('New value length: ' . strlen($value));
+    error_log('New value first 10 chars: ' . substr($value, 0, 10) . '...');
+}, 10, 3);
+
+add_action('update_option_ms_wc_sync_batch_size', function($old_value, $value, $option) {
+    error_log('[MoySklad Debug] Batch Size Updated: ' . $old_value . ' -> ' . $value);
+}, 10, 3);
+
+add_action('update_option_ms_wc_sync_max_time', function($old_value, $value, $option) {
+    error_log('[MoySklad Debug] Max Time Updated: ' . $old_value . ' -> ' . $value);
+}, 10, 3);
+
+add_action('update_option_ms_wc_sync_stock_interval', function($old_value, $value, $option) {
+    error_log('[MoySklad Debug] Stock Interval Updated: ' . $old_value . ' -> ' . $value);
+}, 10, 3);
+
+add_action('update_option_ms_wc_sync_reservation_mode', function($old_value, $value, $option) {
+    error_log('[MoySklad Debug] Reservation Mode Updated: ' . $old_value . ' -> ' . $value);
+}, 10, 3);
+
+// Show current values
+add_action('admin_notices', function() {
+    if (isset($_GET['page']) && $_GET['page'] === 'ms-wc-sync' && isset($_GET['settings-updated'])) {
+        $token = get_option('ms_wc_sync_api_token', '');
+        $batch_size = get_option('ms_wc_sync_batch_size', 0);
+        $max_time = get_option('ms_wc_sync_max_time', 0);
+        
+        error_log('[MoySklad Debug] Current Settings After Save:');
+        error_log('Token length: ' . strlen($token));
+        error_log('Batch size: ' . $batch_size);
+        error_log('Max time: ' . $max_time);
+    }
+});

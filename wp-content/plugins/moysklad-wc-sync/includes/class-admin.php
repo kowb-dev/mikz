@@ -3,7 +3,7 @@
  * Admin Interface with Progress Bar and Reset
  *
  * @package MoySklad_WC_Sync
- * @version 2.2.0
+ * @version 2.2.1
  */
 
 declare(strict_types=1);
@@ -58,62 +58,68 @@ class Admin {
     }
 
     public function register_settings(): void {
-        // API Settings
-        register_setting('ms_wc_sync_settings', 'ms_wc_sync_api_token', [
-            'type' => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
-            'default' => '',
-        ]);
+        // Register all settings in one group
+        $settings = [
+            // API Settings
+            'ms_wc_sync_api_token' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => '',
+            ],
+            
+            // General Sync Settings
+            'ms_wc_sync_interval' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => 'daily',
+            ],
+            'ms_wc_sync_batch_size' => [
+                'type' => 'integer',
+                'sanitize_callback' => 'absint',
+                'default' => 50,
+            ],
+            'ms_wc_sync_max_time' => [
+                'type' => 'integer',
+                'sanitize_callback' => 'absint',
+                'default' => 180,
+            ],
+            
+            // Stock Sync Settings
+            'ms_wc_sync_use_webhooks' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => 'no',
+            ],
+            'ms_wc_sync_webhook_secret' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => '',
+            ],
+            'ms_wc_sync_stock_interval' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => 'ms_wc_sync_10min',
+            ],
+            'ms_wc_sync_store_id' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => '',
+            ],
+            'ms_wc_sync_reservation_mode' => [
+                'type' => 'string',
+                'sanitize_callback' => 'sanitize_text_field',
+                'default' => 'ignore',
+            ],
+        ];
         
-        // General Sync Settings
-        register_setting('ms_wc_sync_settings', 'ms_wc_sync_interval', [
-            'type' => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
-            'default' => 'daily',
-        ]);
+        foreach ($settings as $option_name => $args) {
+            register_setting('ms_wc_sync_settings', $option_name, $args);
+        }
         
-        register_setting('ms_wc_sync_settings', 'ms_wc_sync_batch_size', [
-            'type' => 'integer',
-            'sanitize_callback' => 'absint',
-            'default' => 50,
-        ]);
-        
-        register_setting('ms_wc_sync_settings', 'ms_wc_sync_max_time', [
-            'type' => 'integer',
-            'sanitize_callback' => 'absint',
-            'default' => 180,
-        ]);
-        
-        // Stock Sync Settings
-        register_setting('ms_wc_sync_settings', 'ms_wc_sync_use_webhooks', [
-            'type' => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
-            'default' => 'no',
-        ]);
-        
-        register_setting('ms_wc_sync_settings', 'ms_wc_sync_webhook_secret', [
-            'type' => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
-            'default' => wp_generate_password(32, false),
-        ]);
-        
-        register_setting('ms_wc_sync_settings', 'ms_wc_sync_stock_interval', [
-            'type' => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
-            'default' => 'ms_wc_sync_10min',
-        ]);
-        
-        register_setting('ms_wc_sync_settings', 'ms_wc_sync_store_id', [
-            'type' => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
-            'default' => '',
-        ]);
-        
-        register_setting('ms_wc_sync_settings', 'ms_wc_sync_reservation_mode', [
-            'type' => 'string',
-            'sanitize_callback' => 'sanitize_text_field',
-            'default' => 'ignore',
-        ]);
+        // Initialize webhook secret if not exists
+        if (empty(get_option('ms_wc_sync_webhook_secret'))) {
+            update_option('ms_wc_sync_webhook_secret', wp_generate_password(32, false));
+        }
     }
 
     public function enqueue_scripts(string $hook): void {
@@ -218,7 +224,15 @@ class Admin {
             wp_send_json_error(['message' => __('Insufficient permissions.', 'moysklad-wc-sync')]);
         }
 
-        $api = new API();
+        // Get token explicitly
+        $token = get_option('ms_wc_sync_api_token', '');
+        
+        if (empty($token)) {
+            wp_send_json_error(['message' => __('API token is not configured. Please save your settings first.', 'moysklad-wc-sync')]);
+            return;
+        }
+
+        $api = new API($token);
         $result = $api->test_connection();
 
         if (is_wp_error($result)) {
@@ -298,7 +312,7 @@ class Admin {
                 $webhook_status = $webhook_handler->check_webhooks();
                 wp_send_json_success($webhook_status);
             } else {
-                wp_send_json_error(['message' => __('Failed to register webhooks', 'moysklad-wc-sync')]);
+                wp_send_json_error(['message' => __('видимо что-то случилось', 'moysklad-wc-sync')]);
             }
         } catch (\Exception $e) {
             wp_send_json_error(['message' => $e->getMessage()]);

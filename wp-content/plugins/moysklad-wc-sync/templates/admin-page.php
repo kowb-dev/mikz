@@ -43,6 +43,8 @@ $current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'dashboard';
 
     <div class="ms-wc-sync-dashboard">
         
+        <div id="ms-wc-sync-message"></div>
+        
         <?php if ($current_tab === 'dashboard') : ?>
             <!-- Dashboard Tab -->
             <div class="ms-wc-sync-tab-content">
@@ -142,8 +144,6 @@ $current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'dashboard';
                         <?php echo esc_html__('Reschedule Cron', 'moysklad-wc-sync'); ?>
                     </button>
                 </div>
-
-                <div id="ms-wc-sync-message"></div>
             </div>
 
         <?php elseif ($current_tab === 'settings') : ?>
@@ -162,14 +162,24 @@ $current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'dashboard';
                                 </label>
                             </th>
                             <td>
+                                <?php 
+                                $current_token = get_option('ms_wc_sync_api_token', '');
+                                $has_token = !empty($current_token);
+                                ?>
                                 <input
-                                    type="password"
+                                    type="text"
                                     id="ms_wc_sync_api_token"
                                     name="ms_wc_sync_api_token"
-                                    value="<?php echo esc_attr(get_option('ms_wc_sync_api_token')); ?>"
+                                    value="<?php echo esc_attr($current_token); ?>"
                                     class="regular-text"
                                     autocomplete="off"
+                                    placeholder="<?php echo esc_attr__('Enter API token', 'moysklad-wc-sync'); ?>"
                                 />
+                                <?php if ($has_token) : ?>
+                                    <p class="description" style="color: #00a32a;">
+                                        ✓ <?php echo esc_html__('Token is configured', 'moysklad-wc-sync'); ?>
+                                    </p>
+                                <?php endif; ?>
                                 <p class="description">
                                     <?php echo esc_html__('Enter your MoySklad API token. You can generate it in your MoySklad account settings.', 'moysklad-wc-sync'); ?>
                                 </p>
@@ -272,7 +282,9 @@ $current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'dashboard';
                     </table>
 
                     <p class="submit">
-                        <?php submit_button(__('Save Settings', 'moysklad-wc-sync'), 'primary', 'submit', false); ?>
+                        <button type="submit" class="button button-primary" name="submit">
+                            <?php echo esc_html__('Save Settings', 'moysklad-wc-sync'); ?>
+                        </button>
                         <button type="button" class="button button-secondary" id="ms-wc-sync-test-connection">
                             <?php echo esc_html__('Test Connection', 'moysklad-wc-sync'); ?>
                         </button>
@@ -335,6 +347,13 @@ $current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'dashboard';
 
                 <form method="post" action="options.php" class="ms-wc-sync-settings-form">
                     <?php settings_fields('ms_wc_sync_settings'); ?>
+                    
+                    <!-- Preserve API token and other settings from Settings tab -->
+                    <input type="hidden" name="ms_wc_sync_api_token" value="<?php echo esc_attr(get_option('ms_wc_sync_api_token', '')); ?>" />
+                    <input type="hidden" name="ms_wc_sync_interval" value="<?php echo esc_attr(get_option('ms_wc_sync_interval', 'daily')); ?>" />
+                    <input type="hidden" name="ms_wc_sync_batch_size" value="<?php echo esc_attr(get_option('ms_wc_sync_batch_size', 50)); ?>" />
+                    <input type="hidden" name="ms_wc_sync_max_time" value="<?php echo esc_attr(get_option('ms_wc_sync_max_time', 180)); ?>" />
+                    <input type="hidden" name="ms_wc_sync_webhook_secret" value="<?php echo esc_attr(get_option('ms_wc_sync_webhook_secret', '')); ?>" />
 
                     <h3><?php echo esc_html__('Stock Sync Settings', 'moysklad-wc-sync'); ?></h3>
                     
@@ -431,7 +450,9 @@ $current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'dashboard';
                     </table>
 
                     <p class="submit">
-                        <?php submit_button(__('Save Stock Settings', 'moysklad-wc-sync'), 'primary', 'submit', false); ?>
+                        <button type="submit" class="button button-primary" name="submit">
+                            <?php echo esc_html__('Save Stock Settings', 'moysklad-wc-sync'); ?>
+                        </button>
                         <button type="button" class="button button-secondary" id="ms-wc-sync-stock-manual">
                             <?php echo esc_html__('Run Stock Sync Now', 'moysklad-wc-sync'); ?>
                         </button>
@@ -454,7 +475,7 @@ $current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'dashboard';
                             </p>
                             
                             <?php if (!empty($webhook_status['webhooks'])) : ?>
-                                <table class="widefat">
+                                <table class="widefat" style="margin-top: 10px;">
                                     <thead>
                                         <tr>
                                             <th><?php echo esc_html__('Entity Type', 'moysklad-wc-sync'); ?></th>
@@ -467,15 +488,30 @@ $current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'dashboard';
                                             <tr>
                                                 <td><?php echo esc_html($webhook['entityType']); ?></td>
                                                 <td><?php echo esc_html($webhook['action']); ?></td>
-                                                <td><?php echo $webhook['enabled'] ? '✓ Enabled' : '✗ Disabled'; ?></td>
+                                                <td>
+                                                    <?php if ($webhook['enabled']) : ?>
+                                                        <span style="color: #00a32a;">✓ <?php echo esc_html__('Enabled', 'moysklad-wc-sync'); ?></span>
+                                                    <?php else : ?>
+                                                        <span style="color: #d63638;">✗ <?php echo esc_html__('Disabled', 'moysklad-wc-sync'); ?></span>
+                                                    <?php endif; ?>
+                                                </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
+                            <?php else : ?>
+                                <p style="color: #d63638;">
+                                    <?php echo esc_html__('No webhooks registered yet.', 'moysklad-wc-sync'); ?>
+                                </p>
                             <?php endif; ?>
+                        <?php else : ?>
+                            <p style="color: #d63638;">
+                                <?php echo esc_html__('Failed to check webhook status:', 'moysklad-wc-sync'); ?>
+                                <?php echo esc_html($webhook_status['message'] ?? 'Unknown error'); ?>
+                            </p>
                         <?php endif; ?>
                         
-                        <p>
+                        <p style="margin-top: 15px;">
                             <button type="button" class="button button-secondary" id="ms-wc-sync-register-webhooks">
                                 <?php echo esc_html__('Register/Update Webhooks', 'moysklad-wc-sync'); ?>
                             </button>

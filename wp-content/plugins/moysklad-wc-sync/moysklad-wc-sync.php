@@ -3,7 +3,7 @@
  * Plugin Name: MoySklad WooCommerce Sync
  * Plugin URI: https://kowb.ru
  * Description: Оптимизированная односторонняя синхронизация из МойСклад в WooCommerce с инкрементальным обновлением остатков
- * Version: 2.2.0
+ * Version: 2.2.1
  * Author: KB
  * Author URI: https://kowb.ru
  * Text Domain: moysklad-wc-sync
@@ -37,7 +37,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants
-define('MS_WC_SYNC_VERSION', '2.2.0');
+define('MS_WC_SYNC_VERSION', '2.2.1');
 define('MS_WC_SYNC_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('MS_WC_SYNC_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('MS_WC_SYNC_MIN_PHP', '8.0');
@@ -148,6 +148,8 @@ final class Plugin {
     }
 
     public function activate(): void {
+        // Don't output anything during activation to avoid "headers already sent" errors
+        
         if (!$this->is_woocommerce_active()) {
             deactivate_plugins(plugin_basename(__FILE__));
             wp_die(
@@ -171,44 +173,52 @@ final class Plugin {
 
         $previous_version = get_option('ms_wc_sync_version', '0.0.0');
         
+        // Create tables
         Logger::create_table();
         Stock_Sync::create_tables();
         
-        if (version_compare($previous_version, '2.2.0', '<')) {
-            $this->run_upgrade_to_220();
+        // Run upgrade if needed
+        if (version_compare($previous_version, '2.2.1', '<')) {
+            $this->run_upgrade_to_221();
         }
         
+        // Update version
         update_option('ms_wc_sync_version', MS_WC_SYNC_VERSION);
         
+        // Schedule cron events
         $cron = Cron::get_instance();
         $cron->schedule_event();
         $cron->schedule_stock_sync();
         
-        if (get_option('ms_wc_sync_use_webhooks', 'no') === 'yes') {
-            $webhook_handler = new Webhook_Handler();
-            $webhook_handler->register_webhook_endpoint();
-        }
-        
+        // Flush rewrite rules for REST API
         flush_rewrite_rules();
     }
     
-    private function run_upgrade_to_220(): void {
+    private function run_upgrade_to_221(): void {
         global $wpdb;
         
+        // Add indexes if they don't exist
         $stock_table = $wpdb->prefix . 'ms_wc_sync_stock_data';
         $logs_table = $wpdb->prefix . 'ms_wc_sync_logs';
+        
+        // Suppress errors for already existing indexes
+        $wpdb->suppress_errors();
         
         $wpdb->query("ALTER TABLE {$stock_table} ADD INDEX IF NOT EXISTS updated_at (updated_at)");
         $wpdb->query("ALTER TABLE {$logs_table} ADD INDEX IF NOT EXISTS log_level_time (log_level, log_time)");
         
+        $wpdb->suppress_errors(false);
+        
+        // Initialize webhook secret if not exists
         if (!get_option('ms_wc_sync_webhook_secret')) {
             update_option('ms_wc_sync_webhook_secret', wp_generate_password(32, false));
         }
         
+        // Log upgrade
         $logger = new Logger();
-        $logger->log('info', 'Upgraded to version 2.2.0', [
+        $logger->log('info', 'Upgraded to version 2.2.1', [
             'previous_version' => get_option('ms_wc_sync_version', 'unknown'),
-            'new_version' => '2.2.0'
+            'new_version' => '2.2.1'
         ]);
     }
 

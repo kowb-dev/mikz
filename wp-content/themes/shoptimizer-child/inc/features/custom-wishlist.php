@@ -220,18 +220,7 @@ class MKX_Wishlist {
         }
         
         echo '<div class="mkx-wishlist-page">';
-        echo '<table class="mkx-wishlist-table shop_table">';
-        echo '<thead>';
-        echo '<tr>';
-        echo '<th class="product-remove"></th>';
-        echo '<th class="product-thumbnail">Изображение</th>';
-        echo '<th class="product-name">Товар</th>';
-        echo '<th class="product-price">Цена</th>';
-        echo '<th class="product-stock">Наличие</th>';
-        echo '<th class="product-add-to-cart">В корзину</th>';
-        echo '</tr>';
-        echo '</thead>';
-        echo '<tbody>';
+        echo '<div class="mkx-wishlist-list">';
         
         foreach ( $wishlist as $product_id ) {
             global $product;
@@ -240,48 +229,57 @@ class MKX_Wishlist {
                 continue;
             }
             
-            echo '<tr data-product-id="' . esc_attr( $product_id ) . '">';
+            echo '<div class="mkx-wishlist-item" data-product-id="' . esc_attr( $product_id ) . '">';
             
-            echo '<td class="product-remove">';
-            echo '<a href="#" class="mkx-wishlist-remove" data-product-id="' . esc_attr( $product_id ) . '" title="Удалить">';
-            echo '<i class="ph ph-x" aria-hidden="true"></i>';
-            echo '</a>';
-            echo '</td>';
-            
-            echo '<td class="product-thumbnail">';
+            echo '<div class="wishlist-item-image">';
             echo '<a href="' . esc_url( $product->get_permalink() ) . '">';
             echo $product->get_image( 'thumbnail' );
             echo '</a>';
-            echo '</td>';
+            echo '</div>';
             
-            echo '<td class="product-name">';
-            echo '<a href="' . esc_url( $product->get_permalink() ) . '">' . esc_html( $product->get_name() ) . '</a>';
-            echo '</td>';
+            echo '<div class="wishlist-item-content">';
             
-            echo '<td class="product-price">';
-            echo $product->get_price_html();
-            echo '</td>';
+            echo '<div class="wishlist-item-details">';
+            echo '<a href="#" class="mkx-wishlist-remove" data-product-id="' . esc_attr( $product_id ) . '" title="Удалить"><i class="ph ph-x" aria-hidden="true"></i></a>';
+            echo '<div class="product-price">' . $product->get_price_html() . '</div>';
+            echo '<a class="product-name" href="' . esc_url( $product->get_permalink() ) . '">' . esc_html( $product->get_name() ) . '</a>';
+
+            // Display attributes
+            $attributes_to_show = array(
+                'pa_ekran' => 'Экран',
+                'pa_protsessor' => 'Процессор',
+                'pa_operativnaya-i-vstroennaya-pamyat' => 'Оперативная и встроенная память',
+            );
             
-            echo '<td class="product-stock">';
-            if ( $product->is_in_stock() ) {
-                echo '<span class="in-stock">В наличии</span>';
-            } else {
-                echo '<span class="out-of-stock">Нет в наличии</span>';
+            echo '<div class="product-attributes">';
+            foreach ($attributes_to_show as $attr_key => $attr_label) {
+                $value = $product->get_attribute($attr_key);
+                if (!empty($value)) {
+                    echo '<div class="product-attribute"><span class="attr-label">' . esc_html($attr_label) . ':</span> <span class="attr-value">' . esc_html($value) . '</span></div>';
+                }
             }
-            echo '</td>';
+            echo '</div>';
             
-            echo '<td class="product-add-to-cart">';
+            echo '</div>'; // .wishlist-item-details
+
+            echo '<div class="wishlist-item-actions">';
             if ( $product->is_purchasable() && $product->is_in_stock() ) {
                 woocommerce_template_loop_add_to_cart();
+            } else {
+                if ( $product->is_in_stock() ) {
+                    echo '<span class="in-stock">В наличии</span>';
+                } else {
+                    echo '<span class="out-of-stock">Нет в наличии</span>';
+                }
             }
-            echo '</td>';
-            
-            echo '</tr>';
+            echo '</div>'; // .wishlist-item-actions
+
+            echo '</div>'; // .wishlist-item-content
+            echo '</div>'; // .mkx-wishlist-item
         }
         
-        echo '</tbody>';
-        echo '</table>';
-        echo '</div>';
+        echo '</div>'; // .mkx-wishlist-list
+        echo '</div>'; // .mkx-wishlist-page
         
         return ob_get_clean();
     }

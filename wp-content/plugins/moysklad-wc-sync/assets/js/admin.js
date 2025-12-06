@@ -33,6 +33,19 @@
 			if (msWcSync.is_locked) {
 				this.startProgressPolling();
 			}
+			
+			// Показываем сообщение WordPress о сохранении настроек
+			this.checkSettingsSaved();
+		}
+		
+		/**
+		 * Check if settings were just saved and show message
+		 */
+		checkSettingsSaved() {
+			const urlParams = new URLSearchParams(window.location.search);
+			if (urlParams.get('settings-updated') === 'true') {
+				this.showMessage('Settings saved successfully!', 'success', 5000);
+			}
 		}
 
 		/**
@@ -365,7 +378,7 @@
 					}, 2000);
 				} else {
 					const errorMessage = response.data?.message || 'Unknown error';
-					this.showMessage(`Failed to register webhooks: ${errorMessage}`, 'error');
+					this.showMessage(`Ошибка регистрации вебхуков: ${errorMessage}`, 'error');
 				}
 			} catch (error) {
 				console.error('Register webhooks error:', error);

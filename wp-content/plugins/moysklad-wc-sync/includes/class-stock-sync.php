@@ -168,13 +168,50 @@ class Stock_Sync {
      */
     private function get_stock_report(): array|\WP_Error {
         $store_id = get_option('ms_wc_sync_store_id', '');
-        $params = [];
         
-        if (!empty($store_id)) {
-            $params['filter'] = "store.id=$store_id";
-        }
+        // Get all stock data with pagination
+        $all_stock = [];
+        $offset = 0;
+        $limit = 1000; // Maximum allowed by MoySklad API
         
-        return $this->api->request('/report/stock/bystore', $params);
+        do {
+            $params = [
+                'limit' => $limit,
+                'offset' => $offset
+            ];
+            
+            if (!empty($store_id)) {
+                $params['filter'] = "store.id=$store_id";
+            }
+            
+            $response = $this->api->request('/report/stock/bystore', $params);
+            
+            if (is_wp_error($response)) {
+                return $response;
+            }
+            
+            if (!empty($response['rows'])) {
+                $all_stock = array_merge($all_stock, $response['rows']);
+            }
+            
+            $offset += $limit;
+            $has_more = !empty($response['rows']) && count($response['rows']) === $limit;
+            
+            // Log progress
+            if ($has_more) {
+                $this->logger->log('info', 'Fetching stock data', [
+                    'fetched' => count($all_stock),
+                    'batch' => $offset / $limit
+                ]);
+            }
+            
+        } while ($has_more);
+        
+        $this->logger->log('info', 'Stock data fetched', [
+            'total_products' => count($all_stock)
+        ]);
+        
+        return ['rows' => $all_stock];
     }
     
     /**

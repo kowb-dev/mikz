@@ -288,38 +288,53 @@ class Webhook_Handler {
             'webhook_url' => $webhook_url
         ]);
         
+        $success_count = 0;
+        $total_count = 0;
+        
         // Register webhook for product updates
-        $product_webhook = $this->api->register_webhook([
+        $total_count++;
+        $product_webhook = $this->api->request('/entity/webhook', [], 'POST', [
             'url' => $webhook_url,
             'action' => 'UPDATE',
             'entityType' => 'product',
-            'diffType' => 'FIELDS',
-            'fields' => ['stock', 'quantity', 'reserve'],
         ]);
         
-        if (is_wp_error($product_webhook)) {
+        if (!is_wp_error($product_webhook)) {
+            $success_count++;
+            $this->logger->log('info', 'Product webhook registered', [
+                'webhook_id' => $product_webhook['id'] ?? 'unknown'
+            ]);
+        } else {
             $this->logger->log('error', 'Failed to register product webhook: ' . $product_webhook->get_error_message());
-            return false;
         }
         
         // Register webhooks for stock-affecting documents
         $stock_entities = ['demand', 'supply', 'move', 'enter', 'loss'];
-        $success = true;
         
         foreach ($stock_entities as $entity) {
-            $entity_webhook = $this->api->register_webhook([
+            $total_count++;
+            $entity_webhook = $this->api->request('/entity/webhook', [], 'POST', [
                 'url' => $webhook_url,
-                'action' => 'UPDATE',
+                'action' => 'CREATE',
                 'entityType' => $entity
             ]);
             
-            if (is_wp_error($entity_webhook)) {
+            if (!is_wp_error($entity_webhook)) {
+                $success_count++;
+                $this->logger->log('info', "{$entity} webhook registered", [
+                    'webhook_id' => $entity_webhook['id'] ?? 'unknown'
+                ]);
+            } else {
                 $this->logger->log('error', "Failed to register {$entity} webhook: " . $entity_webhook->get_error_message());
-                $success = false;
             }
         }
         
-        return $success;
+        $this->logger->log('info', 'Webhook registration completed', [
+            'success' => $success_count,
+            'total' => $total_count
+        ]);
+        
+        return $success_count > 0;
     }
     
     /**
