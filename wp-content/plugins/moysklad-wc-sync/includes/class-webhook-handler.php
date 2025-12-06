@@ -5,7 +5,7 @@
  * Handles incoming webhooks from MoySklad for real-time stock updates
  *
  * @package MoySklad_WC_Sync
- * @version 2.2.0
+ * @version 2.2.1
  */
 
 declare(strict_types=1);
@@ -22,7 +22,11 @@ class Webhook_Handler {
     private Stock_Sync $stock_sync;
     
     public function __construct() {
-        $this->api = new API();
+        // Get API token from options
+        $token = get_option('ms_wc_sync_api_token', '');
+        
+        // Pass token explicitly to API class
+        $this->api = new API($token);
         $this->logger = new Logger();
         $this->stock_sync = new Stock_Sync();
         
@@ -78,6 +82,9 @@ class Webhook_Handler {
      */
     public function process_webhook(\WP_REST_Request $request): \WP_REST_Response {
         $body = $request->get_json_params();
+        
+        // Update last webhook received timestamp
+        update_option('ms_wc_sync_last_webhook_received', time());
         
         $this->logger->log('info', 'Webhook received', [
             'event_type' => $body['eventType'] ?? 'unknown',

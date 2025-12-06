@@ -1,28 +1,41 @@
+# WordPress Core
+/wp-admin/
+/wp-includes/
 
-# WordPress
-wp-content/debug.log
-wp-content/backups-dup-pro/
-.idea/
-.vscode/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-/htdocs/
-/wp-content/uploads/
-/wp-content/blogs.dir/
+# Content
+/wp-content/cache/
 /wp-content/upgrade/
+/wp-content/uploads/
+/wp-content/blogs.dir/ # Multisite
+/wp-content/backups-dup-pro/
 /wp-content/backup-db/
 /wp-content/advanced-cache.php
 /wp-content/wp-cache-config.php
+/db-backups/
+
+# Configuration
 /wp-config.php
+.htaccess
+.htpasswd
+
+# Debugging & Logging
 *.log
-wp-content/themes/shoptimizer-child/style-main.css.map
-/node_modules
-/vendor
-/wp-content/cache/
-# Ignore all log files
-*.log
-# OS generated files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Composer
+/vendor/
+composer.lock
+
+# Node.js
+/node_modules/
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
 .DS_Store
 .DS_Store?
 ._*
@@ -30,4 +43,15 @@ wp-content/themes/shoptimizer-child/style-main.css.map
 .Trashes
 ehthumbs.db
 Thumbs.db
-/db-backups/
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.tmp
+
+# Shoptimizer theme specific
+wp-content/themes/shoptimizer-child/style-main.css.map
+
+# Other
+/htdocs/

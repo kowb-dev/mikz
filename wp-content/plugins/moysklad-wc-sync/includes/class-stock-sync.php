@@ -5,7 +5,7 @@
  * Optimized for incremental stock updates with minimal server load
  *
  * @package MoySklad_WC_Sync
- * @version 2.2.0
+ * @version 2.2.1
  */
 
 declare(strict_types=1);
@@ -24,8 +24,17 @@ class Stock_Sync {
     private const LOCK_TIMEOUT = 300; // 5 minutes
     
     public function __construct() {
-        $this->api = new API();
+        // Get API token from options
+        $token = get_option('ms_wc_sync_api_token', '');
+        
+        // Pass token explicitly to API class
+        $this->api = new API($token);
         $this->logger = new Logger();
+        
+        // Log token status for debugging
+        if (empty($token)) {
+            $this->logger->log('error', 'Stock_Sync initialized without API token');
+        }
     }
     
     /**
@@ -72,6 +81,15 @@ class Stock_Sync {
         ];
         
         $start_time = microtime(true);
+        
+        // Check if API token is configured
+        $token = get_option('ms_wc_sync_api_token', '');
+        if (empty($token)) {
+            $results['errors'][] = 'API token is not configured.';
+            $results['stopped_reason'] = 'No API token';
+            $this->logger->log('error', 'Stock sync failed: API token is not configured.');
+            return $results;
+        }
         
         // Check if sync is already running
         if ($this->is_locked()) {

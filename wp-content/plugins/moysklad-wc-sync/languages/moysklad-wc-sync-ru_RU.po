@@ -4,14 +4,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: MoySklad WooCommerce Sync 2.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/moysklad-wc-sync\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Gemini <gemini@google.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2025-12-01 12:00+0000\n"
-"PO-Revision-Date: 2025-12-01 12:00+0000\n"
+"PO-Revision-Date: 2025-12-05 12:00+0000\n"
 "X-Generator: Gemini\n"
 "X-Domain: moysklad-wc-sync\n"
 
@@ -191,3 +191,156 @@ msgstr "Ежедневно в 23:50"
 
 msgid "Weekly"
 msgstr "Еженедельно"
+
+msgid "Dashboard"
+msgstr "Панель управления"
+
+msgid "Stock Sync"
+msgstr "Синхронизация остатков"
+
+msgid "Logs"
+msgstr "Логи"
+
+msgid "Synchronization Status"
+msgstr "Статус синхронизации"
+
+msgid "Last Full Sync"
+msgstr "Последняя полная синхронизация"
+
+msgid "Next Full Sync"
+msgstr "Следующая полная синхронизация"
+
+msgid "Run Full Sync Now"
+msgstr "Запустить полную синхронизацию"
+
+msgid "Reschedule Cron"
+msgstr "Перепланировать Cron"
+
+msgid "API Settings"
+msgstr "Настройки API"
+
+msgid "Synchronization Settings"
+msgstr "Настройки синхронизации"
+
+msgid "Full Sync Interval"
+msgstr "Интервал полной синхронизации"
+
+msgid "How often should the full product sync run?"
+msgstr "Как часто должна выполняться полная синхронизация товаров?"
+
+msgid "Number of products to process per batch (10-100)."
+msgstr "Количество товаров для обработки в одном пакете (10-100)."
+
+msgid "Maximum time in seconds for sync execution (60-600)."
+msgstr "Максимальное время выполнения синхронизации в секундах (60-600)."
+
+msgid "Price Types"
+msgstr "Типы цен"
+
+msgid "Stock Synchronization"
+msgstr "Синхронизация остатков"
+
+msgid "Last Stock Sync"
+msgstr "Последняя синхронизация остатков"
+
+msgid "Next Stock Sync"
+msgstr "Следующая синхронизация остатков"
+
+msgid "Last Stock Results"
+msgstr "Последние результаты синхронизации остатков"
+
+msgid "%1$d updated / %2$d skipped"
+msgstr "%1$d обновлено / %2$d пропущено"
+
+msgid "Stock Sync Settings"
+msgstr "Настройки синхронизации остатков"
+
+msgid "Use Webhooks"
+msgstr "Использовать вебхуки"
+
+msgid "No - Use scheduled sync"
+msgstr "Нет - Использовать плановую синхронизацию"
+
+msgid "Yes - Real-time updates"
+msgstr "Да - Обновления в реальном времени"
+
+msgid "Enable webhooks for real-time stock updates from MoySklad."
+msgstr "Включите вебхуки для обновления остатков из МойСклад в реальном времени."
+
+msgid "Stock Sync Interval"
+msgstr "Интервал синхронизации остатков"
+
+msgid "How often should stock be synchronized? (Only used if webhooks are disabled)"
+msgstr "Как часто должны синхронизироваться остатки? (Используется только если вебхуки отключены)"
+
+msgid "Store ID"
+msgstr "ID склада"
+
+msgid "Leave empty to sync stock from all stores, or enter specific MoySklad store ID."
+msgstr "Оставьте пустым для синхронизации остатков со всех складов или введите ID конкретного склада МойСклад."
+
+msgid "Reservation Mode"
+msgstr "Режим резервирования"
+
+msgid "How to handle reserved stock quantities."
+msgstr "Как обрабатывать зарезервированные остатки."
+
+msgid "Save Stock Settings"
+msgstr "Сохранить настройки остатков"
+
+msgid "Run Stock Sync Now"
+msgstr "Запустить синхронизацию остатков"
+
+msgid "Webhook Status"
+msgstr "Статус вебхуков"
+
+msgid "Webhook URL:"
+msgstr "URL вебхука:"
+
+msgid "Registered Webhooks:"
+msgstr "Зарегистрированные вебхуки:"
+
+msgid "Entity Type"
+msgstr "Тип сущности"
+
+msgid "Action"
+msgstr "Действие"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "✓ Enabled"
+msgstr "✓ Включено"
+
+msgid "✗ Disabled"
+msgstr "✗ Отключено"
+
+msgid "Register/Update Webhooks"
+msgstr "Зарегистрировать/обновить вебхуки"
+
+msgid "Show details"
+msgstr "Показать детали"
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Every 5 minutes"
+msgstr "Каждые 5 минут"
+
+msgid "Every 10 minutes"
+msgstr "Каждые 10 минут"
+
+msgid "Every 15 minutes"
+msgstr "Каждые 15 минут"
+
+msgid "Every 30 minutes"
+msgstr "Каждые 30 минут"
+
+msgid "Ignore reservations (use total stock)"
+msgstr "Игнорировать резервы (использовать общий остаток)"
+
+msgid "Subtract reservations (available = total - reserved)"
+msgstr "Вычитать резервы (доступно = всего - зарезервировано)"
+
+msgid "Use \"Free to sell\" quantity if available"
+msgstr "Использовать \"Доступно для продажи\", если доступно"
