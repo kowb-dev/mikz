@@ -210,7 +210,7 @@
                                href="<?php echo esc_url( wc_get_cart_url() ); ?>"
                                title="<?php esc_attr_e( 'Посмотреть корзину', 'shoptimizer-child' ); ?>">
                                 <i class="ph ph-shopping-cart" aria-hidden="true"></i>
-                                <span class="mkx-cart-text"><?php esc_html_e( 'Корзина', 'shoptimizer-child' ); ?></span>
+        
                                 <?php if ( WC()->cart->get_cart_contents_count() > 0 ) : ?>
                                     <span class="mkx-badge-count mkx-cart-count mkx-badge-visible" aria-label="<?php echo esc_attr( sprintf( _n( '%s товар в корзине', '%s товаров в корзине', WC()->cart->get_cart_contents_count(), 'shoptimizer-child' ), WC()->cart->get_cart_contents_count() ) ); ?>">
                                             <?php echo WC()->cart->get_cart_contents_count(); ?>

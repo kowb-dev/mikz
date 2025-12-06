@@ -61,7 +61,7 @@
                 
                 const $button = $(this);
                 const productId = $button.data('product-id');
-                const $row = $button.closest('tr');
+                const $item = $button.closest('.mkx-wishlist-item');
                 
                 if ($button.hasClass('processing')) {
                     return;
@@ -79,10 +79,10 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            $row.fadeOut(300, function() {
-                                $row.remove();
+                            $item.fadeOut(300, function() {
+                                $item.remove();
                                 
-                                if ($('.mkx-wishlist-table tbody tr').length === 0) {
+                                if ($('.mkx-wishlist-list .mkx-wishlist-item').length === 0) {
                                     location.reload();
                                 }
                             });

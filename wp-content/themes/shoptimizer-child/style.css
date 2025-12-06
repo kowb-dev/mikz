@@ -360,3 +360,16 @@
 
     font-size: var(--fs-2xl);
 }
+
+.button{
+    background: var(--mkx-primary) ;
+    color: white !important;
+    border-color: var(--mkx-primary);
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Add transition */
+}
+
+.button:hover,
+ {
+    background-color: var(--mkx-primary-dark, #c2185b); /* Darken background on hover */
+    border-color: var(--mkx-primary-dark, #c2185b); /* Darken border on hover */
+}
