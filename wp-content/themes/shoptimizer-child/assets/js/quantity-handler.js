@@ -1,43 +1,124 @@
-// Ensure this script only runs once.
-if (!window.mkxQuantityHandlerInitialized) {
+(function($) {
+    'use strict';
+
+    if (window.mkxQuantityHandlerInitialized) return;
     window.mkxQuantityHandlerInitialized = true;
 
-    document.addEventListener('DOMContentLoaded', function() {
-        document.body.addEventListener('click', function(e) {
-            if (e.target.matches('.quantity .plus, .quantity .minus')) {
-                e.preventDefault();
-                e.stopPropagation();
+    /**
+     * Quantity buttons handler (+/-)
+     */
+    $(document.body).on('click', '.quantity .plus, .quantity .minus', function(e) {
+        e.preventDefault();
+        
+        var $qty = $(this).closest('.quantity').find('.qty');
+        var currentVal = parseFloat($qty.val());
+        var max = parseFloat($qty.attr('max'));
+        var min = parseFloat($qty.attr('min'));
+        var step = $qty.attr('step');
 
-                const quantityWrapper = e.target.closest('.quantity');
-                if (!quantityWrapper) return;
+        if (!currentVal || currentVal === '' || currentVal === 'NaN') currentVal = 0;
+        if (max === '' || max === 'NaN') max = '';
+        if (min === '' || min === 'NaN') min = 0;
+        if (step === 'any' || step === '' || step === undefined || parseFloat(step) === 'NaN') step = 1;
 
-                const input = quantityWrapper.querySelector('.qty, input[type="number"]');
-                if (!input) return;
+        if ($(this).is('.plus')) {
+            if (max && (max == currentVal || currentVal > max)) {
+                $qty.val(max);
+            } else {
+                $qty.val(currentVal + parseFloat(step));
+            }
+        } else {
+            if (min && (min == currentVal || currentVal < min)) {
+                $qty.val(min);
+            } else if (currentVal > 0) {
+                $qty.val(currentVal - parseFloat(step));
+            }
+        }
 
-                const step = parseInt(input.step, 10) || 1;
-                const min = parseInt(input.min, 10) || 1;
-                const max = input.max ? parseInt(input.max, 10) : Infinity;
-                let currentValue = parseInt(input.value, 10) || min;
+        $qty.trigger('change');
+        
+        // Update data-quantity on buttons (legacy/archive support)
+        var $product = $(this).closest('.product, .mkz-product-list-item, .product-type-simple');
+        if ($product.length) {
+             $product.find('.ajax_add_to_cart, .add_to_cart_button').attr('data-quantity', $qty.val());
+        }
+    });
 
-                if (e.target.matches('.plus')) {
-                    currentValue = Math.min(currentValue + step, max);
-                } else {
-                    currentValue = Math.max(currentValue - step, min);
-                }
+    /**
+     * Single Product AJAX Add to Cart
+     * Replaces standard form submission with AJAX to prevent reloads and resubmission warnings.
+     */
+    $(document).on('click', '.single_add_to_cart_button', function(e) {
+        var $thisbutton = $(this),
+            $form = $thisbutton.closest('form.cart');
 
-                input.value = currentValue;
+        if ($form.length === 0 || $thisbutton.hasClass('disabled') || $thisbutton.hasClass('wc-variation-selection-needed')) {
+            return;
+        }
 
-                const changeEvent = new Event('change', { bubbles: true });
-                input.dispatchEvent(changeEvent);
+        e.preventDefault();
 
-                const productItem = e.target.closest('li.product, .mkz-product-list-item');
-                if (productItem) {
-                    const addToCartButtons = productItem.querySelectorAll('.ajax_add_to_cart, .add_to_cart_button');
-                    addToCartButtons.forEach(button => {
-                        button.dataset.quantity = currentValue;
-                    });
+        $thisbutton.removeClass('added').addClass('loading');
+
+        var formData = $form.serializeArray();
+        
+        // Ensure add-to-cart is present in data
+        var hasAddToCart = false;
+        $.each(formData, function(i, field) {
+            if (field.name === 'add-to-cart') hasAddToCart = true;
+        });
+
+        if (!hasAddToCart) {
+            if ($thisbutton.val()) {
+                formData.push({name: 'add-to-cart', value: $thisbutton.val()});
+            } else {
+                var $addToCartInput = $form.find('input[name="add-to-cart"]');
+                if($addToCartInput.length) {
+                    formData.push({name: 'add-to-cart', value: $addToCartInput.val()});
                 }
             }
-        }, true);
+        }
+
+        // Determine AJAX URL
+        var ajaxUrl = '/?wc-ajax=add_to_cart';
+        if (typeof wc_add_to_cart_params !== 'undefined') {
+            ajaxUrl = wc_add_to_cart_params.wc_ajax_url.toString().replace('%%endpoint%%', 'add_to_cart');
+        }
+
+        $.ajax({
+            url: ajaxUrl,
+            data: formData,
+            type: 'POST',
+            success: function(response) {
+                if (!response) {
+                    return;
+                }
+
+                if (response.error && response.product_url) {
+                    window.location = response.product_url;
+                    return;
+                }
+
+                // Redirect support
+                if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.cart_redirect_after_add === 'yes') {
+                    window.location = wc_add_to_cart_params.cart_url;
+                    return;
+                }
+
+                $thisbutton.removeClass('loading').addClass('added');
+
+                // Trigger fragments update
+                $(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, $thisbutton]);
+                
+                // Trigger fragment refresh explicitly
+                $(document.body).trigger('wc_fragment_refresh');
+            },
+            error: function() {
+                $thisbutton.removeClass('loading');
+                // Fallback to native submit if AJAX fails
+                $form[0].submit();
+            }
+        });
     });
-}
+
+})(jQuery);

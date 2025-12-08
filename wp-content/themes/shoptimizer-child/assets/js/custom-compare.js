@@ -3,7 +3,11 @@
 
     const MKXCompareHandler = {
         init: function() {
-            this.version = '1.0.0';
+            // Ensure localized data is available
+            if (typeof mkxCompare === 'undefined') {
+                return;
+            }
+            this.version = '1.6.1';
             this.bindEvents();
         },
 

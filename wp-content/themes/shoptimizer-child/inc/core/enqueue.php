@@ -138,7 +138,7 @@ function shoptimizer_child_enqueue_styles_scripts() {
     wp_enqueue_script(
         'mkx-quantity-handler-script',
         get_stylesheet_directory_uri() . '/assets/js/quantity-handler.js',
-        array(),
+        array( 'jquery' ),
         $version,
         true
     );

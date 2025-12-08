@@ -44,14 +44,14 @@ class MKX_Compare {
             'mkx-compare',
             get_stylesheet_directory_uri() . '/assets/css/custom-compare.css',
             array(),
-            '1.0.0'
+            '1.6.1'
         );
         
         wp_enqueue_script(
             'mkx-compare',
             get_stylesheet_directory_uri() . '/assets/js/custom-compare.js',
             array( 'jquery' ),
-            '1.0.0',
+            '1.6.1',
             true
         );
         
