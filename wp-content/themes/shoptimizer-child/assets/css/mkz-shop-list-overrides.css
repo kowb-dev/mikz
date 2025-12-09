@@ -1,0 +1,38 @@
+/*
+ * MKZ Shop List Overrides
+ * @version 1.0.0
+ */
+
+.mkz-product-list-item__price-actions-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    flex: 0 0 350px;
+    margin-right: 1rem;
+}
+
+.mkz-product-list-item__price-and-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.mkz-product-list-item__price-stock-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.mkz-product-list-item__actions {
+    display: flex;
+    align-items: center;
+}
+
+.mkz-product-list-item__actions .mkx-product-actions {
+    padding: 0;
+    margin-top: 0;
+}

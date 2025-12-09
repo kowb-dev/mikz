@@ -1,0 +1,105 @@
+/*
+ Theme Name:   Shoptimizer Child
+ Theme URI:    https://your-site.com/shoptimizer-child/
+ Description:  Child theme for Shoptimizer, optimized for WooCommerce with mobile navigation
+ Author:       KW
+ Author URI:   https://kowb.ru/
+ Template:     shoptimizer
+ Version:      2.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Text Domain:  shoptimizer-child
+ Tags:         e-commerce, responsive, woocommerce, mobile-first
+*/
+
+/*
+ * IMPORT ORDER:
+ * Imports are organized logically for optimal cascading and maintainability.
+ * 
+ * To use this refactored structure in WordPress:
+ * 1. Create a 'css' folder in your child theme directory
+ * 2. Place all the individual CSS files in that folder
+ * 3. Uncomment the @import statements below
+ * 4. Or enqueue them individually in functions.php for better performance
+ */
+
+/*
+ * RECOMMENDED: Enqueue files in functions.php instead of @import
+ * @import has performance drawbacks. Use this in functions.php:
+ * 
+ * function shoptimizer_child_enqueue_styles() {
+ *     $theme_version = wp_get_theme()->get('Version');
+ *     
+ *     // 1. Variables
+ *     wp_enqueue_style('mkx-variables', get_stylesheet_directory_uri() . '/css/variables.css', array(), $theme_version);
+ *     
+ *     // 2. Base styles
+ *     wp_enqueue_style('mkx-base', get_stylesheet_directory_uri() . '/css/base.css', array('mkx-variables'), $theme_version);
+ *     
+ *     // 3. Animations
+ *     wp_enqueue_style('mkx-animations', get_stylesheet_directory_uri() . '/css/animations.css', array(), $theme_version);
+ *     
+ *     // 4-10. WooCommerce styles
+ *     wp_enqueue_style('mkx-woo-base', get_stylesheet_directory_uri() . '/css/woocommerce-base.css', array('mkx-variables'), $theme_version);
+ *     wp_enqueue_style('mkx-woo-products', get_stylesheet_directory_uri() . '/css/woocommerce-products.css', array('mkx-woo-base'), $theme_version);
+ *     wp_enqueue_style('mkx-woo-category', get_stylesheet_directory_uri() . '/css/woocommerce-category.css', array('mkx-woo-products'), $theme_version);
+ *     wp_enqueue_style('mkx-woo-single', get_stylesheet_directory_uri() . '/css/woocommerce-single-product.css', array('mkx-woo-base'), $theme_version);
+ *     wp_enqueue_style('mkx-woo-list', get_stylesheet_directory_uri() . '/css/woocommerce-list-view.css', array('mkx-woo-products'), $theme_version);
+ *     wp_enqueue_style('mkx-woo-widgets', get_stylesheet_directory_uri() . '/css/woocommerce-widgets.css', array('mkx-woo-base'), $theme_version);
+ *     wp_enqueue_style('mkx-woo-wishlist', get_stylesheet_directory_uri() . '/css/woocommerce-wishlist-compare.css', array('mkx-woo-products'), $theme_version);
+ *     
+ *     // 11-13. Page and utility styles
+ *     wp_enqueue_style('mkx-pages', get_stylesheet_directory_uri() . '/css/pages.css', array('mkx-base'), $theme_version);
+ *     wp_enqueue_style('mkx-footer', get_stylesheet_directory_uri() . '/css/footer.css', array('mkx-base'), $theme_version);
+ *     wp_enqueue_style('mkx-print', get_stylesheet_directory_uri() . '/css/print.css', array(), $theme_version, 'print');
+ * }
+ * add_action('wp_enqueue_scripts', 'shoptimizer_child_enqueue_styles', 20);
+ */
+
+/* 
+ * ALTERNATIVE: Using @import (simpler but slower)
+ * Uncomment these lines if you prefer to use @import:
+ */
+
+/*
+@import url('css/variables.css');
+@import url('css/base.css');
+@import url('css/animations.css');
+@import url('css/woocommerce-base.css');
+@import url('css/woocommerce-products.css');
+@import url('css/woocommerce-category.css');
+@import url('css/woocommerce-single-product.css');
+@import url('css/woocommerce-list-view.css');
+@import url('css/woocommerce-widgets.css');
+@import url('css/woocommerce-wishlist-compare.css');
+@import url('css/pages.css');
+@import url('css/footer.css');
+@import url('css/print.css');
+*/
+
+/*
+ * FILE STRUCTURE:
+ * 
+ * /css/
+ *   ├── variables.css                    - CSS custom properties & design tokens
+ *   ├── base.css                        - Global resets, typography, containers
+ *   ├── animations.css                  - Keyframe animations
+ *   ├── woocommerce-base.css           - Core WooCommerce overrides
+ *   ├── woocommerce-products.css       - Product grids, cards, actions
+ *   ├── woocommerce-category.css       - Category & brand archive pages
+ *   ├── woocommerce-single-product.css - Single product page layouts
+ *   ├── woocommerce-list-view.css      - Shop list view
+ *   ├── woocommerce-widgets.css        - Sidebar widgets & filters
+ *   ├── woocommerce-wishlist-compare.css - YITH wishlist & compare
+ *   ├── pages.css                      - Page-specific styles
+ *   ├── footer.css                     - Footer & newsletter
+ *   └── print.css                      - Print-optimized styles
+ * 
+ * BENEFITS OF THIS STRUCTURE:
+ * - Easy to maintain and debug
+ * - No duplicate code
+ * - Clear separation of concerns
+ * - Better browser caching
+ * - Easier team collaboration
+ * - Can conditionally load only needed CSS
+ */

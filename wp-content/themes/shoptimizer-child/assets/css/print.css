@@ -1,0 +1,33 @@
+/*
+ * PRINT STYLES
+ * Optimized styles for printing
+ */
+
+@media print {
+    /* Hide navigation and UI elements */
+    .mkx-site-header,
+    .mkx-mobile-bottom-nav,
+    .mkx-mobile-menu,
+    .mkx-catalog-megamenu,
+    .mkx-megamenu-overlay {
+        display: none !important;
+    }
+
+    /* Reset mobile nav padding */
+    body.mkx-mobile-nav-active {
+        padding-bottom: 0 !important;
+    }
+
+    /* Print in black and white */
+    * {
+        color: #000 !important;
+        background: #fff !important;
+    }
+
+    /* Prevent page breaks inside elements */
+    .woocommerce-product,
+    .woocommerce-cart-form,
+    .woocommerce-checkout {
+        page-break-inside: avoid;
+    }
+}

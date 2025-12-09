@@ -1,0 +1,40 @@
+<svg width="320" height="60" viewBox="0 0 220 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="180" height="60" rx="8" fill="#28B0EA" fill-opacity="0.1"/>
+  
+  <!-- Mobile Phone Icon -->
+  <g transform="translate(20, 12)">
+    <rect x="0" y="0" width="16" height="26" rx="3" stroke="#28B0EA" stroke-width="1.5" fill="none"/>
+    <rect x="2" y="3" width="12" height="16" rx="1" fill="#28B0EA" fill-opacity="0.3"/>
+    <circle cx="8" cy="22" r="1.5" fill="#28B0EA"/>
+    <line x1="5" y1="1.5" x2="11" y2="1.5" stroke="#28B0EA" stroke-width="1" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Gear/Settings Icon -->
+  <g transform="translate(42, 14)">
+    <circle cx="6" cy="6" r="3" stroke="#28B0EA" stroke-width="1.5" fill="none"/>
+    <circle cx="6" cy="6" r="1" fill="#28B0EA"/>
+    <path d="M6 0v2M6 10v2M12 6h-2M2 6H0M10.24 1.76l-1.41 1.41M3.17 8.83l-1.41 1.41M10.24 10.24l-1.41-1.41M3.17 3.17l-1.41-1.41" stroke="#28B0EA" stroke-width="1" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Company Name -->
+  <text x="70" y="25" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#28B0EA">
+    ЗАПЧАСТИ
+  </text>
+  <text x="70" y="42" font-family="Arial, sans-serif" font-size="10" fill="#5A5F62">
+    для мобильных телефонов
+  </text>
+  
+  <!-- Decorative Elements -->
+  <circle cx="160" cy="15" r="2" fill="#28B0EA" fill-opacity="0.4"/>
+  <circle cx="168" cy="22" r="1.5" fill="#28B0EA" fill-opacity="0.6"/>
+  <circle cx="155" cy="45" r="1" fill="#28B0EA" fill-opacity="0.8"/>
+  
+  <!-- Signal Bars -->
+  <g transform="translate(148, 35)">
+    <rect x="0" y="8" width="2" height="2" fill="#28B0EA" fill-opacity="0.4"/>
+    <rect x="3" y="6" width="2" height="4" fill="#28B0EA" fill-opacity="0.6"/>
+    <rect x="6" y="4" width="2" height="6" fill="#28B0EA" fill-opacity="0.8"/>
+    <rect x="9" y="2" width="2" height="8" fill="#28B0EA"/>
+  </g>
+</svg>

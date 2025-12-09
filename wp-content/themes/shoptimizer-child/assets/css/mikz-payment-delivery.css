@@ -1,0 +1,286 @@
+/**
+ * Стили для страницы "Оплата и доставка" - МИКЗ
+ * Theme: Shoptimizer Child
+ * Author: KB
+ * Version: 1.0.0
+ * URL: https://kowb.ru
+ */
+
+/* Hero секция */
+.mikz-payment-delivery-hero {
+    background: linear-gradient(135deg, var(--mkx-bg-secondary) 0%, var(--mkx-bg-primary) 100%);
+    padding: var(--space-xl) var(--container-padding);
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+    border-radius: var(--radius-lg);
+}
+
+.mikz-payment-delivery-hero h1 {
+    font-size: var(--fs-3xl);
+    color: var(--mkx-text-primary);
+    margin-bottom: var(--space-md);
+    font-weight: var(--mkx-font-bold);
+}
+
+.mikz-payment-delivery-hero p {
+    font-size: var(--fs-lg);
+    color: var(--mkx-text-secondary);
+    max-width: 60ch;
+    margin: 0 auto;
+}
+
+/* Секция доставки */
+.mikz-delivery-section {
+    margin: var(--space-3xl) auto var(--space-xl);
+    padding: 0 var(--container-padding);
+}
+
+.mikz-delivery-section h2 {
+    font-size: var(--fs-2xl);
+    color: var(--mkx-text-primary);
+    text-align: center;
+    margin-bottom: var(--space-xl);
+    font-weight: var(--mkx-font-semibold);
+}
+
+.mikz-delivery-section .wp-block-columns {
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+.mikz-delivery-card {
+    background: var(--mkx-bg-primary);
+    border: 2px solid var(--mkx-border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    text-align: center;
+    transition: all var(--mkx-transition-medium) var(--mkx-ease);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 200px;
+}
+
+.mikz-delivery-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--mkx-primary);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Иконки доставки */
+.mikz-delivery-card .delivery-icon {
+    margin-bottom: var(--space-md);
+}
+
+.mikz-delivery-card .delivery-icon i {
+    font-size: var(--fs-3xl);
+    color: var(--mkx-primary);
+}
+
+.mikz-delivery-card h3 {
+    font-size: var(--fs-xl);
+    color: var(--mkx-text-primary);
+   margin: 0 auto!important;
+    font-weight: var(--mkx-font-semibold);
+}
+
+.mikz-delivery-card .price {
+    font-size: var(--fs-lg);
+    color: var(--mkx-primary);
+    font-weight: var(--mkx-font-bold);
+    margin: 0 auto!important;
+}
+
+.mikz-delivery-card p {
+    color: var(--mkx-text-secondary);
+    font-size: var(--fs-base);
+    line-height: var(--mkx-lh-relaxed);
+    margin: 0 auto!important;
+}
+
+/* Секция оплаты */
+.mikz-payment-section {
+    margin: var(--space-3xl) auto var(--space-xl);
+    padding: 0 var(--container-padding);
+}
+
+.mikz-payment-section h2 {
+    font-size: var(--fs-2xl);
+    color: var(--mkx-text-primary);
+    text-align: center;
+    margin-bottom: var(--space-xl);
+    font-weight: var(--mkx-font-semibold);
+}
+
+.mikz-payment-section .wp-block-columns {
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+.mikz-payment-card {
+    background: var(--mkx-bg-primary);
+    border: 2px solid var(--mkx-border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    text-align: center;
+    transition: all var(--mkx-transition-medium) var(--mkx-ease);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 180px;
+}
+
+.mikz-payment-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--mkx-primary);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Иконки оплаты */
+.mikz-payment-card .payment-icon {
+margin: 0 auto!important;
+}
+
+.mikz-payment-card .payment-icon i {
+    font-size: var(--fs-2xl);
+    color: var(--mkx-primary);
+}
+
+.mikz-payment-card h3 {
+    font-size: var(--fs-lg);
+    color: var(--mkx-text-primary);
+    margin: 0 auto!important;
+    font-weight: var(--mkx-font-semibold);
+}
+
+.mikz-payment-card p {
+    color: var(--mkx-text-secondary);
+    font-size: var(--fs-sm);
+    line-height: var(--mkx-lh-normal);
+    margin: 0 auto!important;
+}
+
+/* Дополнительная информация */
+.mikz-additional-info {
+    background: var(--mkx-bg-secondary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl) var(--container-padding);
+    margin-bottom: var(--space-3xl);
+}
+
+.mikz-additional-info h2 {
+    font-size: var(--fs-2xl);
+    color: var(--mkx-text-primary);
+    text-align: center;
+    margin-bottom: var(--space-lg);
+    font-weight: var(--mkx-font-semibold);
+}
+
+.mikz-additional-info .info-list {
+    list-style: none;
+    padding: 0;
+    max-width: 60ch;
+    margin: 0 auto;
+}
+
+.mikz-additional-info .info-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+    font-size: var(--fs-base);
+    color: var(--mkx-text-secondary);
+    line-height: var(--mkx-lh-relaxed);
+}
+
+.mikz-additional-info .info-list li i {
+    color: var(--mkx-success);
+    font-size: var(--fs-lg);
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+/* CTA секция */
+.mikz-cta-section {
+    text-align: center;
+    padding: var(--space-2xl) var(--container-padding);
+    margin-bottom: var(--space-2xl);
+}
+
+.mikz-cta-section .wp-block-button {
+    margin: var(--space-sm);
+}
+
+.mikz-cta-section .wp-block-button__link {
+    background: var(--mkx-primary);
+    color: var(--mkx-bg-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-xl);
+    font-size: var(--fs-base);
+    font-weight: var(--mkx-font-semibold);
+    text-decoration: none;
+    border: 2px solid var(--mkx-primary);
+    transition: all var(--mkx-transition-fast) var(--mkx-ease);
+    display: inline-block;
+    min-width: 200px;
+}
+
+.mikz-cta-section .wp-block-button__link:hover {
+    background: var(--mkx-primary-dark);
+    border-color: var(--mkx-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.mikz-cta-section .wp-block-button:last-child .wp-block-button__link {
+    background: transparent;
+    color: var(--mkx-primary);
+    border-color: var(--mkx-primary);
+}
+
+.mikz-cta-section .wp-block-button:last-child .wp-block-button__link:hover {
+    background: var(--mkx-primary);
+    color: var(--mkx-bg-primary);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .mikz-delivery-section .wp-block-columns,
+    .mikz-payment-section .wp-block-columns {
+        flex-direction: column;
+    }
+
+    .mikz-payment-section .wp-block-columns {
+        gap: var(--space-md);
+    }
+
+    .mikz-delivery-card,
+    .mikz-payment-card {
+        min-height: 150px;
+        padding: var(--space-lg);
+    }
+
+    .mikz-cta-section .wp-block-button {
+        display: block;
+        margin-bottom: var(--space-md);
+    }
+
+    .mikz-cta-section .wp-block-button__link {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .mikz-additional-info li {
+        padding-left: var(--space-lg);
+    }
+
+    .mikz-delivery-card,
+    .mikz-payment-card {
+        padding: var(--space-md);
+        min-height: 120px;
+    }
+}

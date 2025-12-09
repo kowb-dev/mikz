@@ -1,0 +1,246 @@
+/**
+ * Admin Styles with Progress Bar and Tabs
+ *
+ * @package MoySklad_WC_Sync
+ * @version 2.2.1
+ */
+
+/* Tab Navigation */
+.nav-tab-wrapper {
+	margin: 20px 0;
+	border-bottom: 1px solid #ccc;
+}
+
+.ms-wc-sync-tab-content {
+	margin-top: 20px;
+}
+
+/* Dashboard */
+.ms-wc-sync-dashboard {
+	max-width: 1200px;
+}
+
+.ms-wc-sync-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1.5rem;
+	margin: 2rem 0;
+}
+
+.ms-wc-sync-stat-card {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 1.5rem;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ms-wc-sync-stat-card h3 {
+	margin: 0 0 0.5rem;
+	font-size: 0.875rem;
+	color: #666;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-weight: 600;
+}
+
+.ms-wc-sync-stat-value {
+	margin: 0;
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: #23282d;
+}
+
+/* Actions */
+.ms-wc-sync-actions {
+	margin: 2rem 0;
+	padding: 1.5rem;
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.ms-wc-sync-actions .button {
+	margin-right: 0.5rem;
+}
+
+/* Settings Form */
+.ms-wc-sync-settings-form {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 1.5rem;
+	margin: 2rem 0;
+}
+
+/* Webhooks Info */
+.ms-wc-sync-webhooks-info {
+	background: #fff;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 1.5rem;
+	margin: 2rem 0;
+}
+
+.ms-wc-sync-webhooks-info code {
+	display: inline-block;
+	padding: 4px 8px;
+	background: #f0f0f1;
+	border-radius: 3px;
+	font-size: 13px;
+}
+
+/* Messages */
+#ms-wc-sync-message {
+	margin: 1rem 0;
+}
+
+#ms-wc-sync-message .notice {
+	padding: 12px;
+	margin: 0;
+}
+
+/* Log Levels */
+.ms-wc-sync-log-level {
+	display: inline-block;
+	padding: 4px 8px;
+	border-radius: 3px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.ms-wc-sync-log-info {
+	background: #d1ecf1;
+	color: #0c5460;
+}
+
+.ms-wc-sync-log-error {
+	background: #f8d7da;
+	color: #721c24;
+}
+
+.ms-wc-sync-log-warning {
+	background: #fff3cd;
+	color: #856404;
+}
+
+.ms-wc-sync-log-debug {
+	background: #e2e3e5;
+	color: #383d41;
+}
+
+/* Buttons */
+.button#ms-wc-sync-manual,
+.button#ms-wc-sync-test-connection,
+.button#ms-wc-sync-reset-lock,
+.button#ms-wc-sync-stock-manual,
+.button#ms-wc-sync-register-webhooks,
+.button#ms-wc-sync-reschedule {
+	margin-left: 0;
+}
+
+.button:disabled,
+.button[disabled] {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.button#ms-wc-sync-reset-lock {
+	color: #d63638;
+	border-color: #d63638;
+}
+
+.button#ms-wc-sync-reset-lock:hover:not(:disabled) {
+	background: #d63638;
+	color: #fff;
+	border-color: #d63638;
+}
+
+/* Progress Bar Styles */
+#ms-wc-sync-progress-container {
+	animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+#ms-wc-sync-progress-bar {
+	position: relative;
+	min-width: 30px; /* Минимальная ширина для отображения процентов */
+}
+
+#ms-wc-sync-progress-percent {
+	position: relative;
+	z-index: 1;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#ms-wc-sync-progress-message {
+	font-size: 14px;
+	color: #1d2327;
+}
+
+#ms-wc-sync-progress-details {
+	opacity: 0.8;
+}
+
+/* Log details styling */
+details summary {
+	outline: none;
+	user-select: none;
+}
+
+details summary::-webkit-details-marker {
+	display: none;
+}
+
+details summary::before {
+	content: '▶ ';
+	display: inline-block;
+	transition: transform 0.2s;
+}
+
+details[open] summary::before {
+	transform: rotate(90deg);
+}
+
+details pre {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+/* Pulsing animation for running sync */
+.ms-wc-sync-stat-card[style*="border-color: #d63638"] {
+	animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+	0%, 100% {
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	}
+	50% {
+		box-shadow: 0 1px 8px rgba(214, 54, 56, 0.3);
+	}
+}
+
+/* Responsive */
+@media (max-width: 782px) {
+	.ms-wc-sync-stats {
+		grid-template-columns: 1fr;
+	}
+	
+	.ms-wc-sync-actions .button {
+		display: block;
+		width: 100%;
+		margin: 0.5rem 0;
+	}
+}

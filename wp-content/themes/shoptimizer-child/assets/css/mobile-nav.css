@@ -1,0 +1,370 @@
+/**
+ * Mobile Navigation Styles for Shoptimizer Child Theme
+ * Author: KW
+ * URL: https://kowb.ru
+ * Version: 1.0.1
+ */
+
+/* =============================================================================
+   MOBILE BOTTOM NAVIGATION
+   ============================================================================= */
+
+.mkx-mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--mkx-white);
+    border-top: 1px solid var(--mkx-light-gray);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: var(--z-fixed);
+    display: none;
+    padding: var(--space-xs) 0;
+}
+
+.mkx-mobile-bottom-nav__content {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 100%;
+    margin: 0 auto;
+    gap: 0;
+}
+
+.mkx-mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xs) var(--space-xs);
+    color: var(--mkx-medium-gray);
+    text-decoration: none;
+    transition: var(--mkx-transition);
+    position: relative;
+    min-height: 3rem;
+    font-size: var(--fs-xs);
+    font-weight: var(--mkx-font-regular);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Для кнопок убираем подчеркивание и стили ссылок */
+button.mkx-mobile-nav-item {
+    text-decoration: none;
+}
+
+.mkx-mobile-nav-item:hover {
+    color: var(--mkx-primary);
+}
+
+/* Neutralize the faulty JS-added active class */
+.mkx-mobile-nav-item--active {
+    color: var(--mkx-medium-gray);
+}
+.mkx-mobile-nav-item--active::before {
+    display: none;
+}
+
+/* USE THIS INSTEAD: Apply active styles only to the correct WordPress class */
+.mkx-mobile-nav-item.current-menu-item {
+    color: var(--mkx-primary) !important;
+}
+
+.mkx-mobile-nav-item__icon {
+    font-size: 1.2em;
+    margin-bottom: var(--space-xs);
+    transition: var(--mkx-transition);
+}
+
+.mkx-mobile-nav-item:hover .mkx-mobile-nav-item__icon {
+    transform: scale(1.1);
+}
+
+.mkx-mobile-nav-item__text {
+    line-height: var(--mkx-lh-tight);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Cart badge */
+.mkx-mobile-nav-item--cart {
+    position: relative;
+}
+
+.mkx-mobile-nav-cart-count,
+.mkx-mobile-nav-wishlist-count {
+    position: absolute;
+    top: 0.2rem;
+    right: 0.8rem;
+    background: var(--mkx-primary);
+    color: var(--mkx-white);
+    font-size: var(--fs-tiny);
+    font-weight: var(--mkx-font-bold);
+    padding: 0.1rem 0.3rem;
+    border-radius: var(--radius-full);
+    min-width: 1rem;
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    animation: cartBounce 0.3s var(--mkx-ease);
+}
+
+/* Active state indicator */
+.mkx-mobile-nav-item.current-menu-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2rem;
+    height: 2px;
+    background: var(--mkx-primary);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+
+/* =============================================================================
+   MOBILE BOTTOM NAV ANIMATIONS
+   ============================================================================= */
+
+/* Entrance animation */
+.mkx-mobile-bottom-nav {
+    transform: translateY(100%);
+    animation: slideInUp 0.3s var(--mkx-ease) forwards;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Item tap effect */
+.mkx-mobile-nav-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.mkx-mobile-nav-item::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(40, 176, 234, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.mkx-mobile-nav-item:active::after {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Wishlist pulse effect (if available) */
+.mkx-mobile-nav-item--wishlist .mkx-mobile-nav-item__icon {
+    position: relative;
+}
+
+.mkx-mobile-nav-item--wishlist.has-items .mkx-mobile-nav-item__icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px solid var(--mkx-primary);
+    border-radius: 50%;
+    animation: wishlistPulse 2s infinite;
+}
+
+@keyframes wishlistPulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    70% {
+        transform: scale(1.4);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1.4);
+        opacity: 0;
+    }
+}
+
+/* =============================================================================
+   BODY PADDING FOR MOBILE NAV
+   ============================================================================= */
+
+@media (max-width: 768px) {
+    .mkx-mobile-bottom-nav {
+        display: block;
+    }
+
+    /* Add bottom padding to body to prevent content overlap */
+    body.mkx-mobile-nav-active {
+        padding-bottom: var(--mobile-nav-height);
+    }
+
+    /* On the home page, switch to a 4-column grid since the "Home" icon is hidden */
+    body.home .mkx-mobile-bottom-nav__content {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* Override for single product pages with 5 items */
+    .single-product .mkx-mobile-bottom-nav__content {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* =============================================================================
+   SAFE AREA INSETS FOR MODERN MOBILE DEVICES
+   ============================================================================= */
+
+/*@supports (padding-bottom: env(safe-area-inset-bottom)) {*/
+/*    .mkx-mobile-bottom-nav {*/
+/*        padding-bottom: calc(var(--space-xs) + env(safe-area-inset-bottom));*/
+/*    }*/
+
+/*    body.mkx-mobile-nav-active {*/
+/*        padding-bottom: calc(4rem + env(safe-area-inset-bottom));*/
+/*    }*/
+
+/*    .mkx-site-content {*/
+/*        margin-bottom: calc(4rem + env(safe-area-inset-bottom));*/
+/*    }*/
+/*}*/
+
+/* =============================================================================
+   LANDSCAPE MOBILE ADJUSTMENTS
+   ============================================================================= */
+
+@media (max-width: 768px) and (max-height: 500px) and (orientation: landscape) {
+    .mkx-mobile-bottom-nav {
+        padding: var(--space-xs) 0;
+    }
+
+    .mkx-mobile-nav-item {
+        min-height: 2.5rem;
+        padding: var(--space-xs);
+    }
+
+    .mkx-mobile-nav-item__icon {
+        font-size: 1.1em;
+        margin-bottom: 0.1rem;
+    }
+
+    .mkx-mobile-nav-item__text {
+        font-size: var(--fs-tiny);
+    }
+}
+
+/* =============================================================================
+   ACCESSIBILITY IMPROVEMENTS
+   ============================================================================= */
+
+.mkx-mobile-nav-item:focus {
+    outline: 2px solid var(--mkx-primary);
+    outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .mkx-mobile-bottom-nav,
+    .mkx-mobile-nav-item,
+    .mkx-mobile-nav-item__icon,
+    .mkx-mobile-nav-cart-count {
+        animation: none;
+        transition: none;
+    }
+
+    .mkx-mobile-nav-item:hover .mkx-mobile-nav-item__icon {
+        transform: none;
+    }
+}
+
+/* =============================================================================
+   HIGH CONTRAST MODE SUPPORT
+   ============================================================================= */
+
+@media (prefers-contrast: high) {
+    .mkx-mobile-bottom-nav {
+        border-top: 2px solid var(--mkx-dark);
+        background: var(--mkx-white);
+    }
+
+    .mkx-mobile-nav-item {
+        color: var(--mkx-dark);
+    }
+
+    .mkx-mobile-nav-item:hover,
+    .mkx-mobile-nav-item--active {
+        color: var(--mkx-primary);
+        background: var(--mkx-primary-lighter);
+    }
+}
+
+/* =============================================================================
+   PRINT STYLES
+   ============================================================================= */
+
+@media print {
+    .mkx-mobile-bottom-nav {
+        display: none !important;
+    }
+
+    body.mkx-mobile-nav-active {
+        padding-bottom: 0 !important;
+    }
+
+    .mkx-site-content {
+        margin-bottom: 0 !important;
+    }
+}
+
+/* =============================================================================
+   DYNAMIC MENU LOGIC FIXES (v2)
+   ============================================================================= */
+
+/* Hide the "Home" navigation item specifically on the home page */
+body.home .mkx-mobile-nav-item--home {
+    display: none;
+}
+
+/* Correctly style the current active menu item based on WordPress default classes */
+.mkx-mobile-nav-item.current-menu-item {
+    color: var(--mkx-primary);
+}
+
+.mkx-mobile-nav-item.current-menu-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2rem;
+    height: 2px;
+    background: var(--mkx-primary);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+
+/* Force-reset styles for ancestor items to prevent "Home" from always being active */
+body:not(.home) .mkx-mobile-nav-item.current-menu-ancestor {
+    color: var(--mkx-medium-gray) !important;
+}
+
+body:not(.home) .mkx-mobile-nav-item.current-menu-ancestor::before {
+    display: none !important;
+}

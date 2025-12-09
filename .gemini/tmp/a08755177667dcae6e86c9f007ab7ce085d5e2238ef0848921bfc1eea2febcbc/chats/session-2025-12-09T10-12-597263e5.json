@@ -1,0 +1,14 @@
+{
+  "sessionId": "597263e5-0bcc-4c3b-bd1b-b7ab5c72fda6",
+  "projectHash": "a08755177667dcae6e86c9f007ab7ce085d5e2238ef0848921bfc1eea2febcbc",
+  "startTime": "2025-12-09T10:13:20.562Z",
+  "lastUpdated": "2025-12-09T10:13:20.562Z",
+  "messages": [
+    {
+      "id": "6c13ff94-5f1b-4455-8929-8c2a24ba344e",
+      "timestamp": "2025-12-09T10:13:20.562Z",
+      "type": "error",
+      "content": "Automatic update failed. Please try updating manually"
+    }
+  ]
+}

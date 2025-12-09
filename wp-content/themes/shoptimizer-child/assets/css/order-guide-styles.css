@@ -1,0 +1,312 @@
+/* ==========================================================================
+   СТРАНИЦА "КАК ОФОРМИТЬ ЗАКАЗ"
+   ========================================================================== */
+
+/* Hero секция */
+.mkz-order-guide-hero {
+    background: linear-gradient(135deg, #FF6B00 0%, #FF8533 100%);
+    min-height: 10vh !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    border-radius: var(--radius-lg);
+    color: var(--mkx-white);
+    padding: 0 5rem;
+    width: fit-content;
+    margin: 0 auto var(--space-2xl);
+}
+
+.mkz-order-guide-hero .wp-block-cover__inner-container h1 {
+    color: white;
+    font-size: var(--mkx-fs-h1);
+    font-weight: var(--mkx-font-bold);
+    margin-bottom: var(--space-sm);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mkz-order-guide-hero .wp-block-cover__inner-container p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: var(--fs-lg);
+    font-weight: var(--mkx-font-regular);
+}
+
+/* Основная сетка шагов */
+.mkz-order-steps-grid {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    gap: var(--space-lg) !important;
+    min-height: 60vh;
+    align-items: stretch;
+}
+
+.mkz-order-steps-grid .wp-block-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+/* Карточки шагов */
+.mkz-step-card {
+    background: var(--mkx-bg-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--mkx-border-primary);
+    transition: var(--mkx-transition);
+    min-height: 15rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.mkz-step-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #FF6B00;
+    transform: scaleX(0);
+    transition: transform var(--mkx-transition-medium);
+}
+
+.mkz-step-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mkz-step-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* Иконки шагов */
+.mkz-step-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #FF6B00, #FF8533);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-lg);
+    flex-shrink: 0;
+}
+
+.mkz-step-icon i {
+    font-size: 24px;
+    color: white;
+}
+
+/* Заголовки шагов */
+.mkz-step-card h3 {
+    font-size: var(--fs-lg);
+    font-weight: var(--mkx-font-semibold);
+    color: var(--mkx-text-primary);
+    margin: 0 0 var(--space-sm) 0;
+    letter-spacing: var(--mkx-tracking-wide);
+}
+
+/* Описание шагов */
+.mkz-step-card p {
+    color: var(--mkx-text-secondary);
+    font-size: var(--fs-sm);
+    line-height: var(--mkx-lh-snug);
+    margin: 0;
+    flex-grow: 1;
+}
+
+/* Боковая панель с дополнительной информацией */
+.mkz-order-info-sidebar {
+    background: #F8F9FA;
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border-left: 4px solid #FF6B00;
+    height: auto;
+}
+
+.mkz-additional-info h3 {
+    font-size: var(--fs-lg);
+    font-weight: var(--mkx-font-semibold);
+    color: var(--mkx-text-primary);
+    margin: 0 0 var(--space-lg) 0;
+    letter-spacing: var(--mkx-tracking-wide);
+}
+
+/* Список дополнительной информации */
+.mkz-info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mkz-info-list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    font-size: var(--fs-sm);
+    color: var(--mkx-text-secondary);
+    line-height: var(--mkx-lh-snug);
+}
+
+.mkz-info-list li:last-child {
+    margin-bottom: 0;
+}
+
+.mkz-info-list li i {
+    color: #FF6B00;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* Кнопки призыва к действию */
+.mkz-order-cta-buttons {
+    text-align: center;
+    margin-top: var(--space-2xl);
+    gap: var(--space-lg) !important;
+}
+
+.mkz-order-cta-buttons .wp-block-button {
+    margin: 0 var(--space-sm);
+}
+
+.mkz-order-cta-buttons .wp-block-button__link {
+    background: #FF6B00 !important;
+    color: white !important;
+    border-radius: var(--radius-md) !important;
+    padding: var(--space-md) var(--space-xl) !important;
+    font-weight: var(--mkx-font-medium) !important;
+    font-size: var(--fs-base) !important;
+    text-decoration: none !important;
+    transition: var(--mkx-transition) !important;
+    border: 2px solid #FF6B00 !important;
+}
+
+.mkz-order-cta-buttons .wp-block-button:nth-child(2) .wp-block-button__link {
+    background: transparent !important;
+    color: #FF6B00 !important;
+    border: 2px solid #FF6B00 !important;
+}
+
+.mkz-order-cta-buttons .wp-block-button__link:hover {
+    background: #E55A00 !important;
+    border-color: #E55A00 !important;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.mkz-order-cta-buttons .wp-block-button:nth-child(2) .wp-block-button__link:hover {
+    background: #FF6B00 !important;
+    color: white !important;
+}
+
+/* ==========================================================================
+   АДАПТИВНОСТЬ
+   ========================================================================== */
+
+/* Планшеты и мобильные устройства */
+@media (max-width: 768px) {
+    .mkz-order-guide-hero {
+        min-height: auto !important;
+        padding: var(--space-sm);
+        width: 100%;
+
+    }
+
+    .mkz-order-steps-grid {
+        min-height: auto;
+        flex-direction: column;
+        gap: var(--space-lg) !important;
+    }
+
+    /* "Растворяем" колонки, чтобы управлять их дочерними элементами напрямую */
+    .mkz-order-steps-grid > .wp-block-column {
+        display: contents;
+    }
+
+    /* Расставляем все элементы в нужном порядке */
+    .mkz-step-1 { order: 1; }
+    .mkz-step-2 { order: 2; }
+    .mkz-step-3 { order: 3; }
+    .mkz-step-4 { order: 4; }
+    .mkz-step-5 { order: 5; }
+    .mkz-additional-info { order: 6; }
+    .mkz-info-list { order: 7; }
+
+
+    .mkz-step-card,
+    .mkz-additional-info {
+        width: 100%; /* Убедимся, что карточки занимают всю ширину */
+        margin-bottom: var(--space-lg);
+        height: auto;
+        min-height: 0; /* Обнуляем минимальную высоту для мобильных устройств */
+        padding: var(--space-lg);
+    }
+    
+    .mkz-additional-info {
+        border: 1px solid var(--mkx-border-primary);
+        box-shadow: var(--shadow-md);
+        background: var(--mkx-bg-primary);
+        border-left: 4px solid #FF6B00;
+        padding: var(--space-xl);
+    }
+
+    .mkz-step-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .mkz-step-icon i {
+        font-size: 20px;
+    }
+
+    .mkz-order-cta-buttons .wp-block-button {
+        margin: var(--space-xs) 0;
+        width: 100%;
+        max-width: 280px;
+    }
+}
+
+
+/* ==========================================================================
+   АНИМАЦИИ
+   ========================================================================== */
+
+@keyframes mkzFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mkz-step-card {
+    animation: mkzFadeInUp 0.6s ease-out;
+}
+
+.mkz-step-card:nth-child(2) { animation-delay: 0.1s; }
+.mkz-step-card:nth-child(3) { animation-delay: 0.2s; }
+.mkz-step-card:nth-child(4) { animation-delay: 0.3s; }
+.mkz-step-card:nth-child(5) { animation-delay: 0.4s; }
+
+/* Уменьшение анимации для пользователей с предпочтением уменьшенной анимации */
+@media (prefers-reduced-motion: reduce) {
+    .mkz-step-card {
+        animation: none;
+    }
+    
+    .mkz-step-card:hover {
+        transform: none;
+    }
+    
+    .mkz-step-card::before {
+        transition: none;
+    }
+}
