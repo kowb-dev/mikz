@@ -1,12 +1,15 @@
-.woocommerce-checkout {
-    padding: var(--mkx-spacing-lg, 2rem) 0;
-}
-
 .woocommerce-checkout .col2-set {
     display: grid;
     grid-template-columns: 1fr;
     gap: 0;
     margin-bottom: var(--mkx-spacing-xl, 3rem);
+}
+
+/* Hide unused secondary column (shipping/additional) on checkout */
+.woocommerce-checkout .col2-set .col-2,
+.woocommerce-checkout .woocommerce-shipping-fields,
+.woocommerce-checkout .woocommerce-additional-fields {
+    display: none !important;
 }
 
 .woocommerce-billing-fields,

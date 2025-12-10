@@ -41,10 +41,10 @@
 
 /* Page without sidebar */
 @media (min-width: 993px) {
-    body.page-template-default:not(:has(#secondary.widget-area)) .content-area {
+    body.page-template-default:not(.page-id-6131):not(:has(#secondary.widget-area)) .content-area {
         width: var(--container-narrow) !important;
         margin: 0 auto !important;
-    }
+    }    
 }
 
 /* Warranty page - print-friendly layout */

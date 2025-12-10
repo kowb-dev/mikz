@@ -168,7 +168,7 @@
 }
 @media (min-width: 993px) {
     .page-id-6131 .content-area {
-        padding: var(--space-4xl);
+        padding: var(--space-md) var(--space-4xl);
         width: var(--container-max)!important;
     }
 }

@@ -149,6 +149,12 @@
                 compare: 'ph-chart-bar'
             };
 
+            const actions = {
+                cart: `<a class="mkx-notification-cta" href="/cart">${mkxNotifications.cartCta || 'К КОРЗИНЕ'}</a>`,
+                wishlist: '',
+                compare: ''
+            };
+
             const notification = $('<div>', {
                 class: `mkx-notification mkx-notification-${type}`,
                 html: `
@@ -158,6 +164,7 @@
                     <div class="mkx-notification-content">
                         <p class="mkx-notification-title">${title}</p>
                         <p class="mkx-notification-message">${productName}</p>
+                        ${actions[type] || ''}
                     </div>
                     <button type="button" class="mkx-notification-close" aria-label="Закрыть">
                         <i class="ph ph-x" aria-hidden="true"></i>

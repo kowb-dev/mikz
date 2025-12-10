@@ -41,6 +41,22 @@ if ( empty( $product ) || ! $product->is_visible() ) {
      */
     do_action( 'woocommerce_shop_loop_item_title' );
 
+    $mkx_sku = $product->get_sku();
+    $mkx_stock = wc_get_stock_html( $product );
+
+    if ( $mkx_sku || $mkx_stock ) :
+        ?>
+        <div class="mkx-card-meta">
+            <?php if ( $mkx_sku ) : ?>
+                <span class="mkx-card-sku"><?php esc_html_e( 'Артикул:', 'shoptimizer-child' ); ?> <span class="sku"><?php echo esc_html( $mkx_sku ); ?></span></span>
+            <?php endif; ?>
+            <?php if ( $mkx_stock ) : ?>
+                <span class="mkx-card-stock"><?php echo wp_kses_post( $mkx_stock ); ?></span>
+            <?php endif; ?>
+        </div>
+        <?php
+    endif;
+
     /**
      * Hook: woocommerce_after_shop_loop_item_title.
      *

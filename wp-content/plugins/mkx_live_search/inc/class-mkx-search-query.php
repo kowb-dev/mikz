@@ -292,7 +292,14 @@ class MKX_Search_Query {
             }
         }
         
-        return array_unique($expanded_terms);
+        $expanded_terms = array_values(array_unique($expanded_terms));
+
+        // Limit the number of expanded terms to keep queries fast and reliable
+        if (count($expanded_terms) > 12) {
+            $expanded_terms = array_slice($expanded_terms, 0, 12);
+        }
+
+        return $expanded_terms;
     }
 
     /**
@@ -383,7 +390,7 @@ class MKX_Search_Query {
         // Получаем приоритетные категории на основе intent
         $priority_slugs = $this->get_priority_category_slugs($intent);
         
-        $category_priority_sql = 'ELSE 1';
+        $category_priority_sql = 'WHEN 1=1 THEN 1';
         if (!empty($priority_slugs)) {
             $priority_slugs_str = "'" . implode("','", array_map('esc_sql', $priority_slugs)) . "'";
             $category_priority_sql = "WHEN t_cat.slug IN ({$priority_slugs_str}) THEN 0 ELSE 1";
@@ -436,6 +443,10 @@ class MKX_Search_Query {
         $results = $wpdb->get_col(
             $wpdb->prepare($sql, $all_values)
         );
+
+        if (empty($results) || !empty($wpdb->last_error)) {
+            return array();
+        }
 
         return array_map('absint', $results);
     }

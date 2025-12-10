@@ -59,9 +59,24 @@
                         if ( $phone ) : ?>
                             <a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $phone ) ); ?>"
                                class="mkx-top-phone-link">
-                                <?php echo esc_html( $phone ); ?>
+                                <i class="ph ph-phone" aria-hidden="true"></i>
+                                <span><?php echo esc_html( $phone ); ?></span>
                             </a>
                         <?php endif; ?>
+                    </div>
+
+                    <div class="mkx-social-icons">
+                        <a href="https://vk.com/mobiartkaluga40" class="mkx-social-link mkx-social-vk" target="_blank" rel="noopener noreferrer" aria-label="Посетить наш VKontakte">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M2.618 6.678A.5.5 0 0 1 3 6.5h3.52a.5.5 0 0 1 .494.42c.144.882.62 2.586 1.74 4.187a.5.5 0 0 1-.82.573A11.9 11.9 0 0 1 6.107 7.5h-2.49c.43 1.738 1.606 4.69 3.38 6.92.972 1.222 2.029 2.006 2.942 2.478.929.479 1.675.619 2.023.6h.039a.8.8 0 0 0 .505-.16c.127-.103.28-.315.28-.792v-1.52c0-.294.116-.59.36-.78.26-.2.598-.229.9-.088a19 19 0 0 1 .95.482c1.138.746 2.233 1.944 2.928 2.833q.014.017.024.022l.011.003h2.516l.01-.001h.002a.03.03 0 0 0 .009-.014l.004-.023q.001-.009-.015-.03a91 91 0 0 0-2.179-2.495l-.716-.803c-.5-.565-.535-1.393-.15-2.013.842-1.358 1.95-3.307 2.293-4.619H17.69q0-.002-.02.008a.13.13 0 0 0-.041.055c-.713 1.608-2.215 3.593-3.307 4.59-.306.278-.717.323-1.05.13-.311-.18-.485-.524-.485-.89V7.5h-2.671q.053.1.105.205c.202.416.388.935.388 1.436l.003.917c.006.988.013 2.347-.004 3.087a.5.5 0 1 1-1-.022c.017-.725.01-2.05.004-3.036L9.61 9.14c0-.279-.111-.637-.288-.999a4.2 4.2 0 0 0-.516-.817.5.5 0 0 1 .38-.825h4.102a.5.5 0 0 1 .5.5v4.283c.987-.95 2.305-2.72 2.928-4.125.163-.368.525-.658.976-.658h2.048c.62 0 1.137.573.965 1.237-.382 1.483-1.581 3.565-2.415 4.91a.7.7 0 0 0 .05.822c.208.235.446.501.7.784.726.813 1.578 1.766 2.217 2.54.548.664.117 1.705-.781 1.705H17.96c-.332 0-.63-.161-.824-.41-.663-.849-1.671-1.94-2.67-2.6a19 19 0 0 0-.678-.347v1.405c0 .723-.25 1.242-.65 1.568a1.8 1.8 0 0 1-1.142.384c-.587.025-1.505-.19-2.514-.712-1.035-.534-2.203-1.407-3.267-2.744-2.107-2.648-3.41-6.225-3.707-7.957a.5.5 0 0 1 .11-.407M13.789 15v.002Zm.005-3.566"></path></svg>
+                        </a>
+
+                        <a href="http://t.me/+79158961501" class="mkx-social-link mkx-social-telegram" target="_blank" rel="noopener noreferrer" aria-label="Посетить наш Telegram">
+                            <i class="ph ph-telegram-logo" aria-hidden="true"></i>
+                        </a>
+
+                        <a href="http://wa.me/79158961501" class="mkx-social-link mkx-social-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Посетить наш WhatsApp">
+                            <i class="ph ph-whatsapp-logo" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
             </div>

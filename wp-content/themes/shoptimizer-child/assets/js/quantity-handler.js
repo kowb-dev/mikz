@@ -1,48 +1,62 @@
 (function($) {
     'use strict';
 
+    window.mkxQuantityHandlerVersion = '1.0.1';
+
     if (window.mkxQuantityHandlerInitialized) return;
     window.mkxQuantityHandlerInitialized = true;
 
-    /**
-     * Quantity buttons handler (+/-)
-     */
-    $(document.body).on('click', '.quantity .plus, .quantity .minus', function(e) {
-        e.preventDefault();
-        
-        var $qty = $(this).closest('.quantity').find('.qty');
+    $(document).off('click', '.quantity .plus, .quantity .minus');
+    $(document.body).off('click', '.quantity .plus, .quantity .minus');
+
+    function mkxAdjustQuantity(target) {
+        var $btn = $(target);
+        var $qty = $btn.closest('.quantity').find('.qty');
+        if (!$qty.length) return;
+
         var currentVal = parseFloat($qty.val());
         var max = parseFloat($qty.attr('max'));
         var min = parseFloat($qty.attr('min'));
-        var step = $qty.attr('step');
+        var step = parseFloat($qty.attr('step'));
 
-        if (!currentVal || currentVal === '' || currentVal === 'NaN') currentVal = 0;
-        if (max === '' || max === 'NaN') max = '';
-        if (min === '' || min === 'NaN') min = 0;
-        if (step === 'any' || step === '' || step === undefined || parseFloat(step) === 'NaN') step = 1;
+        if (isNaN(currentVal)) currentVal = 0;
+        if (isNaN(max) || max <= 0) max = null;
+        if (isNaN(min) || min < 0) min = 0;
+        if (isNaN(step) || step <= 0) step = 1;
+        if (currentVal < min) currentVal = min;
 
-        if ($(this).is('.plus')) {
-            if (max && (max == currentVal || currentVal > max)) {
+        if ($btn.hasClass('plus')) {
+            if (max !== null && currentVal >= max) {
                 $qty.val(max);
             } else {
-                $qty.val(currentVal + parseFloat(step));
+                $qty.val(currentVal + step);
             }
         } else {
-            if (min && (min == currentVal || currentVal < min)) {
+            if (currentVal - step <= min) {
                 $qty.val(min);
-            } else if (currentVal > 0) {
-                $qty.val(currentVal - parseFloat(step));
+            } else {
+                $qty.val(currentVal - step);
             }
         }
 
         $qty.trigger('change');
         
-        // Update data-quantity on buttons (legacy/archive support)
-        var $product = $(this).closest('.product, .mkz-product-list-item, .product-type-simple');
+        var $product = $btn.closest('.product, .mkz-product-list-item, .product-type-simple');
         if ($product.length) {
              $product.find('.ajax_add_to_cart, .add_to_cart_button').attr('data-quantity', $qty.val());
         }
-    });
+    }
+
+    document.addEventListener('click', function(event) {
+        var btn = event.target.closest('.quantity .plus, .quantity .minus');
+        if (!btn) return;
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+
+        mkxAdjustQuantity(btn);
+    }, true);
 
     /**
      * Single Product AJAX Add to Cart

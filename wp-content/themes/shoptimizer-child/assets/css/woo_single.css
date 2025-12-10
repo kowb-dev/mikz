@@ -124,6 +124,11 @@
     color: var(--mkx-success) !important;
 }
 
+.summary.entry-summary .stock.on-order {
+    background-color: var(--mkx-warning-light) !important;
+    color: var(--mkx-warning-dark) !important;
+}
+
 /* Cart form */
 .summary.entry-summary .cart {
     display: flex !important;
@@ -425,6 +430,7 @@
 /* Re-order elements in the summary box */
 .summary.entry-summary .product_meta { order: 1; border-top: none !important; padding-top: 0 !important; }
 .summary.entry-summary .stock.in-stock { order: 2; }
+.summary.entry-summary .stock.on-order { order: 2; }
 .summary.entry-summary .custom-price-container { order: 3; }
 .summary.entry-summary form.cart { order: 4; }
 .summary.entry-summary .product-actions { order: 5; }

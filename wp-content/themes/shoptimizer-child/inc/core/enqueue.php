@@ -96,6 +96,14 @@ function shoptimizer_child_enqueue_styles_scripts() {
             array('mkx-woo_base'),
             $version
         );
+
+        wp_enqueue_script(
+            'mkx-checkout-mask',
+            get_stylesheet_directory_uri() . '/assets/js/checkout-mask.js',
+            array(),
+            $version,
+            true
+        );
     }
 
     // Подключаем JavaScript для шапки

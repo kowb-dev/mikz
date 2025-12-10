@@ -20,7 +20,7 @@
 .woocommerce-cart table.cart {
     overflow-x: auto;
     display: block;
-    white-space: nowrap;
+
 }
 
 @media (max-width: 768px) {
