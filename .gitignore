@@ -12,9 +12,17 @@
 /wp-content/advanced-cache.php
 /wp-content/wp-cache-config.php
 /db-backups/
+/backorder_backups/
+/wp-content/debug.log
 
 # Configuration
 /wp-config.php
+.env
+.bash_history
+.wget-hsts
+.cache/
+.npm/
+/deploy.sh
 .htaccess
 .htpasswd
 
