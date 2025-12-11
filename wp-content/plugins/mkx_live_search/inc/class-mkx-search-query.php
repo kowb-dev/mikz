@@ -419,11 +419,6 @@ class MKX_Search_Query {
             LEFT JOIN {$wpdb->postmeta} pm_attr ON (p.ID = pm_attr.post_id AND pm_attr.meta_key LIKE 'attribute_%')
             WHERE p.post_type = 'product'
             AND p.post_status = 'publish'
-            AND NOT EXISTS (
-                SELECT 1 FROM {$wpdb->term_relationships} tr_misc
-                INNER JOIN {$wpdb->term_taxonomy} tt_misc ON tr_misc.term_taxonomy_id = tt_misc.term_taxonomy_id
-                WHERE tt_misc.taxonomy = 'product_cat' AND tt_misc.term_id = 253 AND tr_misc.object_id = p.ID
-            )
             AND ({$conditions_sql})
             ORDER BY category_priority ASC, relevance ASC, p.post_title ASC
             LIMIT %d
